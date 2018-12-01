@@ -1,0 +1,29 @@
+{
+  "name": "mtrf64",
+  "version": "0.0.1",
+  "description": "Implement Noolite-F protocol",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha ./tests/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paveltsytovich/mtrf64.git"
+  },
+  "keywords": [
+    "Noolite",
+    "Noolite-F",
+    "MTRF64"
+  ],
+  "author": "Pavel Tsytovich",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/paveltsytovich/mtrf64/issues"
+  },
+  "homepage": "https://github.com/paveltsytovich/mtrf64#readme",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "serialport": "^7.1.0"
+  }
+}
