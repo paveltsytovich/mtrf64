@@ -1,36 +1,46 @@
 require('mocha');
 const chai = require('chai');
 
-chai.should();
+
 
 const MTRF64Adapter = require('../mtrf64');
 const SerialPort = require('serialport/test');
 
 const devPath = "/dev/ttyUSB0";
 
+function CompareAdapters(o1,o2) {
+    
+}
 
-describe("Initialization test",() =>{
+describe("Elementary tests",() =>{
     var port;
+    var adapter;
     beforeEach(() => {
+        chai.should();
         const mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: false});
         port = new SerialPort(devPath);
+        adapter = new MTRF64Adapter(port);
     });
 
-    it("Create adapter",() => {
+    it("Adapter should be have all properties",() => {
+       
+       adapter.should.have.property("port").eq(port);
+       adapter.should.have.property("startBit",171);
+       adapter.should.have.property("mode",4);
+       adapter.should.have.property("ctr").eq(0);
+       adapter.should.have.property("togl").eq(0);
+       adapter.should.have.property("ch").eq(0);
+       adapter.should.have.property("cmd").eq(0);
+       adapter.should.have.property("d").eq([0,0,0,0]);
+       adapter.should.have.property("id").eq([0,0,0,0]);
+       adapter.should.have.property("crc",175);
+       adapter.should.have.property("stopBit").eq(172);
+    });
 
-        const adapter = new MTRF64Adapter(port);
-        adapter.should.have.property('port').eq(port);
-        adapter.should.have.property('startBit').eq(171);
-        adapter.should.have.property('stopBit').eq(172);
-        adapter.should.have.property('mode').eq(4);
-        adapter.should.have.property('ctr').eq(0);
-        adapter.should.have.property('togl').eq(0);
-        adapter.should.have.property('ch').eq(0);
-        adapter.should.have.property('cmd').eq(0);
-        adapter.should.have.property('fmt').eq(0);
-    
-        
+    it("Build Command Should be correact byte array",() => {
+        const command = adapter.buildCommand();
+        command.should.eq([171,4,0,0,0,0,0,0,0,0,0,0,0,0,0,175,172])
     });
   
 });
