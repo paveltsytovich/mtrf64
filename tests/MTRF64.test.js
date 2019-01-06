@@ -7,6 +7,9 @@ const MTRF64Adapter = require('../mtrf64');
 const SerialPort = require('serialport/test');
 
 const devPath = "/dev/ttyUSB0";
+const assertArrays = require('chai-arrays');
+chai.use(assertArrays);
+chai.should();
 
 function CompareAdapters(o1,o2) {
     
@@ -16,7 +19,7 @@ describe("Elementary tests",() =>{
     var port;
     var adapter;
     beforeEach(() => {
-        chai.should();
+       
         const mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: false});
         port = new SerialPort(devPath);
@@ -32,8 +35,8 @@ describe("Elementary tests",() =>{
        adapter.should.have.property("togl").eq(0);
        adapter.should.have.property("ch").eq(0);
        adapter.should.have.property("cmd").eq(0);
-       adapter.should.have.property("d").eq([0,0,0,0]);
-       adapter.should.have.property("id").eq([0,0,0,0]);
+       adapter.should.have.property("d").to.be.equalTo([0,0,0,0]);
+       adapter.should.have.property("id").to.be.equalTo([0,0,0,0]);
        adapter.should.have.property("crc",175);
        adapter.should.have.property("stopBit").eq(172);
     });
