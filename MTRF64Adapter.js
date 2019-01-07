@@ -1,6 +1,6 @@
 class MTRF64Adapter {
-    constructor() {
-
+    constructor(port) {
+        this.port = port;
     }
 }
 
