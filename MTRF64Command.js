@@ -1,3 +1,5 @@
+"use strict"
+
 class MTRF64Command {
     constructor(packet = null) {
         if(packet == null)
@@ -14,6 +16,31 @@ class MTRF64Command {
             this.crc = 175;
             this.stopBit = 172
         }
+        else
+            if(Array.isArray(packet)) {
+                this.startBit = packet[0];
+                this.mode = packet[1];
+                this.ctr = packet[2];
+                this.togl = packet[3];
+                this.ch = packet[4];
+                this.cmd = packet[5];
+                this.fmt = packet[6];
+                this.d = [];
+                this.d[0] = packet[7];
+                this.d[1] = packet[8];
+                this.d[2] = packet[9];
+                this.d[3] = packet[10];
+                this.id = [];
+                this.id[0] = packet[11];
+                this.id[1]  = packet[12];
+                this.id[2] = packet[13];
+                this.id[3] = packet[14];
+                this.crc = packet[15];
+                this.stopBit = packet[16];
+            }
+            else {
+                throw Error("packet parameter must be array!")
+            }         
     }
     buildPacket() {
         return [this.startBit,this.mode,this.ctr,0,this.ch,this.cmd,this.fmt,

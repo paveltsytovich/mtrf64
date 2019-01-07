@@ -55,4 +55,10 @@ describe("Command elementary tests",() =>{
             new MTRF64Command("BUG");
         }).to.throw(Error);
     });
+    it("Array packet too long should be error",() => {
+        expect(()=> {
+            new MTRF64Command(Array(18));
+
+        }).to.throw(Error);
+    });
 });
