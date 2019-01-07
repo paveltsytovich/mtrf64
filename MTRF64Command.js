@@ -17,7 +17,7 @@ class MTRF64Command {
             this.stopBit = 172
         }
         else
-            if(Array.isArray(packet)) {
+            if(Array.isArray(packet) && packet.length == 17) {
                 this.startBit = packet[0];
                 this.mode = packet[1];
                 this.ctr = packet[2];
@@ -39,7 +39,7 @@ class MTRF64Command {
                 this.stopBit = packet[16];
             }
             else {
-                throw Error("packet parameter must be array!")
+                throw Error("packet parameter must be array of 17 bytes!")
             }         
     }
     buildPacket() {
