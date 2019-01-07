@@ -27,4 +27,11 @@ describe("Creation adapter tests",() => {
     it("Adapter should be have all necessary properties", () => {
         adapter.should.have.property("port",port);
     });
+
+    it("Adapter should be sent correct command", () => {
+       var command = new MTRF64Command();
+       adapter.send(command);
+       var actualCommand = port.binding.lastWrite;
+       actualCommand.should.be.equalTo(command.buildPacket());
+    });
 });
