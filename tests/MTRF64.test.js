@@ -43,7 +43,8 @@ describe("Elementary tests",() =>{
 
     it("Build Command Should be correact byte array",() => {
         const command = adapter.buildCommand();
-        command.should.eq([171,4,0,0,0,0,0,0,0,0,0,0,0,0,0,175,172])
+        command.should.to.be.equalTo([171,4,0,0,0,0,0,0,0,0,0,0,0,0,0,175,172]);
+
     });
   
 });
