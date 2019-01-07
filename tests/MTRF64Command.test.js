@@ -12,14 +12,7 @@ chai.use(assertArrays);
 chai.should();
 
 describe("Command elementary tests",() =>{
-    var port;
-    beforeEach(() => {
-       
-        const mockBinding = SerialPort.Binding;
-        mockBinding.createPort(devPath,{echo: false, record: false});
-        port = new SerialPort(devPath);
-        
-    });
+    
 
     it("Command should be have all properties",() => {
        var command = new MTRF64Command();
