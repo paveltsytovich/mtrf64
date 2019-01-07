@@ -1,5 +1,6 @@
 require('mocha');
 const chai = require('chai');
+const expect = require('chai').expect;
 
 
 
@@ -48,5 +49,10 @@ describe("Command elementary tests",() =>{
         command.should.have.property("crc",300);
         command.should.have.property("stopBit").eq(172);
 
+    });
+    it("Create command from non-array packet should be error",()=> {
+        expect(()=>{
+            new MTRF64Command("BUG");
+        }).to.throw(Error);
     });
 });

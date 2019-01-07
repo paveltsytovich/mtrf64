@@ -1,16 +1,19 @@
 class MTRF64Command {
-    constructor() {
-        this.startBit = 171;
-        this.mode = 4;
-        this.ctr = 0;
-        this.togl = 0;
-        this.ch = 0;
-        this.cmd = 0
-        this.fmt = 0;
-        this.d = [0,0,0,0];
-        this.id = [0,0,0,0];
-        this.crc = 175;
-        this.stopBit = 172        
+    constructor(packet = null) {
+        if(packet == null)
+        {
+            this.startBit = 171;
+            this.mode = 4;
+            this.ctr = 0;
+            this.togl = 0;
+            this.ch = 0;
+            this.cmd = 0
+            this.fmt = 0;
+            this.d = [0,0,0,0];
+            this.id = [0,0,0,0];
+            this.crc = 175;
+            this.stopBit = 172
+        }
     }
     buildPacket() {
         return [this.startBit,this.mode,this.ctr,0,this.ch,this.cmd,this.fmt,
