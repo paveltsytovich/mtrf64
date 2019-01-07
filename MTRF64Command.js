@@ -1,6 +1,5 @@
-class MTRF64Adapter {
-    constructor(port=null) {
-        this.port = port;
+class MTRF64Command {
+    constructor() {
         this.startBit = 171;
         this.mode = 4;
         this.ctr = 0;
@@ -13,7 +12,7 @@ class MTRF64Adapter {
         this.crc = 175;
         this.stopBit = 172        
     }
-    buildCommand() {
+    buildPacket() {
         return [this.startBit,this.mode,this.ctr,0,this.ch,this.cmd,this.fmt,
         this.d[0],this.d[1],this.d[2],this.d[3],this.id[0],this.id[1],this.id[2],this.id[3],
         this._crc(),this.stopBit];  
@@ -25,4 +24,4 @@ class MTRF64Adapter {
     }
 }
 
-module.exports = MTRF64Adapter;
+module.exports = MTRF64Command;
