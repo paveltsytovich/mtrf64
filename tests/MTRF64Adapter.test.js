@@ -49,3 +49,29 @@ describe("Adapter send method test suite",() => {
      });
 });
 
+describe("Adapter receive method test suite",() => {
+    var port;
+    var adapter;
+    var command;
+    var mockBinding;
+    beforeEach(() => {
+       
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);
+        adapter = new MTRF64Adapter(port);
+        
+    });
+    afterEach(() => {
+        port.close();
+        mockBinding.reset();
+    });
+    it("Adapter receive packet should be create command",() => {
+        adapter.receive((command) => {
+            var actual = command.buildPacket();
+            var expected = [];
+            actual.should.be.equalTo(expected);
+        });
+        port.binding.emitData(Buffer.from([173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,300,174]))
+    });
+});
