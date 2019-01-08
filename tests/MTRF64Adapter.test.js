@@ -1,30 +1,106 @@
 require('mocha');
 const chai = require('chai');
-
+chai.should();
+const expect = require('chai').expect;
 
 
 const MTRF64Command = require('../MTRF64Command');
 const MTRF64Adapter = require('../MTRF64Adapter');
 const SerialPort = require('serialport/test');
 
-const devPath = "/dev/ttyUSB0";
+const devPath = "/dev/ttyUSB112";
 const assertArrays = require('chai-arrays');
 chai.use(assertArrays);
 chai.should();
 
-describe("Creation adapter tests",() => {
+describe("Adapter send method test suite",() => {
 
     var port;
     var adapter;
+    var command;
+    var mockBinding;
     beforeEach(() => {
        
-        const mockBinding = SerialPort.Binding;
-        mockBinding.createPort(devPath,{echo: false, record: false});
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);
+        adapter = new MTRF64Adapter(port);
+        command = new MTRF64Command();
+        
+    });
+    afterEach(() => {
+        port.close();
+        mockBinding.reset();
+    });
+    it("Adapter should be have all necessary properties", () => {
+        adapter.should.have.property("port",port);
+    });
+    it("Adapter must be call callback after success send packet into port",() => {
+        adapter.send(command,(success) => {
+            success.should.true;
+        })
+    });
+    it("Adapter should be sent correct command", () => {
+       
+        adapter.send(command,() => {
+         var actual = port.binding.lastWrite;
+        
+         actual.should.be.equalTo(command.buildPacket());
+        });
+     });
+});
+
+describe("Adapter receive method test suite",() => {
+    var port;
+    var adapter;
+    var command;
+    var mockBinding;
+    beforeEach(() => {
+       
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: false});
         port = new SerialPort(devPath);
         adapter = new MTRF64Adapter(port);
         
     });
-    it("Adapter should be have all necessary properties", () => {
-        adapter.should.have.property("port",port);
+    afterEach(() => {
+        port.close();
+        mockBinding.reset();
+    });
+    it("Adapter receive packet should be create command",async () => {
+        var actualCommand;
+        async function internal() {
+            return new  Promise( (resolve) => {
+            adapter.receive((command) => {
+                actualCommand = command;
+                resolve();
+            });
+            port.on('open',() => {
+                port.binding.emitData(Buffer.from([173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,202,174]));
+            });
+        });
+    }
+    await internal();
+    var expectedCommand = {
+        startBit: 173,
+        mode: 4,
+        ctr: 1,
+        togl: 2,
+        ch: 3,
+        cmd: 1,
+        fmt: 2,
+        d: [3,1,2,3],
+        id: [1,2,3,1],
+        crc: 202,
+        stopBit: 174
+    };
+
+    expect(actualCommand).deep.equal(expectedCommand);
+    });
+        
+    it("Callback function  for receive method should be exists", () => {
+        expect(() => {
+                adapter.receive();       
+        }).to.throw(Error);
     });
 });
