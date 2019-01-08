@@ -16,12 +16,14 @@ describe("Creation adapter tests",() => {
 
     var port;
     var adapter;
+    var command;
     beforeEach(() => {
        
         const mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: false});
         port = new SerialPort(devPath);
         adapter = new MTRF64Adapter(port);
+        command = new MTRF64Command();
         
     });
     it("Adapter should be have all necessary properties", () => {
@@ -29,9 +31,14 @@ describe("Creation adapter tests",() => {
     });
 
     it("Adapter should be sent correct command", () => {
-       var command = new MTRF64Command();
+       
        adapter.send(command);
        var actualCommand = port.binding.lastWrite;
        actualCommand.should.be.equalTo(command.buildPacket());
+    });
+    it("Adapter must be call callback after success send packet into port",() => {
+        adapter.send(command,(success) => {
+            success.should.true;
+        })
     });
 });
