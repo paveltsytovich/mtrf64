@@ -58,7 +58,7 @@ describe("Adapter receive method test suite",() => {
     beforeEach(() => {
        
         mockBinding = SerialPort.Binding;
-        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: false});
         port = new SerialPort(devPath);
         adapter = new MTRF64Adapter(port);
         
@@ -73,11 +73,14 @@ describe("Adapter receive method test suite",() => {
             var expected = [173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,300,174];
             actual.should.be.equalTo(expected);
         });
-        port.binding.emitData(Buffer.from([173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,300,174]))
+        port.on('open',() => {
+            port.binding.emitData(Buffer.from([173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,300,174]));
+        });
+        
     });
-    it("Callback function  for receive method should`nt be exists", () => {
+    it("Callback function  for receive method should be exists", () => {
         expect(() => {
-            adapter.receive();
+                adapter.receive();       
         }).to.throw(Error);
     });
 });
