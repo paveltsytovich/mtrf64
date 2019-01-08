@@ -64,7 +64,7 @@ describe("Command elementary tests",() =>{
         }).to.throw(Error);
     });
     it("Command create from buffer should be ok",()=> {
-        const receivePacket = [171,4,1,2,3,1,2,3,1,2,3,1,2,3,1,300,172];
+        const receivePacket = [171,4,1,2,3,1,2,3,1,2,3,1,2,3,1,200,172];
         var command = new MTRF64Command(Buffer.from(receivePacket));
         command.should.have.property("startBit",171);
         command.should.have.property("mode",4);
@@ -75,7 +75,7 @@ describe("Command elementary tests",() =>{
         command.should.have.property("fmt").eq(2);
         command.should.have.property("d").to.be.equalTo([3,1,2,3]);
         command.should.have.property("id").to.be.equalTo([1,2,3,1]);
-        command.should.have.property("crc",300);
+        command.should.have.property("crc",200);
         command.should.have.property("stopBit").eq(172);
     })
 });

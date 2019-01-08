@@ -17,7 +17,7 @@ class MTRF64Command {
             this.stopBit = 172
         }
         else
-            if(Array.isArray(packet) && packet.length == 17) {
+            if((packet instanceof Buffer || Array.isArray(packet)) && packet.length == 17) {
                 this.startBit = packet[0];
                 this.mode = packet[1];
                 this.ctr = packet[2];
