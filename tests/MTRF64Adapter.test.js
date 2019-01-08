@@ -12,7 +12,7 @@ const assertArrays = require('chai-arrays');
 chai.use(assertArrays);
 chai.should();
 
-describe("Adapter send packet tests method",() => {
+describe("Adapter send method test suite",() => {
 
     var port;
     var adapter;
@@ -48,3 +48,4 @@ describe("Adapter send packet tests method",() => {
         });
      });
 });
+
