@@ -14,9 +14,29 @@ chai.should();
 
 const NooliteBase = require('../NooliteBase')
 
-describe("NooliteBase test suite",() => {
+describe("NooliteBase elementary test suite",() => {
+    var port;
+    var adapter;
+    var command;
+    var mockBinding;
+    beforeEach(() => {
+       
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);
+        adapter = new MTRF64Adapter(port);       
+    });
+    afterEach(() => {
+        port.close();
+        mockBinding.reset();
+    });
     it("Base device have all need properties",() => {
-        assert.fail('Not implemented');
+        var actualDevice = new NooliteBase(100,adapter);
+        var expectedDevice = {
+            channel : 100,
+            adapter: adapter,
+        }
+        expect(actualDevice).deep.members(expectedDevice);
     });
    
 })
