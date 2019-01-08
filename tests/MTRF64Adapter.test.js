@@ -50,7 +50,7 @@ describe("Adapter send method test suite",() => {
      });
 });
 
-/* describe("Adapter receive method test suite",() => {
+describe("Adapter receive method test suite",() => {
     var port;
     var adapter;
     var command;
@@ -70,11 +70,11 @@ describe("Adapter send method test suite",() => {
     it("Adapter receive packet should be create command",() => {
         adapter.receive((command) => {
             var actual = command.buildPacket();
-            var expected = [173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,300,174];
+            var expected = [173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,202,174];
             actual.should.be.equalTo(expected);
         });
         port.on('open',() => {
-            port.binding.emitData(Buffer.from([173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,300,174]));
+            port.binding.emitData(Buffer.from([173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,202,174]));
         });
         
     });
@@ -83,4 +83,4 @@ describe("Adapter send method test suite",() => {
                 adapter.receive();       
         }).to.throw(Error);
     });
-}); */
+});
