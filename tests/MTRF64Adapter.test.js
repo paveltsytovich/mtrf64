@@ -1,6 +1,7 @@
 require('mocha');
 const chai = require('chai');
 chai.should();
+const expect = require('chai').expect;
 
 
 const MTRF64Command = require('../MTRF64Command');
@@ -69,9 +70,14 @@ describe("Adapter receive method test suite",() => {
     it("Adapter receive packet should be create command",() => {
         adapter.receive((command) => {
             var actual = command.buildPacket();
-            var expected = [];
+            var expected = [173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,300,174];
             actual.should.be.equalTo(expected);
         });
         port.binding.emitData(Buffer.from([173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,300,174]))
+    });
+    it("Callback function  for receive method should`nt be exists", () => {
+        expect(() => {
+            adapter.receive();
+        }).to.throw(Error);
     });
 });

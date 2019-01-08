@@ -8,6 +8,9 @@ class MTRF64Adapter {
              callback(true);
         });
     }
+    receive(callback) {
+        
+    }
 }
 
 
