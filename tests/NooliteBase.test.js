@@ -38,7 +38,21 @@ describe("NooliteBase elementary test suite",() => {
         }
         expect(actualDevice).deep.members(expectedDevice);
     });
-   
+    it("Channel less them zero should be error", () => {
+        expected(() => {
+            var actualDevice = new NooliteBase(-2,adapter);
+        }).to.throw(Error);    
+    });
+    it("zero channel should be error", () => {
+        expected(() => {
+            var actualDevice = new NooliteBase(0,adapter);
+        }).to.throw(Error);    
+    });
+    it("Base device without adapter should be error",() => {
+        expected(() => {
+            var actualDevice = new NooliteBase(1);
+        }).to.throw(Error);
+    });   
 })
 
 describe("NooliteBase bind test suite",() => {
