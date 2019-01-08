@@ -12,7 +12,7 @@ const assertArrays = require('chai-arrays');
 chai.use(assertArrays);
 chai.should();
 
-describe("Creation adapter tests",() => {
+describe("Adapter send packet tests method",() => {
 
     var port;
     var adapter;
@@ -46,6 +46,5 @@ describe("Creation adapter tests",() => {
         
          actual.should.be.equalTo(command.buildPacket());
         });
-        
      });
 });
