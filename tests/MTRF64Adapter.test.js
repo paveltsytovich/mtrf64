@@ -67,17 +67,37 @@ describe("Adapter receive method test suite",() => {
         port.close();
         mockBinding.reset();
     });
-    it("Adapter receive packet should be create command",() => {
-        adapter.receive((command) => {
-            var actual = command.buildPacket();
-            var expected = [173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,202,174];
-            actual.should.be.equalTo(expected);
+    it("Adapter receive packet should be create command",async () => {
+        var actualCommand;
+        async function internal() {
+            return new  Promise( (resolve) => {
+            adapter.receive((command) => {
+                actualCommand = command;
+                resolve();
+            });
+            port.on('open',() => {
+                port.binding.emitData(Buffer.from([173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,202,174]));
+            });
         });
-        port.on('open',() => {
-            port.binding.emitData(Buffer.from([173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,202,174]));
-        });
-        
+    }
+    await internal();
+    var expectedCommand = {
+        startBit: 173,
+        mode: 4,
+        ctr: 1,
+        togl: 2,
+        ch: 3,
+        cmd: 1,
+        fmt: 2,
+        d: [3,1,2,3],
+        id: [1,2,3,1],
+        crc: 202,
+        stopBit: 174
+    };
+
+    expect(actualCommand).deep.equal(expectedCommand);
     });
+        
     it("Callback function  for receive method should be exists", () => {
         expect(() => {
                 adapter.receive();       
