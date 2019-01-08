@@ -57,8 +57,29 @@ describe("NooliteBase elementary test suite",() => {
 })
 
 describe("NooliteBase bind test suite",() => {
-    it("Base device success bind command",() => {
-        assert.fail('Not implemented');
+    var port;
+    var adapter;
+    var command;
+    var mockBinding;
+    beforeEach(() => {
+       
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);
+        adapter = new MTRF64Adapter(port);       
+    });
+    afterEach(() => {
+        port.close();
+        mockBinding.reset();
+    });
+    it("Base device success bind command",async () => {
+        const device = new NooliteBase(5,adapter);
+        await function () {
+            
+            device.bind();
+        }();
+        
+        assert.ok();
     });
     it("Base device not execute bind should be Error",() => {
         assert.fail('Not implemented');
