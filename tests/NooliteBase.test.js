@@ -36,20 +36,21 @@ describe("NooliteBase elementary test suite",() => {
             channel : 100,
             adapter: adapter,
         }
-        expect(actualDevice).deep.members(expectedDevice);
+        actualDevice.should.have.property('channel',100);
+        actualDevice.should.have.property('adapter',adapter);
     });
     it("Channel less them zero should be error", () => {
-        expected(() => {
+        expect(() => {
             var actualDevice = new NooliteBase(-2,adapter);
         }).to.throw(Error);    
     });
     it("zero channel should be error", () => {
-        expected(() => {
+        expect(() => {
             var actualDevice = new NooliteBase(0,adapter);
         }).to.throw(Error);    
     });
     it("Base device without adapter should be error",() => {
-        expected(() => {
+        expect(() => {
             var actualDevice = new NooliteBase(1);
         }).to.throw(Error);
     });   
