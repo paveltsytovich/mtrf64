@@ -48,9 +48,9 @@ class MTRF64Command {
         this._crc(),this.stopBit];  
     }
     _crc() {
-        return this.startBit + this.mode + this.ctr + this.togl + this.ch + this.cmd + this.fmt +
+        return (this.startBit + this.mode + this.ctr + this.togl + this.ch + this.cmd + this.fmt +
         this.d[0] + this.d[1] + this.d[2] + this.d[3] + this.id[0] + this.id[1] + this.id[2] + 
-        this.id[3];
+        this.id[3]) & 0xFF;
     }
 }
 
