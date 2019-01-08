@@ -50,7 +50,7 @@ describe("Adapter send method test suite",() => {
      });
 });
 
-describe("Adapter receive method test suite",() => {
+/* describe("Adapter receive method test suite",() => {
     var port;
     var adapter;
     var command;
@@ -83,4 +83,4 @@ describe("Adapter receive method test suite",() => {
                 adapter.receive();       
         }).to.throw(Error);
     });
-});
+}); */
