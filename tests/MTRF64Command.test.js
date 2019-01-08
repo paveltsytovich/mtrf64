@@ -9,6 +9,7 @@ const SerialPort = require('serialport/test');
 
 const devPath = "/dev/ttyUSB0";
 const assertArrays = require('chai-arrays');
+
 chai.use(assertArrays);
 chai.should();
 
