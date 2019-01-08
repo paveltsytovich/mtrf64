@@ -4,6 +4,14 @@ chai.should();
 const expect = require('chai').expect;
 const assert = require('chai').assert;
 
+const MTRF64Adapter = require('../MTRF64Adapter');
+const SerialPort = require('serialport/test');
+
+const devPath = "/dev/ttyUSB112";
+const assertArrays = require('chai-arrays');
+chai.use(assertArrays);
+chai.should();
+
 const NooliteBase = require('../NooliteBase')
 
 describe("NooliteBase test suite",() => {
