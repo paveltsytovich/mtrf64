@@ -40,13 +40,20 @@ describe("Adapter send method test suite",() => {
             success.should.true;
         })
     });
-    it("Adapter should be sent correct command", () => {
-       
-        adapter.send(command,() => {
-         var actual = port.binding.lastWrite;
+    it("Adapter should be sent correct command", async () => {
+        var actual;
+        await function() {
+
+            return new Promise((resolve) => {
+                adapter.send(command,() => {
+                   actual = port.binding.lastWrite;
+                   resolve();                    
+                   });
+            });
+        }();
+        actual.should.be.equalTo(command.buildPacket());
+
         
-         actual.should.be.equalTo(command.buildPacket());
-        });
      });
 });
 
