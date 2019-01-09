@@ -86,7 +86,7 @@ describe("Adapter receive method test suite",() => {
     });
     it("Adapter receive packet should be create command",async () => {
         var actualCommand;
-        async function internal() {
+        await function() {
             return new  Promise( (resolve) => {
             adapter.receive((command) => {
                 actualCommand = command;
@@ -96,8 +96,7 @@ describe("Adapter receive method test suite",() => {
                 port.binding.emitData(Buffer.from([173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,202,174]));
             });
         });
-    }
-    await internal();
+    }();
     var expectedCommand = {
         startBit: 173,
         mode: 4,
