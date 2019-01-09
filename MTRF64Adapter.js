@@ -2,13 +2,15 @@
 const MTRF64Command = require('./MTRF64Command');
 
 class MTRF64Adapter {
-    constructor(port) {
+    constructor(port,onSend, onReceive) {
         this.port = port;
+        this.onSend = onSend;
+        this.onReceive = onReceive;
     }
-    send(command,callback = null) {
+    send(command) {
         this.port.write(command.buildPacket(),(error) => {
-            if(callback)
-             callback(command);
+            if(this.onSend)
+             this.onSend(command);
         });
     }
     listen(callback) {

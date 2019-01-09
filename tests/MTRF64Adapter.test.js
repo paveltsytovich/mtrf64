@@ -13,6 +13,29 @@ const assertArrays = require('chai-arrays');
 chai.use(assertArrays);
 chai.should();
 
+describe("Adapter elementary test suite",() => {
+    var port;
+    var adapter;
+    var command;
+    var mockBinding;
+    beforeEach(() => {
+       
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);        
+    });
+    afterEach(() => {
+        port.close();
+        mockBinding.reset();
+    });
+    it("Adapter should be have all necessary properties", () => {
+        var adapter = new MTRF64Adapter(port);
+        adapter.should.have.property("port",port);
+        adapter.should.have.property("onSend");
+        adapter.should.have.property("onReceive");
+    });
+});
+
 describe("Adapter send method test suite",() => {
 
     var port;
@@ -24,7 +47,7 @@ describe("Adapter send method test suite",() => {
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath);
-        adapter = new MTRF64Adapter(port);
+        
         command = new MTRF64Command();
         
     });
@@ -32,19 +55,19 @@ describe("Adapter send method test suite",() => {
         port.close();
         mockBinding.reset();
     });
-    it("Adapter should be have all necessary properties", () => {
-        adapter.should.have.property("port",port);
-    });
     it("Adapter must be call callback after success send packet into port",async () => {
+        
         var actualCommand;
         await function() {
             return new Promise((resolve) => {
-                adapter.send(command,(cmd) => {
-                   actualCommand = cmd;
-                   resolve(); 
-                })
-            });
-        }();
+                adapter = new MTRF64Adapter(port,(command)=> {
+                        actualCommand = command;
+                        resolve(); 
+                     });
+                     adapter.send(command);
+                });
+
+            }();
        var expected = JSON.stringify(command);
        var actual = JSON.stringify(actualCommand);
        expected.should.be.equal(actual);
