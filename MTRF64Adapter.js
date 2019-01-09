@@ -13,15 +13,12 @@ class MTRF64Adapter {
              this.onSend(command);
         });
     }
-    listen(callback) {
-        if(!callback)
-         throw Error('Callback must be exists!');
+    listen() {
         this.port.on('data',(data) => {
             var cmd = new MTRF64Command(data);
-            callback(cmd);
+            if(this.onReceive)
+            this.onReceive(cmd);
         });
     }
 }
-
-
 module.exports = MTRF64Adapter;

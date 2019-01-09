@@ -91,16 +91,14 @@ describe("Adapter send method test suite",() => {
 
 describe("Adapter listen method test suite",() => {
     var port;
-    var adapter;
+    //var adapter;
     var command;
     var mockBinding;
     beforeEach(() => {
        
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: false});
-        port = new SerialPort(devPath);
-        adapter = new MTRF64Adapter(port);
-        
+        port = new SerialPort(devPath);        
     });
     afterEach(() => {
         port.close();
@@ -110,10 +108,11 @@ describe("Adapter listen method test suite",() => {
         var actualCommand;
         await function() {
             return new  Promise( (resolve) => {
-            adapter.listen((command) => {
+            var adapter = new MTRF64Adapter(port,null, (command) => {
                 actualCommand = command;
                 resolve();
-            });
+            }); 
+            adapter.listen();
             port.on('open',() => {
                 port.binding.emitData(Buffer.from([173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,202,174]));
             });
@@ -132,13 +131,6 @@ describe("Adapter listen method test suite",() => {
         crc: 202,
         stopBit: 174
     };
-
     expect(actualCommand).deep.equal(expectedCommand);
-    });
-        
-    it("Callback function  for listen method should be exists", () => {
-        expect(() => {
-                adapter.listen();       
-        }).to.throw(Error);
     });
 });
