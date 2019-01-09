@@ -8,7 +8,7 @@ class MTRF64Adapter {
     send(command,callback = null) {
         this.port.write(command.buildPacket(),(error) => {
             if(callback)
-             callback(true);
+             callback(command);
         });
     }
     receive(callback) {

@@ -35,10 +35,20 @@ describe("Adapter send method test suite",() => {
     it("Adapter should be have all necessary properties", () => {
         adapter.should.have.property("port",port);
     });
-    it("Adapter must be call callback after success send packet into port",() => {
-        adapter.send(command,(success) => {
-            success.should.true;
-        })
+    it("Adapter must be call callback after success send packet into port",async () => {
+        var actualCommand;
+        await function() {
+            return new Promise((resolve) => {
+                adapter.send(command,(cmd) => {
+                   actualCommand = cmd;
+                   resolve(); 
+                })
+            });
+        }();
+       var expected = JSON.stringify(command);
+       var actual = JSON.stringify(actualCommand);
+       expected.should.be.equal(actual);
+        
     });
     it("Adapter should be sent correct command", async () => {
         var actual;
