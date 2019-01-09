@@ -11,7 +11,7 @@ class MTRF64Adapter {
              callback(command);
         });
     }
-    receive(callback) {
+    listen(callback) {
         if(!callback)
          throw Error('Callback must be exists!');
         this.port.on('data',(data) => {

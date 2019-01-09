@@ -67,7 +67,7 @@ describe("Adapter send method test suite",() => {
      });
 });
 
-describe("Adapter receive method test suite",() => {
+describe("Adapter listen method test suite",() => {
     var port;
     var adapter;
     var command;
@@ -84,11 +84,11 @@ describe("Adapter receive method test suite",() => {
         port.close();
         mockBinding.reset();
     });
-    it("Adapter receive packet should be create command",async () => {
+    it("Adapter listen packet should be create command",async () => {
         var actualCommand;
         await function() {
             return new  Promise( (resolve) => {
-            adapter.receive((command) => {
+            adapter.listen((command) => {
                 actualCommand = command;
                 resolve();
             });
@@ -114,9 +114,9 @@ describe("Adapter receive method test suite",() => {
     expect(actualCommand).deep.equal(expectedCommand);
     });
         
-    it("Callback function  for receive method should be exists", () => {
+    it("Callback function  for listen method should be exists", () => {
         expect(() => {
-                adapter.receive();       
+                adapter.listen();       
         }).to.throw(Error);
     });
 });
