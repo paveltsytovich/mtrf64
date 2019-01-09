@@ -73,24 +73,87 @@ describe("NooliteBase bind test suite",() => {
         mockBinding.reset();
     });
     it("Base device success bind command",async () => {
-        const device = new NooliteBase(5,adapter);
+        var actualCommand;
         await function () {
             
+            return new Promise((resolve)=> {
+                var adapter = new MTRF64Adapter(port,
+                (command) => { // onSend
+                    //здесь надо имитировать ответ от устройства
+                },
+                (command) => { //onReceive
+                    resolve();
+                    actualCommand = command;
+                });
+            const device = new NooliteBase(5,adapter);
             device.bind();
+            });
+
         }();
         
-        assert.ok();
+        assert.fail('Partialy implemented');
     });
-    it("Base device not execute bind should be Error",() => {
-        assert.fail('Not implemented');
+    it("Base device not execute bind should be Error",async() => {        
+        var actualCommand;
+        await function () {
+            
+            return new Promise((resolve)=> {
+                var adapter = new MTRF64Adapter(port,
+                    (command) => { // onSend
+                        //здесь надо имитировать ответ от устройства
+                    },
+                    (command) => { //onReceive
+                        resolve();
+                        actualCommand = command;
+                    });
+                const device = new NooliteBase(5,adapter);                
+                device.unbind();
+            });
+
+        }();
+        assert.fail('Partialy implemented');
     });
 });
 
 describe("NooliteBase unbind test suite",() => {
-    it("Base device success unbind command",() => {
-        assert.fail('Not implemented');
+    it("Base device success unbind command",async() => {
+        var actualCommand;
+        await function () {
+            
+            return new Promise((resolve)=> {
+                var adapter = new MTRF64Adapter(port,
+                (command) => { // onSend
+                    //здесь надо имитировать ответ от устройства
+                },
+                (command) => { //onReceive
+                    resolve();
+                    actualCommand = command;
+                });
+            var device = new NooliteBase(5,adapter);
+            device.unbind();
+            });
+
+        }();
+        assert.fail('Partialy implemented');
     });
-    it("Base device not execute unbind should be Error",() => {
+    it("Base device not execute unbind should be Error", async() => {
+        var actualCommand;
+        await function () {
+            
+            return new Promise((resolve)=> {
+                var adapter = new MTRF64Adapter(port,
+                (command) => { // onSend
+                    //здесь надо имитировать ответ от устройства
+                },
+                (command) => { //onReceive
+                    resolve();
+                    actualCommand = command;
+                });
+            var device = new NooliteBase(5,adapter);
+            device.unbind();
+            });
+
+        }();
         assert.fail('Not implemented');
     });
 });
