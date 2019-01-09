@@ -1,3 +1,4 @@
+"use strict"
 require('mocha');
 const chai = require('chai');
 chai.should();
@@ -39,7 +40,6 @@ describe("Adapter elementary test suite",() => {
 describe("Adapter send method test suite",() => {
 
     var port;
-    var adapter;
     var command;
     var mockBinding;
     beforeEach(() => {
@@ -60,11 +60,11 @@ describe("Adapter send method test suite",() => {
         var actualCommand;
         await function() {
             return new Promise((resolve) => {
-                adapter = new MTRF64Adapter(port,(command)=> {
+               var adapter = new MTRF64Adapter(port,(command)=> {
                         actualCommand = command;
                         resolve(); 
                      });
-                     adapter.send(command);
+                adapter.send(command);
                 });
 
             }();
@@ -73,20 +73,19 @@ describe("Adapter send method test suite",() => {
        expected.should.be.equal(actual);
         
     });
-    it("Adapter should be sent correct command", async () => {
+    it("Adapter should be sent correct byte into port ", async () => {
         var actual;
         await function() {
 
             return new Promise((resolve) => {
-                adapter.send(command,() => {
+                var adapter = new MTRF64Adapter(port,() => {
                    actual = port.binding.lastWrite;
                    resolve();                    
                    });
+                adapter.send(command);
             });
         }();
-        actual.should.be.equalTo(command.buildPacket());
-
-        
+        actual.should.be.equalTo(command.buildPacket());        
      });
 });
 
