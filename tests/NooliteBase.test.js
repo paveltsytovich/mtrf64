@@ -79,39 +79,53 @@ describe("NooliteBase bind test suite",() => {
             return new Promise((resolve)=> {
                 var adapter = new MTRF64Adapter(port,
                 (command) => { // onSend
-                    //здесь надо имитировать ответ от устройства
+                    port.binding.emitData(Buffer.from([173,2,3,0,5,130,0,0,0,0,0,0,0,0,0,0x39,174]));
                 },
                 (command) => { //onReceive
                     resolve();
                     actualCommand = command;
                 });
             const device = new NooliteBase(5,adapter);
-            device.bind();
+            device.bind(NooliteBase.Mode.NooliteF);
             });
 
         }();
-        
-        assert.fail('Partialy implemented');
+        var expectedCommand = {
+            startBit: 173,
+            mode: 2,
+            ctr: 3,
+            togl: 0,
+            ch: 5,
+            cmd: 130,
+            fmt: 0,
+            d: [0,0,0,0],
+            id: [0,0,0,0],
+            crc: 0x39,
+            stopBit: 174
+        };
+
+        expect(actualCommand).deep.equal(expectedCommand);
     });
     it("Base device not execute bind should be Error",async() => {        
         var actualCommand;
+        var isok;
         await function () {
             
             return new Promise((resolve)=> {
                 var adapter = new MTRF64Adapter(port,
                     (command) => { // onSend
-                        //здесь надо имитировать ответ от устройства
+                        port.binding.emitData(Buffer.from([173,2,2,0,5,130,0,0,0,0,0,0,0,0,0,0x38,174]));
                     },
                     (command) => { //onReceive
                         resolve();
                         actualCommand = command;
                     });
                 const device = new NooliteBase(5,adapter);                
-                device.unbind();
+                isok = device.bind(NooliteBase.Mode.NooliteF);
             });
 
         }();
-        assert.fail('Partialy implemented');
+        isok.should.true;
     });
 });
 
