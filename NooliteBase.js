@@ -1,3 +1,4 @@
+const MTRF64Command = require('./MTRF64Command');
 class NooliteBase {
     
     constructor(channel, adapter) {
@@ -8,6 +9,14 @@ class NooliteBase {
 
         this.adapter = adapter;
         this.channel = channel;
+    }
+    bind(mode) {
+        const command = new MTRF64Command();
+        command.mode = mode;
+        command.ch = this.adapter;
+        command.cmd = 15; //Bind
+        this.adapter.send(command);
+
     }
 }
 NooliteBase.Mode = {"Noolite":0, "NooliteF":2}

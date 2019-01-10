@@ -114,7 +114,7 @@ describe("NooliteBase bind test suite",() => {
             return new Promise((resolve)=> {
                 var adapter = new MTRF64Adapter(port,
                     (command) => { // onSend
-                        port.binding.emitData(Buffer.from([173,2,2,0,5,130,0,0,0,0,0,0,0,0,0,0x38,174]));
+                        port.binding.emitData(Buffer.from([173,2,2,0,command.ch,130,0,0,0,0,0,0,0,0,0,0x38,174]));
                     },
                     (command) => { //onReceive
                         resolve();
