@@ -72,41 +72,75 @@ describe("NooliteBase bind test suite",() => {
         port.close();
         mockBinding.reset();
     });
-    it("Base device success bind NooliteF command",async () => {
+    it("Base device bind NooliteF create correct command",async () => {
+        var actualCommand;
+        
+        var adapter = new MTRF64Adapter(port,
+            (command) => { // onSend
+                actualCommand = command;
+                port.binding.emitData(Buffer.from([173,2,3,0,5,130,0,0,0,0,0,0,0,0,0,0x39,174]));
+            });       
+        const device = new NooliteBase(5,adapter);
+        await device.bind(NooliteBase.Mode.NooliteF);
+        var expectedCommand = {
+            startBit: 171,
+            mode: 2,
+            ctr: 0,
+            togl: 0,
+            ch: 5,
+            cmd: 15,
+            fmt: 0,
+            d: [0,0,0,0],
+            id: [0,0,0,0],
+            crc: 0xC1,
+            stopBit: 172
+        };
+
+        expect(actualCommand).deep.equal(expectedCommand);
+    }); 
+    it("Base device bind NooliteF is ok",async () => {
         var actualCommand;
         
         var adapter = new MTRF64Adapter(port,
             (command) => { // onSend
                 port.binding.emitData(Buffer.from([173,2,3,0,5,130,0,0,0,0,0,0,0,0,0,0x39,174]));
-            },
-            (command) => { //onReceive
-            actualCommand = command;
             });       
         const device = new NooliteBase(5,adapter);
-        await device.bind(NooliteBase.Mode.NooliteF);
-        var expectedCommand = {
-            startBit: 173,
-            mode: 2,
-            ctr: 3,
-            togl: 0,
-            ch: 5,
-            cmd: 130,
-            fmt: 0,
-            d: [0,0,0,0],
-            id: [0,0,0,0],
-            crc: 0x39,
-            stopBit: 174
-        };
-
-        expect(actualCommand).deep.equal(expectedCommand);
+        var actual = await device.bind(NooliteBase.Mode.NooliteF);
+        actual.should.true;
     }); 
-    it("Base device success bind Noolite command",async () => {
+
+    it("Base device bind Noolite create correct command",async () => {
         var actualCommand;
         
         var adapter = new MTRF64Adapter(port,
             (command) => { // onSend
-                
+                actualCommand = command;
+                port.binding.emitData(Buffer.from([173,0,3,0,5,130,0,0,0,0,0,0,0,0,0,0x39,174]));
             });       
+        const device = new NooliteBase(5,adapter);
+        await device.bind(NooliteBase.Mode.Noolite);
+        var expectedCommand = {
+            startBit: 171,
+            mode: 0,
+            ctr: 0,
+            togl: 0,
+            ch: 5,
+            cmd: 15,
+            fmt: 0,
+            d: [0,0,0,0],
+            id: [0,0,0,0],
+            crc: 0xBF,
+            stopBit: 172
+        };
+
+        expect(actualCommand).deep.equal(expectedCommand);
+    }); 
+
+    it("Base device  bind Noolite is ok",async () => {
+        var actualCommand;
+        
+        var adapter = new MTRF64Adapter(port);       
         const device = new NooliteBase(5,adapter);
         var actual = await device.bind(NooliteBase.Mode.Noolite);
         actual.should.true;
@@ -139,30 +173,30 @@ describe("NooliteBase unbind test suite",() => {
         port.close();
         mockBinding.reset();
     });
-    it("Base device unbind NooliteF mode command",async() => {
+    it("Base device unbind NooliteF mode send correct command",async() => {
         var actualCommand;
         var adapter = new MTRF64Adapter(port,
             (command) => { //onSend
+                actualCommand = command;
                 port.binding.emitData(Buffer.from([173,2,0,0,5,130,0,0,0,0,0,0,0,0,0,0x32,174]));
             });
                 
         var device = new NooliteBase(5,adapter);
         const actual = await device.unbind(NooliteBase.Mode.NooliteF);
         var expectedCommand = {
-            startBit: 173,
-            mode: 0,
+            startBit: 171,
+            mode: 2,
             ctr: 0,
             togl: 0,
             ch: 5,
-            cmd: 130,
+            cmd: 9,
             fmt: 0,
             d: [0,0,0,0],
             id: [0,0,0,0],
-            crc: 0x34,
-            stopBit: 174
+            crc: 0xBB,
+            stopBit: 172
         };
-        actual.should.true;
-        //expect(actualCommand).deep.equal(expectedCommand);
+        expect(actualCommand).deep.equal(expectedCommand);
     });
     it("Base device success unbind Noolite mode command",async() => {
         var actualCommand;
