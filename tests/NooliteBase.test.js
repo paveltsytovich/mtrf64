@@ -72,7 +72,7 @@ describe("NooliteBase bind test suite",() => {
         port.close();
         mockBinding.reset();
     });
-    it("Base device success bind command",async () => {
+    it("Base device success bind NooliteF command",async () => {
         var actualCommand;
         
         var adapter = new MTRF64Adapter(port,
@@ -100,6 +100,34 @@ describe("NooliteBase bind test suite",() => {
 
         expect(actualCommand).deep.equal(expectedCommand);
     }); 
+    it("Base device success bind Noolite command",async () => {
+        var actualCommand;
+        
+        var adapter = new MTRF64Adapter(port,
+            (command) => { // onSend
+                port.binding.emitData(Buffer.from([173,0,3,0,5,130,0,0,0,0,0,0,0,0,0,0x37,174]));
+            },
+            (command) => { //onReceive
+            actualCommand = command;
+            });       
+        const device = new NooliteBase(5,adapter);
+        await device.bind(NooliteBase.Mode.Noolite);
+        var expectedCommand = {
+            startBit: 173,
+            mode: 0,
+            ctr: 3,
+            togl: 0,
+            ch: 5,
+            cmd: 130,
+            fmt: 0,
+            d: [0,0,0,0],
+            id: [0,0,0,0],
+            crc: 0x37,
+            stopBit: 174
+        };
+
+        expect(actualCommand).deep.equal(expectedCommand);
+    }); 
     it("Base device not execute bind should be Error",async() => {        
         
         var adapter = new MTRF64Adapter(port,
@@ -115,22 +143,13 @@ describe("NooliteBase bind test suite",() => {
 describe("NooliteBase unbind test suite",() => {
     it("Base device success unbind command",async() => {
         var actualCommand;
-        await function () {
-            
-            return new Promise((resolve)=> {
-                var adapter = new MTRF64Adapter(port,
-                (command) => { // onSend
-                    //здесь надо имитировать ответ от устройства
-                },
-                (command) => { //onReceive
-                    resolve();
-                    actualCommand = command;
-                });
-            var device = new NooliteBase(5,adapter);
-            device.unbind();
+        var adapter = new MTRF64Adapter(port,
+            (command) => { // onSend
+                //здесь надо имитировать ответ от устройства
             });
-
-        }();
+                
+        var device = new NooliteBase(5,adapter);
+        await device.unbind();
         assert.fail('Partialy implemented');
     });
     it("Base device not execute unbind should be Error", async() => {
