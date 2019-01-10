@@ -100,9 +100,6 @@ describe("Adapter receive method test suite",() => {
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath); 
-       // parser = new SerialPort.parsers.ByteLength({length:17});
-       // port.pipe(parser);
-       
     });
     afterEach(() => {
         port.close();
