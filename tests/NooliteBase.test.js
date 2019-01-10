@@ -72,24 +72,18 @@ describe("NooliteBase bind test suite",() => {
         port.close();
         mockBinding.reset();
     });
-  /*   it("Base device success bind command",async () => {
+    it("Base device success bind command",async () => {
         var actualCommand;
-        await function () {
-            
-            return new Promise((resolve)=> {
-                var adapter = new MTRF64Adapter(port,
-                (command) => { // onSend
-                    port.binding.emitData(Buffer.from([173,2,3,0,5,130,0,0,0,0,0,0,0,0,0,0x39,174]));
-                },
-                (command) => { //onReceive
-                    resolve();
-                    actualCommand = command;
-                });
-            const device = new NooliteBase(5,adapter);
-            device.bind(NooliteBase.Mode.NooliteF);
-            });
-
-        }(); 
+        
+        var adapter = new MTRF64Adapter(port,
+            (command) => { // onSend
+                port.binding.emitData(Buffer.from([173,2,3,0,5,130,0,0,0,0,0,0,0,0,0,0x39,174]));
+            },
+            (command) => { //onReceive
+            actualCommand = command;
+            });       
+        const device = new NooliteBase(5,adapter);
+        await device.bind(NooliteBase.Mode.NooliteF);
         var expectedCommand = {
             startBit: 173,
             mode: 2,
@@ -107,26 +101,15 @@ describe("NooliteBase bind test suite",() => {
         expect(actualCommand).deep.equal(expectedCommand);
     }); 
     it("Base device not execute bind should be Error",async() => {        
-        var actualCommand;
-        var isok;
-        await function () {
-            
-            return new Promise((resolve)=> {
-                var adapter = new MTRF64Adapter(port,
+        
+        var adapter = new MTRF64Adapter(port,
                     (command) => { // onSend
                         port.binding.emitData(Buffer.from([173,2,2,0,command.ch,130,0,0,0,0,0,0,0,0,0,0x38,174]));
-                    },
-                    (command) => { //onReceive
-                        resolve();
-                        actualCommand = command;
                     });
-                const device = new NooliteBase(5,adapter);                
-                isok = device.bind(NooliteBase.Mode.NooliteF);
-            });
-
-        }();
-        isok.should.true;
-    });*/
+        const device = new NooliteBase(5,adapter);                
+        const isok = await device.bind(NooliteBase.Mode.NooliteF);        
+        isok.should.false;
+    });
 });
 
 describe("NooliteBase unbind test suite",() => {

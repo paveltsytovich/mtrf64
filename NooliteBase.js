@@ -10,13 +10,14 @@ class NooliteBase {
         this.adapter = adapter;
         this.channel = channel;
     }
-    bind(mode) {
+    async bind(mode) {
         const command = new MTRF64Command();
         command.mode = mode;
         command.ch = this.adapter;
         command.cmd = 15; //Bind
         this.adapter.send(command);
-
+        const receiveCommand = await this.adapter.receive();
+        return receiveCommand.crt == 3;
     }
 }
 NooliteBase.Mode = {"Noolite":0, "NooliteF":2}
