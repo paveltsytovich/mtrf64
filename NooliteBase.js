@@ -13,11 +13,28 @@ class NooliteBase {
     async bind(mode) {
         const command = new MTRF64Command();
         command.mode = mode;
-        command.ch = this.adapter;
+        command.ch = this.channel;
         command.cmd = 15; //Bind
         this.adapter.send(command);
+        if(mode == NooliteBase.Mode.NooliteF) {
         const receiveCommand = await this.adapter.receive();
-        return receiveCommand.crt == 3;
+        return receiveCommand.ctr === 3;
+        }
+        else
+           return true;
+    }
+    async unbind(mode) {
+        const command = new MTRF64Command();
+        command.mode = mode;
+        command.ch = this.channel;
+        command.cmd = 9; //Unbind
+        this.adapter.send(command);
+        if(mode == NooliteBase.Mode.NooliteF) {
+         const receiveCommand = await this.adapter.receive();
+        return receiveCommand.ctr === 0;
+        }
+        else
+            return true;
     }
 }
 NooliteBase.Mode = {"Noolite":0, "NooliteF":2}
