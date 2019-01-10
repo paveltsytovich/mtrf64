@@ -141,7 +141,32 @@ describe("NooliteBase bind test suite",() => {
 });
 
 describe("NooliteBase unbind test suite",() => {
-    it("Base device success unbind command",async() => {
+    it("Base device success unbind NooliteF mode command",async() => {
+        var actualCommand;
+        var adapter = new MTRF64Adapter(port,
+            (command) => { //onSend
+                port.binding.emitData(Buffer.from([173,2,2,0,command.ch,130,0,0,0,0,0,0,0,0,0,0x34,174]));
+            });
+                
+        var device = new NooliteBase(5,adapter);
+        await device.unbind(NooliteBase.Mode.NooliteF);
+        var expectedCommand = {
+            startBit: 173,
+            mode: 0,
+            ctr: 0,
+            togl: 0,
+            ch: 5,
+            cmd: 130,
+            fmt: 0,
+            d: [0,0,0,0],
+            id: [0,0,0,0],
+            crc: 0x34,
+            stopBit: 174
+        };
+
+        expect(actualCommand).deep.equal(expectedCommand);
+    });
+    it("Base device success unbind Noolite mode command",async() => {
         var actualCommand;
         var adapter = new MTRF64Adapter(port,
             (command) => { // onSend
@@ -149,9 +174,14 @@ describe("NooliteBase unbind test suite",() => {
             });
                 
         var device = new NooliteBase(5,adapter);
-        await device.unbind();
+        await device.unbind(NooliteBase.Mode.NooliteF);
         assert.fail('Partialy implemented');
     });
+
+
+
+
+
     it("Base device not execute unbind should be Error", async() => {
         var actualCommand;
         await function () {
@@ -166,7 +196,7 @@ describe("NooliteBase unbind test suite",() => {
                     actualCommand = command;
                 });
             var device = new NooliteBase(5,adapter);
-            device.unbind();
+            device.unbind(NooliteBase.Mode.NooliteF);
             });
 
         }();
