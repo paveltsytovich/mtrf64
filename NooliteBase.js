@@ -14,7 +14,7 @@ class NooliteBase {
         const command = new MTRF64Command();
         command.mode = mode;
         command.ch = this.channel;
-        command.cmd = 15; //Bind
+        command.cmd = NooliteBase.Command.Bind;
         this.adapter.send(command);
         if(mode == NooliteBase.Mode.NooliteF) {
         const receiveCommand = await this.adapter.receive();
@@ -27,7 +27,7 @@ class NooliteBase {
         const command = new MTRF64Command();
         command.mode = mode;
         command.ch = this.channel;
-        command.cmd = 9; //Unbind
+        command.cmd = NooliteBase.Command.Unbind;
         this.adapter.send(command);
         if(mode == NooliteBase.Mode.NooliteF) {
          const receiveCommand = await this.adapter.receive();
@@ -38,4 +38,5 @@ class NooliteBase {
     }
 }
 NooliteBase.Mode = {"Noolite":0, "NooliteF":2}
+NooliteBase.Command = {"Bind":15,"Unbind":9}
 module.exports = NooliteBase;
