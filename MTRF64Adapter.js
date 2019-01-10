@@ -13,12 +13,27 @@ class MTRF64Adapter {
              this.onSend(command);
         });
     }
-    listen() {
-        this.port.on('data',(data) => {
-            var cmd = new MTRF64Command(data);
-            if(this.onReceive)
-            this.onReceive(cmd);
-        });
+       async receive() {
+        var packet;
+        var result = false;
+        const port = this.port;
+        const onReceive = this.onReceive;
+        
+        result = await(() =>
+        {
+        return new Promise((resolve) => {
+            port.once('data',(data)=> {
+                packet = data;
+                if(packet)
+                result = new MTRF64Command(packet);
+        
+                if(onReceive)
+                    onReceive(result);
+                resolve(result);
+                });
+            });
+        })();       
+        return result;
     }
 }
 module.exports = MTRF64Adapter;

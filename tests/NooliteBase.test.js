@@ -72,7 +72,7 @@ describe("NooliteBase bind test suite",() => {
         port.close();
         mockBinding.reset();
     });
-    it("Base device success bind command",async () => {
+  /*   it("Base device success bind command",async () => {
         var actualCommand;
         await function () {
             
@@ -89,7 +89,7 @@ describe("NooliteBase bind test suite",() => {
             device.bind(NooliteBase.Mode.NooliteF);
             });
 
-        }();
+        }(); 
         var expectedCommand = {
             startBit: 173,
             mode: 2,
@@ -105,7 +105,7 @@ describe("NooliteBase bind test suite",() => {
         };
 
         expect(actualCommand).deep.equal(expectedCommand);
-    });
+    }); 
     it("Base device not execute bind should be Error",async() => {        
         var actualCommand;
         var isok;
@@ -126,7 +126,7 @@ describe("NooliteBase bind test suite",() => {
 
         }();
         isok.should.true;
-    });
+    });*/
 });
 
 describe("NooliteBase unbind test suite",() => {

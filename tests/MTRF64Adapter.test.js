@@ -89,36 +89,35 @@ describe("Adapter send method test suite",() => {
      });
 });
 
-describe("Adapter listen method test suite",() => {
+describe("Adapter receive method test suite",() => {
     var port;
     //var adapter;
     var command;
     var mockBinding;
+    var parser;
     beforeEach(() => {
        
         mockBinding = SerialPort.Binding;
-        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: false});
-        port = new SerialPort(devPath);        
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath); 
+       // parser = new SerialPort.parsers.ByteLength({length:17});
+       // port.pipe(parser);
+       
     });
     afterEach(() => {
         port.close();
         mockBinding.reset();
     });
-    it("Adapter listen packet should be create command",async () => {
+    it("Adapter receive packet should be create correct command",async () => {
         var actualCommand;
-        await function() {
-            return new  Promise( (resolve) => {
-            var adapter = new MTRF64Adapter(port,null, (command) => {
-                actualCommand = command;
-                resolve();
-            }); 
-            adapter.listen();
-            port.on('open',() => {
+        var adapter = new MTRF64Adapter(port);
+        port.on('open',() => {
                 port.binding.emitData(Buffer.from([173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,202,174]));
-            });
+                  console.log(port.binding.lastWrite);
         });
-    }();
-    var expectedCommand = {
+        actualCommand = await adapter.receive();
+            
+        var expectedCommand = {
         startBit: 173,
         mode: 4,
         ctr: 1,
@@ -130,7 +129,7 @@ describe("Adapter listen method test suite",() => {
         id: [1,2,3,1],
         crc: 202,
         stopBit: 174
-    };
-    expect(actualCommand).deep.equal(expectedCommand);
+        };
+        expect(actualCommand).deep.equal(expectedCommand);
     });
 });
