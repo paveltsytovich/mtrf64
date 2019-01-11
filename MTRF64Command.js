@@ -69,6 +69,9 @@ class MTRF64Command {
     get id() {
         return this._id.slice();
     }
+    get ctr() {
+        return this._ctr;
+    }
     buildPacket() {
         return [this._startBit,this._mode,this._ctr,this._togl,this._ch,this._cmd,this._fmt,
         this._d[0],this._d[1],this._d[2],this._d[3],this._id[0],this._id[1],this._id[2],this._id[3],
