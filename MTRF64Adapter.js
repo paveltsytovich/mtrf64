@@ -35,5 +35,11 @@ class MTRF64Adapter {
         })();       
         return result;
     }
+    clear(channel) {
+        throw Error('Not implemented');
+    }
+    clearAll() {
+        throw Error('Not implemented');
+    }
 }
 module.exports = MTRF64Adapter;
