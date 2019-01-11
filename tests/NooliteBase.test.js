@@ -145,7 +145,7 @@ describe("NooliteBase bind test suite",() => {
         var actual = await device.bind(NooliteBase.Mode.Noolite);
         actual.should.true;
     }); 
-    it("Base device not execute bind should be Error",async() => {        
+    it("Base device not execute bind for NooliteF should be Error",async() => {        
         
         var adapter = new MTRF64Adapter(port,
                     (command) => { // onSend
@@ -209,7 +209,15 @@ describe("NooliteBase unbind test suite",() => {
         var actual = await device.unbind(NooliteBase.Mode.NooliteF);
         actual.should.true;
     });
-
+    it("Base device not execute unbind for NooliteF should be Error",async() => {
+        var adapter = new MTRF64Adapter(port,
+            (command) => { // onSend
+                port.binding.emitData(Buffer.from([173,0,0,0,5,130,0,0,0,0,0,0,0,0,0,0x38,174]));
+            });
+        const device = new NooliteBase(5,adapter);                
+        const actual = await device.bind(NooliteBase.Mode.NooliteF);        
+        actual.should.false;
+    });
 
 
 
