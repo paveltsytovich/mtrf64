@@ -115,17 +115,17 @@ describe("Adapter receive method test suite",() => {
         actualCommand = await adapter.receive();
             
         var expectedCommand = {
-        startBit: 173,
-        mode: 4,
-        ctr: 1,
-        togl: 2,
-        ch: 3,
-        cmd: 1,
-        fmt: 2,
-        d: [3,1,2,3],
-        id: [1,2,3,1],
-        crc: 202,
-        stopBit: 174
+        _startBit: 173,
+        _mode: 4,
+        _ctr: 1,
+        _togl: 2,
+        _ch: 3,
+        _cmd: 1,
+        _fmt: 2,
+        _d: [3,1,2,3],
+        _id: [1,2,3,1],
+        _crc: 202,
+        _stopBit: 174
         };
         expect(actualCommand).deep.equal(expectedCommand);
     });

@@ -83,17 +83,17 @@ describe("NooliteBase bind test suite",() => {
         const device = new NooliteBase(5,adapter);
         await device.bind(NooliteBase.Mode.NooliteF);
         var expectedCommand = {
-            startBit: 171,
-            mode: 2,
-            ctr: 0,
-            togl: 0,
-            ch: 5,
-            cmd: 15,
-            fmt: 0,
-            d: [0,0,0,0],
-            id: [0,0,0,0],
-            crc: 0xC1,
-            stopBit: 172
+            _startBit: 171,
+            _mode: 2,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 15,
+            _fmt: 0,
+            _d: [0,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0xC1,
+            _stopBit: 172
         };
 
         expect(actualCommand).deep.equal(expectedCommand);
@@ -121,17 +121,17 @@ describe("NooliteBase bind test suite",() => {
         const device = new NooliteBase(5,adapter);
         await device.bind(NooliteBase.Mode.Noolite);
         var expectedCommand = {
-            startBit: 171,
-            mode: 0,
-            ctr: 0,
-            togl: 0,
-            ch: 5,
-            cmd: 15,
-            fmt: 0,
-            d: [0,0,0,0],
-            id: [0,0,0,0],
-            crc: 0xBF,
-            stopBit: 172
+            _startBit: 171,
+            _mode: 0,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 15,
+            _fmt: 0,
+            _d: [0,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0xBF,
+            _stopBit: 172
         };
 
         expect(actualCommand).deep.equal(expectedCommand);
@@ -184,17 +184,17 @@ describe("NooliteBase unbind test suite",() => {
         var device = new NooliteBase(5,adapter);
         const actual = await device.unbind(NooliteBase.Mode.NooliteF);
         var expectedCommand = {
-            startBit: 171,
-            mode: 2,
-            ctr: 0,
-            togl: 0,
-            ch: 5,
-            cmd: 9,
-            fmt: 0,
-            d: [0,0,0,0],
-            id: [0,0,0,0],
-            crc: 0xBB,
-            stopBit: 172
+            _startBit: 171,
+            _mode: 2,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 9,
+            _fmt: 0,
+            _d: [0,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0xBB,
+            _stopBit: 172
         };
         expect(actualCommand).deep.equal(expectedCommand);
     });
