@@ -7,6 +7,12 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Launch Probe",
+            "program": "${workspaceFolder}/probe.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Run tests",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "args": [
