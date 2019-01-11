@@ -91,4 +91,23 @@ describe("Command elementary tests",() =>{
         };
         expect(actualCommand).deep.equal(expectedCommand);
     })
+    it("Command should be correct CRC after change it`s properties",() => {
+        var actualCommand = new MTRF64Command();
+        actualCommand.ch = 5;
+        actualCommand.cmd = 15;
+        var expectedCommand = {
+            startBit:171,
+            mode: 4,
+            ctr: 0,
+            togl: 0,
+            ch: 5,
+            cmd: 15,
+            fmt: 0,
+            d: [0,0,0,0],
+            id: [0,0,0,0],
+            crc: 0xBF,
+            stopBit:172
+        }
+        expect(actualCommand).deep.equal(expectedCommand);
+     });
 });
