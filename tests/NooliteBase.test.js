@@ -140,7 +140,9 @@ describe("NooliteBase bind test suite",() => {
     it("Base device  bind Noolite is ok",async () => {
         var actualCommand;
         
-        var adapter = new MTRF64Adapter(port);       
+        var adapter = new MTRF64Adapter(port,(command) => {
+            port.binding.emitData(Buffer.from([173,0,3,0,5,130,0,0,0,0,0,0,0,0,0,0x6E,174]));
+        });       
         const device = new NooliteBase(5,adapter);
         var actual = await device.bind(NooliteBase.Mode.Noolite);
         actual.should.true;

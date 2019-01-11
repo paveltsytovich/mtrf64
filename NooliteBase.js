@@ -16,12 +16,12 @@ class NooliteBase {
         command.ch = this.channel;
         command.cmd = NooliteBase.Command.Bind;
         this.adapter.send(command);
-        if(mode == NooliteBase.Mode.NooliteF) {
+        //if(mode == NooliteBase.Mode.NooliteF) {
         const receiveCommand = await this.adapter.receive();
         return receiveCommand.ctr === 3;
-        }
-        else
-           return true;
+        //}
+        //else
+        //   return true;
     }
     async unbind(mode) {
         const command = new MTRF64Command();
