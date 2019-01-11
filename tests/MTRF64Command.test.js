@@ -19,17 +19,17 @@ describe("Command elementary tests",() =>{
     it("Command should be have all properties",() => {
        var actualCommand = new MTRF64Command();
        var expectedCommand = {
-           startBit:171,
-           mode: 4,
-           ctr: 0,
-           togl: 0,
-           ch: 0,
-           cmd: 0,
-           fmt: 0,
-           d: [0,0,0,0],
-           id: [0,0,0,0],
-           crc: 175,
-           stopBit:172
+           _startBit:171,
+           _mode: 4,
+           _ctr: 0,
+           _togl: 0,
+           _ch: 0,
+           _cmd: 0,
+           _fmt: 0,
+           _d: [0,0,0,0],
+           _id: [0,0,0,0],
+           _crc: 175,
+           _stopBit:172
        }
        expect(actualCommand).deep.equal(expectedCommand);
     });
@@ -45,17 +45,17 @@ describe("Command elementary tests",() =>{
         var actualCommand = new MTRF64Command(receivePacket);
 
         var expectedCommand = {
-            startBit: 171,
-            mode: 4,
-            ctr: 1,
-            togl: 2,
-            ch: 3,
-            cmd: 1,
-            fmt: 2,
-            d: [3,1,2,3],
-            id: [1,2,3,1],
-            crc: 200,
-            stopBit: 172
+            _startBit: 171,
+            _mode: 4,
+            _ctr: 1,
+            _togl: 2,
+            _ch: 3,
+            _cmd: 1,
+            _fmt: 2,
+            _d: [3,1,2,3],
+            _id: [1,2,3,1],
+            _crc: 200,
+            _stopBit: 172
         };
 
         expect(actualCommand).deep.equal(expectedCommand);
@@ -77,18 +77,37 @@ describe("Command elementary tests",() =>{
         var actualCommand = new MTRF64Command(Buffer.from(receivePacket));
 
         var expectedCommand = {
-            startBit: 171,
-            mode: 4,
-            ctr: 1,
-            togl: 2,
-            ch: 3,
-            cmd: 1,
-            fmt: 2,
-            d: [3,1,2,3],
-            id: [1,2,3,1],
-            crc: 200,
-            stopBit: 172
+            _startBit: 171,
+            _mode: 4,
+            _ctr: 1,
+            _togl: 2,
+            _ch: 3,
+            _cmd: 1,
+            _fmt: 2,
+            _d: [3,1,2,3],
+            _id: [1,2,3,1],
+            _crc: 200,
+            _stopBit: 172
         };
         expect(actualCommand).deep.equal(expectedCommand);
     })
+    it("Command should be correct CRC after change it`s properties",() => {
+        var actualCommand = new MTRF64Command();
+        actualCommand.ch = 5;
+        actualCommand.cmd = 15;
+        var expectedCommand = {
+            _startBit:171,
+            _mode: 4,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 15,
+            _fmt: 0,
+            _d: [0,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0xC3,
+            _stopBit:172
+        }
+        expect(actualCommand).deep.equal(expectedCommand);
+     });
 });

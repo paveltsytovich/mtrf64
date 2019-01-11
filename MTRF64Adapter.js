@@ -2,24 +2,44 @@
 const MTRF64Command = require('./MTRF64Command');
 
 class MTRF64Adapter {
-    constructor(port) {
+    constructor(port,onSend, onReceive) {
         this.port = port;
+        this.onSend = onSend;
+        this.onReceive = onReceive;
     }
-    send(command,callback = null) {
+    send(command) {
         this.port.write(command.buildPacket(),(error) => {
-            if(callback)
-             callback(true);
+            if(this.onSend)
+             this.onSend(command);
         });
     }
-    receive(callback) {
-        if(!callback)
-         throw Error('Callback must be exists!');
-        this.port.on('data',(data) => {
-            var cmd = new MTRF64Command(data);
-            callback(cmd);
-        });
+       async receive() {
+        var packet;
+        var result = false;
+        const port = this.port;
+        const onReceive = this.onReceive;
+        
+        result = await(() =>
+        {
+        return new Promise((resolve) => {
+            port.once('data',(data)=> {
+                packet = data;
+                if(packet)
+                result = new MTRF64Command(packet);
+        
+                if(onReceive)
+                    onReceive(result);
+                resolve(result);
+                });
+            });
+        })();       
+        return result;
+    }
+    clear(channel) {
+        throw Error('Not implemented');
+    }
+    clearAll() {
+        throw Error('Not implemented');
     }
 }
-
-
 module.exports = MTRF64Adapter;

@@ -1,3 +1,4 @@
+"use strict"
 require('mocha');
 const chai = require('chai');
 chai.should();
@@ -13,8 +14,7 @@ const assertArrays = require('chai-arrays');
 chai.use(assertArrays);
 chai.should();
 
-describe("Adapter send method test suite",() => {
-
+describe("Adapter elementary test suite",() => {
     var port;
     var adapter;
     var command;
@@ -23,8 +23,31 @@ describe("Adapter send method test suite",() => {
        
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);        
+    });
+    afterEach(() => {
+        port.close();
+        mockBinding.reset();
+    });
+    it("Adapter should be have all necessary properties", () => {
+        var adapter = new MTRF64Adapter(port);
+        adapter.should.have.property("port",port);
+        adapter.should.have.property("onSend");
+        adapter.should.have.property("onReceive");
+    });
+});
+
+describe("Adapter send method test suite",() => {
+
+    var port;
+    var command;
+    var mockBinding;
+    beforeEach(() => {
+       
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath);
-        adapter = new MTRF64Adapter(port);
+        
         command = new MTRF64Command();
         
     });
@@ -32,75 +55,78 @@ describe("Adapter send method test suite",() => {
         port.close();
         mockBinding.reset();
     });
-    it("Adapter should be have all necessary properties", () => {
-        adapter.should.have.property("port",port);
-    });
-    it("Adapter must be call callback after success send packet into port",() => {
-        adapter.send(command,(success) => {
-            success.should.true;
-        })
-    });
-    it("Adapter should be sent correct command", () => {
-       
-        adapter.send(command,() => {
-         var actual = port.binding.lastWrite;
+    it("Adapter must be call callback after success send packet into port",async () => {
         
-         actual.should.be.equalTo(command.buildPacket());
-        });
+        var actualCommand;
+        await function() {
+            return new Promise((resolve) => {
+               var adapter = new MTRF64Adapter(port,(command)=> {
+                        actualCommand = command;
+                        resolve(); 
+                     });
+                adapter.send(command);
+                });
+
+            }();
+       var expected = JSON.stringify(command);
+       var actual = JSON.stringify(actualCommand);
+       expected.should.be.equal(actual);
+        
+    });
+    it("Adapter should be sent correct byte into port ", async () => {
+        var actual;
+        await function() {
+
+            return new Promise((resolve) => {
+                var adapter = new MTRF64Adapter(port,() => {
+                   actual = port.binding.lastWrite;
+                   resolve();                    
+                   });
+                adapter.send(command);
+            });
+        }();
+        actual.should.be.equalTo(command.buildPacket());        
      });
 });
 
 describe("Adapter receive method test suite",() => {
     var port;
-    var adapter;
+    //var adapter;
     var command;
     var mockBinding;
+    var parser;
     beforeEach(() => {
        
         mockBinding = SerialPort.Binding;
-        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: false});
-        port = new SerialPort(devPath);
-        adapter = new MTRF64Adapter(port);
-        
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath); 
     });
     afterEach(() => {
         port.close();
         mockBinding.reset();
     });
-    it("Adapter receive packet should be create command",async () => {
+    it("Adapter receive packet should be create correct command",async () => {
         var actualCommand;
-        async function internal() {
-            return new  Promise( (resolve) => {
-            adapter.receive((command) => {
-                actualCommand = command;
-                resolve();
-            });
-            port.on('open',() => {
+        var adapter = new MTRF64Adapter(port);
+        port.on('open',() => {
                 port.binding.emitData(Buffer.from([173,4,1,2,3,1,2,3,1,2,3,1,2,3,1,202,174]));
-            });
+                  console.log(port.binding.lastWrite);
         });
-    }
-    await internal();
-    var expectedCommand = {
-        startBit: 173,
-        mode: 4,
-        ctr: 1,
-        togl: 2,
-        ch: 3,
-        cmd: 1,
-        fmt: 2,
-        d: [3,1,2,3],
-        id: [1,2,3,1],
-        crc: 202,
-        stopBit: 174
-    };
-
-    expect(actualCommand).deep.equal(expectedCommand);
-    });
-        
-    it("Callback function  for receive method should be exists", () => {
-        expect(() => {
-                adapter.receive();       
-        }).to.throw(Error);
+        actualCommand = await adapter.receive();
+            
+        var expectedCommand = {
+        _startBit: 173,
+        _mode: 4,
+        _ctr: 1,
+        _togl: 2,
+        _ch: 3,
+        _cmd: 1,
+        _fmt: 2,
+        _d: [3,1,2,3],
+        _id: [1,2,3,1],
+        _crc: 202,
+        _stopBit: 174
+        };
+        expect(actualCommand).deep.equal(expectedCommand);
     });
 });
