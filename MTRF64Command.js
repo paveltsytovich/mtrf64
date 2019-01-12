@@ -72,6 +72,10 @@ class MTRF64Command {
     get ctr() {
         return this._ctr;
     }
+    set ctr(value) {
+        this._ctr = value;
+        this._crc = this._evaluteCrc();
+    }
     buildPacket() {
         return [this._startBit,this._mode,this._ctr,this._togl,this._ch,this._cmd,this._fmt,
         this._d[0],this._d[1],this._d[2],this._d[3],this._id[0],this._id[1],this._id[2],this._id[3],
