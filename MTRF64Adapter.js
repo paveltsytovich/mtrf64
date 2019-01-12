@@ -14,28 +14,6 @@ class MTRF64Adapter {
              this.onSend(command);
         });
     }
-       async receive() {
-        var packet;
-        var result = false;
-        const port = this.port;
-        const onReceive = this.onReceive;
-        
-        result = await(() =>
-        {
-        return new Promise((resolve) => {
-            port.once('data',(data)=> {
-                packet = data;
-                if(packet)
-                result = new MTRF64Command(packet);
-        
-                if(onReceive)
-                    onReceive(result);
-                resolve(result);
-                });
-            });
-        })();       
-        return result;
-    }
     clear(channel) {
         throw Error('Not implemented');
     }
