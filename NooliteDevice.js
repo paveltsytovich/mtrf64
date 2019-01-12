@@ -1,5 +1,11 @@
 class NooliteDevice {
-
+    constructor(adapter,channel,mode = NooliteDevice.Mode.Noolite) {
+        this._channel = channel;
+        this._adapter = adapter;
+    }
+    get channel () {
+        return this._channel;
+    }
 }
 
 NooliteDevice.Mode = {"Noolite": 0, "NooliteF": 2};

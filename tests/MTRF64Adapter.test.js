@@ -15,8 +15,19 @@ const assertArrays = require('chai-arrays');
 chai.use(assertArrays);
 chai.should();
 
+describe("Adapter elementary test suite",() =>{
+    it("Adapter have all properties after created", () => {
+        var mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        var port = new SerialPort(devPath);  
+        var adapter = new MTRF64Adapter(port);
 
-describe("Adapter register event test",() => {
+        adapter.should.have.property("port",port);
+        adapter.should.have.property("onSend");
+        adapter.should.have.property("onReceive");
+    });
+});
+describe("Adapter register event test suite",() => {
     var mockBinding;
     var port;
     var adapter;
