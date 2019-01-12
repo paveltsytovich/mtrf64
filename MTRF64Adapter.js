@@ -9,10 +9,7 @@ class MTRF64Adapter {
         this._registry = [];
     }
     send(command) {
-        this.port.write(command.buildPacket(),(error) => {
-            if(this.onSend)
-             this.onSend(command);
-        });
+       throw Error('Not implemented');
     }
     clear(channel) {
         throw Error('Not implemented');
@@ -28,4 +25,6 @@ class MTRF64Adapter {
         return true;
     }
 }
+
+MTRF64Adapter.Command = {"Bind":9}
 module.exports = MTRF64Adapter;

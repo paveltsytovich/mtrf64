@@ -57,6 +57,45 @@ describe("Adapter register event test suite",() => {
 
 describe("Send command in adapter test suite",() => {
 
+    var mockBinding;
+    var adapter;
+    var port;
+    beforeEach(() => {
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        var port = new SerialPort(devPath);  
+    });
+    it("Send command create correct packet", async () => {
+        var actualCommand;
+        await (() => {
+                return new Promise((resolve) => {
+                    adapter = new MTRF64Adapter(port,(command) => {
+                        actualCommand = command;
+                        resolve();
+                    });
+                    var command = new MTRF64Command();
+                    command.ch = 5;
+                    command.mod = 2;
+                    command.cmd = MTRF64Adapter.Command.Bind;
+                    adapter.send(command);
+                });   
+        })();
+        var expectedCommand = {
+            _startBit: 171,
+            _mode: 2,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 15,
+            _fmt: 0,
+            _d: [0,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0xC1,
+            _stopBit: 172
+            };
+            expect(actualCommand).deep.equal(expectedCommand);
+    });
+
 });
 
 describe("Event handlers from adapter test suite", () => {
