@@ -54,3 +54,11 @@ describe("Adapter register event test suite",() => {
         }).to.throw(Error);
     })
 })
+
+describe("Send command in adapter test suite",() => {
+
+});
+
+describe("Event handlers from adapter test suite", () => {
+
+});
