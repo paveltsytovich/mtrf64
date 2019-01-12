@@ -35,11 +35,11 @@ describe("Adapter register event test",() => {
     it("Register with undefined device should be Error",()=> {
         expect(()=> {
             adapter.register();
-         }).should.throw(Error);
+         }).to.throw(Error);
     });
     it("Register with bad inheritance should be Error",() => {
         expect(()=> {
             adapter.register("BUG") 
-        }).should.throw(Error);
+        }).to.throw(Error);
     })
 })
