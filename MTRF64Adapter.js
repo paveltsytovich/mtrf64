@@ -9,7 +9,13 @@ class MTRF64Adapter {
         this._registry = [];
     }
     send(command) {
-       throw Error('Not implemented');
+        if(!command || !(command instanceof MTRF64Command))
+          throw Error('Bad type of parameter');
+        this.port.write(command.buildPacket(),() => {
+            if(this.onSend)
+             this.onSend(command);
+        });
+
     }
     clear(channel) {
         throw Error('Not implemented');

@@ -63,7 +63,7 @@ describe("Send command in adapter test suite",() => {
     beforeEach(() => {
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
-        var port = new SerialPort(devPath);  
+        port = new SerialPort(devPath);  
     });
     it("Send command create correct packet", async () => {
         var actualCommand;
@@ -75,7 +75,7 @@ describe("Send command in adapter test suite",() => {
                     });
                     var command = new MTRF64Command();
                     command.ch = 5;
-                    command.mod = 2;
+                    command.mode = 2;
                     command.cmd = MTRF64Adapter.Command.Bind;
                     adapter.send(command);
                 });   
@@ -86,15 +86,23 @@ describe("Send command in adapter test suite",() => {
             _ctr: 0,
             _togl: 0,
             _ch: 5,
-            _cmd: 15,
+            _cmd: 9,
             _fmt: 0,
             _d: [0,0,0,0],
             _id: [0,0,0,0],
-            _crc: 0xC1,
+            _crc: 187,
             _stopBit: 172
             };
             expect(actualCommand).deep.equal(expectedCommand);
     });
+    it("send parameter must be not null or undefined",() => {
+        var adapter = new MTRF64Adapter(port);
+        expect(() => {adapter.send();}).to.throw(Error);
+    });
+    it("Send parameter must be type of MTRF64Command",() => {
+        var adapter = new MTRF64Adapter(port);
+        expect(() => {adapter.send("BUG");}).to.throw(Error);
+    })
 
 });
 
