@@ -107,5 +107,49 @@ describe("Send command in adapter test suite",() => {
 });
 
 describe("Event handlers from adapter test suite", () => {
-
+    var mockBinding;
+    var port;
+    var adapter;
+    beforeEach(() => {
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: false});
+        port = new SerialPort(devPath);  
+        adapter = new MTRF64Adapter(port);
+    });
+    afterEach(() => {
+        port.close();
+        mockBinding.reset();
+    });
+    it("Receive packet should be call OnCommand method in NooliteDevice",async() => {
+        var device = new NooliteDevice(5,NooliteDevice.Mode.NooliteF);
+        var actualCommand;
+        adapter.register(device);
+        await(()=>{
+            return new Promise((resolve) => {
+                device.OnCommand = (command) => {
+                    actualCommand = command;
+                    resolve();
+                };
+                port.on('open',()=> {
+                    port.binding.emitData(Buffer.from([173,4,0,2,5,0,0,0,0,0,0,0,0,0,0,184,174]));
+                });
+                port.open();
+                adapter.listen();
+            });
+        })();
+        const expectedCommand = {
+            _startBit: 173,
+            _mode: 4,
+            _ctr: 0,
+            _togl: 2,
+            _ch: 5,
+            _cmd: 0,
+            _fmt: 0,
+            _d: [0,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 184,
+            _stopBit: 174
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+    });
 });
