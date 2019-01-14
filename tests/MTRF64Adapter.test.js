@@ -112,7 +112,7 @@ describe("Event handlers from adapter test suite", () => {
     var adapter;
     beforeEach(() => {
         mockBinding = SerialPort.Binding;
-        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: false});
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath);  
         adapter = new MTRF64Adapter(port);
     });
@@ -121,19 +121,18 @@ describe("Event handlers from adapter test suite", () => {
         mockBinding.reset();
     });
     it("Receive packet should be call OnCommand method in NooliteDevice",async() => {
-        var device = new NooliteDevice(5,NooliteDevice.Mode.NooliteF);
+        var device = new NooliteDevice(NooliteDevice.Mode.NooliteF,5);
         var actualCommand;
         adapter.register(device);
         await(()=>{
             return new Promise((resolve) => {
-                device.OnCommand = (command) => {
+                device.onCommand = (command) => {
                     actualCommand = command;
                     resolve();
                 };
                 port.on('open',()=> {
                     port.binding.emitData(Buffer.from([173,4,0,2,5,0,0,0,0,0,0,0,0,0,0,184,174]));
                 });
-                port.open();
                 adapter.listen();
             });
         })();
@@ -151,5 +150,8 @@ describe("Event handlers from adapter test suite", () => {
             _stopBit: 174
             };
         expect(actualCommand).deep.equal(expectedCommand);
+    });
+    it("Receive packet for unregister channel should be ignored",() => {
+
     });
 });
