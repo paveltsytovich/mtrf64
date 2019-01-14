@@ -14,3 +14,7 @@ describe("NooliteDevice elementary test suite",() => {
         device.should.have.property("onCommand");
     });
 });
+
+describe("NooliteDevice defaultHandler tests suite", () => {
+    
+}); 

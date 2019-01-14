@@ -1,8 +1,12 @@
 class NooliteDevice {
-    constructor(adapter,channel,mode = NooliteDevice.Mode.Noolite) {
+    defaultCommandHandler(command) {
+        
+    }
+
+    constructor(adapter,channel,mode = NooliteDevice.Mode.Noolite,onCommand=NooliteDevice.defaultCommandHandler) {
         this._channel = channel;
         this._adapter = adapter;
-        this.onCommand = null;
+        this.onCommand = onCommand;
     }
     get channel () {
         return this._channel;

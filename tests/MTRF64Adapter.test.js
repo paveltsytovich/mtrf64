@@ -121,15 +121,17 @@ describe("Event handlers from adapter test suite", () => {
         mockBinding.reset();
     });
     it("Receive packet should be call OnCommand method in NooliteDevice",async() => {
-        var device = new NooliteDevice(NooliteDevice.Mode.NooliteF,5);
+        var device;
         var actualCommand;
-        adapter.register(device);
+       
         await(()=>{
             return new Promise((resolve) => {
-                device.onCommand = (command) => {
-                    actualCommand = command;
-                    resolve();
-                };
+                var device = new NooliteDevice(adapter,5,NooliteDevice.Mode.NooliteF,
+                    (command) => {
+                        actualCommand = command;
+                        resolve();
+                    });  
+                adapter.register(device);             
                 port.on('open',()=> {
                     port.binding.emitData(Buffer.from([173,4,0,2,5,0,0,0,0,0,0,0,0,0,0,184,174]));
                 });
