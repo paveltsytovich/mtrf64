@@ -153,7 +153,34 @@ describe("Event handlers from adapter test suite", () => {
             };
         expect(actualCommand).deep.equal(expectedCommand);
     });
-    it("Receive packet for unregister channel should be ignored",() => {
-
+    it("Receive packet for unregister channel should be ignored",async () => {
+        var actualCommand;
+        var adapter;
+        await(() => {
+                return new Promise((resolve) => {
+                    adapter = new MTRF64Adapter(port,null,(command) => {
+                      actualCommand = command;
+                      resolve();
+                });
+            port.on('open', () => {
+                port.binding.emitData(Buffer.from([173,4,0,2,5,0,0,0,0,0,0,0,0,0,0,184,174]));
+            });
+            adapter.listen();        
+            });
+        })();
+        const expectedCommand = {
+            _startBit: 173,
+            _mode: 4,
+            _ctr: 0,
+            _togl: 2,
+            _ch: 5,
+            _cmd: 0,
+            _fmt: 0,
+            _d: [0,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 184,
+            _stopBit: 174
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
     });
 });
