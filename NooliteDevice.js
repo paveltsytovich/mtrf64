@@ -1,6 +1,6 @@
 class NooliteDevice {
     defaultCommandHandler(command) {
-        
+
     }
 
     constructor(adapter,channel,mode = NooliteDevice.Mode.Noolite,onCommand=NooliteDevice.defaultCommandHandler) {
@@ -11,6 +11,7 @@ class NooliteDevice {
     get channel () {
         return this._channel;
     }
+    
 }
 
 NooliteDevice.Mode = {"Noolite": 0, "NooliteF": 2};
