@@ -12,7 +12,7 @@ describe("NooliteDevice elementary test suite",() => {
         device.should.have.property("_channel");
         device.should.have.property("_adapter");
         device.should.have.property("onCommand");
-        device.should.have.property("onlowBattery");
+        device.should.have.property("onLowBattery");
         device.should.have.property("onTurnOn");
         device.should.have.property("onTurnOff");
         device.should.have.property("onSwitch");

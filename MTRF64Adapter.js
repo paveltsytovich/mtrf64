@@ -31,7 +31,7 @@ class MTRF64Adapter {
         return true;
     }
     listen() {
-        var self = this;
+       var self = this;
         this.port.on('data',(data) => {
             const command = new MTRF64Command(data);
             const device = self._registry[command.ch];
