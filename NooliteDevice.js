@@ -1,20 +1,33 @@
+
 class NooliteDevice {
-    defaultCommandHandler(command) {
+    onCommand(command) {
+
+    }
+    onLowBattery(command) {
+
+    }
+    onTurnOn(command) {
+
+    }
+    onTurnOff(command) {
+
+    }
+    onSwitch(command) {
+
+    }
+    onRoll_Colour(command) {
+
+    }
+    onSwitch_Colour(command) {
+
+    }
+    onSend_State(command) {
 
     }
 
-    constructor(adapter,channel,mode = NooliteDevice.Mode.Noolite,onCommand=NooliteDevice.defaultCommandHandler) {
+    constructor(adapter,channel,mode = NooliteDevice.Mode.Noolite) {
         this._channel = channel;
         this._adapter = adapter;
-        this.onCommand = onCommand;
-
-        this.onLowBattery = null;
-        this.onTurnOn = null;
-        this.onTurnOff = null
-        this.onSwitch = null;
-        this.onRoll_Colour = null;
-        this.onSwitch_Colour = null;
-        this.onSend_State = null;
     }
     get channel () {
         return this._channel;
