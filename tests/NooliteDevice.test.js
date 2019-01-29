@@ -27,6 +27,7 @@ describe("NooliteDevice elementary test suite",() => {
         device.should.have.property("onRoll_Colour");
         device.should.have.property("onSwitch_Colour");
         device.should.have.property("onSend_State");
+        device.should.have.property("deviceType");
     });
 });
 
