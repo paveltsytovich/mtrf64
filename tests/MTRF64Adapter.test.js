@@ -28,39 +28,6 @@ describe("Adapter elementary test suite",() =>{
         adapter.should.have.property("onReceive");
     });
 });
-/* describe("Adapter register event test suite",() => {
-    var mockBinding;
-    var port;
-    var adapter;
-    beforeEach(() => {
-        mockBinding = SerialPort.Binding;
-        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
-        port = new SerialPort(devPath);  
-        adapter = new MTRF64Adapter(port);
-    });
-    it("Remote control device register should be ok",() => {
-        var device = new RemoteControlNooliteDevice(adapter,5,NooliteDevice.Mode.NooliteF);
-        const actual = adapter.register(device);
-        actual.should.true;
-        
-    });
-    it("Register with undefined device should be Error",()=> {
-        expect(()=> {
-            adapter.register();
-         }).to.throw(Error);
-    });
-    it("Register with bad inheritance should be Error",() => {
-        expect(()=> {
-            adapter.register("BUG") 
-        }).to.throw(Error);
-    });
-    it("Outgoing device is not permit register in adapter",async() => { 
-        var device = new NooliteDevice(adapter,5,NooliteDevice.Mode.NooliteF);
-        expect(()=> {
-            adapter.register(device); 
-        }).to.throw(Error);
-    });
-}) */
 
 describe("Send command in adapter test suite",() => {
 
