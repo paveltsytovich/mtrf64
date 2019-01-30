@@ -20,11 +20,7 @@ class RemoteControlNooliteDevice extends NooliteDevice {
     unBind() {
         throw Error('Not implemented');
     }
-    _onAnswer(command) {
-        if(this._unlock) {
-            this._unlock(command);
-        }
-    }
+   
     onLowBattery(command) {
     }
     constructor(controller,channel,mode = NooliteDevice.Mode.Noolite) {
