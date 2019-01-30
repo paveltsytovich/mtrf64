@@ -65,10 +65,11 @@ describe("MTRF64Controller receive answer for RelayNooliteDevice test suite",() 
                 device._onAnswer = (command) => {
                     resolve(command);
                 };
+                controller.send(device,cmd);
                 port.on('open',()=> {
                        port.binding.emitData(Buffer.from([173,1,0,2,5,15,0,0,0,0,0,0,0,0,0,196,174]));
                 });
-                controller.send(cmd);
+                
 
             });
         })();
