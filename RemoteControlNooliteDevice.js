@@ -1,6 +1,11 @@
 const NooliteDevice = require('./NooliteDevice');
 class RemoteControlNooliteDevice extends NooliteDevice {
+    bind() {
 
+    }
+    unBind() {
+        
+    }
     _onAnswer(command) {
         
     }

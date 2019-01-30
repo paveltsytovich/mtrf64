@@ -11,8 +11,7 @@ const devPath = "/dev/ttyUSB112";
 
 const RemoteControlNooliteDevice = require('../RemoteControlNooliteDevice');
 
-const MTRF64Command = require('../MTRF64Command');
-const MTRF64Adapter = require('../MTRF64Adapter');
+const MTRF64Controller = require('../MTRF64Controller');
 
 
 describe("RemoteControlNooliteDevice elementary test suite",() => {
@@ -29,3 +28,19 @@ describe("RemoteControlNooliteDevice elementary test suite",() => {
     });
 });
 
+describe("RemoteControlNooliteDevice bind command", () => {
+    var mockBinding;
+    var port;
+    var controller;
+    beforeEach(() => {
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);  
+        controller = new MTRF64Controller(port);
+    });
+    it("Bind command should be ok", () => {
+        var device = new RemoteControlNooliteDevice(controller,5,RemoteControlNooliteDevice.Mode.NooliteF);
+        var actual = device.bind();
+        actual.should.true;
+    })
+});
