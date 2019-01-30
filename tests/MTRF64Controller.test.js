@@ -10,6 +10,9 @@ const devPath = "/dev/ttyUSB112";
 
 const MTRF64Controller = require('../MTRF64Controller');
 const NooliteDevice = require('../NooliteDevice');
+const RemoteControlNooliteDevice = require("../RemoteControlNooliteDevice");
+const RelayNooliteDevice = require('../RelayNooliteDevice');
+
 const Command = require('../MTRF64Command');
 const MTRF64Adapter = require('../MTRF64Adapter');
 
@@ -38,6 +41,21 @@ describe("MTRF64Controller register for RemoteControlNooliteDevice",() => {
         port = new SerialPort(devPath);  
         controller = new MTRF64Controller(port);
     });
+    it("Register for RemoteControlNooliteDevice should be ok",() => {
+        const device = new RemoteControlNooliteDevice(controller,5);
+        const actual  = controller.register(device);
+        actual.should.true;
+    });
+    it("Register for RelayNooliteDevice not allow",() => {
+        const device = new RelayNooliteDevice(controller,5);
+        expect(() => { controller.register(device)}).to.throw(Error);
+    });
+    it("Register method should be have allow type",() => {
+        expect(()=> {controller.register("bug");}).to.throw(Error);
+    })
+    it("Register should be have parameter",() => {
+        expect(() => {controller.register();}).to.throw(Error);
+    })
 });
 
 describe("MTRF64Controller receive answer for RelayNooliteDevice test suite",() => {
@@ -67,8 +85,6 @@ describe("MTRF64Controller receive answer for RelayNooliteDevice test suite",() 
                 port.on('open',()=> {
                        port.binding.emitData(Buffer.from([173,1,0,2,5,15,0,0,0,0,0,0,0,0,0,196,174]));
                 });
-                
-
             });
         })();
      

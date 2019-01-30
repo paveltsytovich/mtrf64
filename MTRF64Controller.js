@@ -23,7 +23,7 @@ class MTRF64Controller {
     this._adapter = new MTRF64Adapter(port,this._onSend,this._onReceive);
     this._sendingRegistry = [ ];
     MTRF64Controller._sendingRegistry = [ ];
-    this._registry = [ ];
+    MTRF64Controller._registry = [ ];
     this._adapter.listen();
     MTRF64Controller.self = this;
   }
@@ -32,7 +32,13 @@ class MTRF64Controller {
        throw Error("Bad parameter type");
       MTRF64Controller._sendingRegistry[command.ch] = device;
       this._adapter.send(command);
-  } 
+  }
+  register(device) {
+      if(!device || !(device instanceof RemoteControllerNooliteDevice))
+       throw Error('Bad type for register')
+    MTRF64Controller._registry[device.channel] = device;
+    return true;
+  }
 }
 
 module.exports = MTRF64Controller;
