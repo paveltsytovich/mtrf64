@@ -3,33 +3,17 @@ class NooliteDevice {
     onCommand(command) {
 
     }
-    onLowBattery(command) {
-
+   
+    bind() {
+        throw Error('Not implemented');
     }
-    onTurnOn(command) {
-
+    unbind() {
+        throw Error('Not implemented');
     }
-    onTurnOff(command) {
-
-    }
-    onSwitch(command) {
-
-    }
-    onRoll_Colour(command) {
-
-    }
-    onSwitch_Colour(command) {
-
-    }
-    onSend_State(command) {
-
-    }
-
     constructor(adapter,channel,mode = NooliteDevice.Mode.Noolite,
-                                devType = NooliteDevice.DeviceType.Incoming) {
+                                ) {
         this._channel = channel;
         this._adapter = adapter;
-        this._deviceType = devType;
     }
     get channel () {
         return this._channel;
@@ -41,5 +25,4 @@ class NooliteDevice {
 }
 
 NooliteDevice.Mode = {"Noolite": 0, "NooliteF": 2};
-NooliteDevice.DeviceType = {"Outgoing": 0 ,"Incoming": 2}
 module.exports  = NooliteDevice;

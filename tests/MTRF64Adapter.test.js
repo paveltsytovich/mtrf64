@@ -8,6 +8,7 @@ const expect = require('chai').expect;
 const MTRF64Command = require('../MTRF64Command');
 const MTRF64Adapter = require('../MTRF64Adapter');
 const NooliteDevice= require('../NooliteDevice');
+const RemoteControlNooliteDevice = require('../RemoteControlNooliteDevice');
 const SerialPort = require('serialport/test');
 
 const devPath = "/dev/ttyUSB112";
@@ -37,8 +38,8 @@ describe("Adapter register event test suite",() => {
         port = new SerialPort(devPath);  
         adapter = new MTRF64Adapter(port);
     });
-    it("Register interface should be ok",() => {
-        var device = new NooliteDevice(adapter,5,NooliteDevice.Mode.NooliteF);
+    it("Remote control device register should be ok",() => {
+        var device = new RemoteControlNooliteDevice(adapter,5,NooliteDevice.Mode.NooliteF);
         const actual = adapter.register(device);
         actual.should.true;
         
@@ -54,7 +55,7 @@ describe("Adapter register event test suite",() => {
         }).to.throw(Error);
     });
     it("Outgoing device is not permit register in adapter",async() => { 
-        var device = new NooliteDevice(adapter,5,NooliteDevice.Mode.NooliteF,NooliteDevice.DeviceType.Outgoing);
+        var device = new NooliteDevice(adapter,5,NooliteDevice.Mode.NooliteF);
         expect(()=> {
             adapter.register(device); 
         }).to.throw(Error);

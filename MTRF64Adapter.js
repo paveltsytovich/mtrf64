@@ -1,6 +1,6 @@
 "use strict"
 const MTRF64Command = require('./MTRF64Command');
-const NooliteDevice = require('./NooliteDevice');
+const RemoteControlNooliteDevice = require('./RemoteControlNooliteDevice');
 class MTRF64Adapter {
     constructor(port,onSend, onReceive) {
         this.port = port;
@@ -25,8 +25,7 @@ class MTRF64Adapter {
     }
     
     register(device) {
-        if(!device || !(device instanceof NooliteDevice) || 
-                        device.deviceType != NooliteDevice.DeviceType.Incoming)
+        if(!device || !(device instanceof RemoteControlNooliteDevice))
          throw Error("Bad type for interface")
         this._registry[device.channel] = device;
         return true;
