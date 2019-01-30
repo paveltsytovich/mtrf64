@@ -10,8 +10,13 @@ class NooliteDevice {
     unbind() {
         throw Error('Not implemented');
     }
-    constructor(adapter,channel,mode = NooliteDevice.Mode.Noolite,
-                                ) {
+    service() {
+        throw Error('Not implemented');
+    }
+    clearMemory() {
+        throw Error('Not implemented');
+    }
+    constructor(adapter,channel,mode = NooliteDevice.Mode.Noolite) {
         this._channel = channel;
         this._adapter = adapter;
     }
@@ -21,6 +26,7 @@ class NooliteDevice {
     get deviceType() {
         return this._deviceType;
     }
+
     
 }
 

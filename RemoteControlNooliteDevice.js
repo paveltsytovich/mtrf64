@@ -6,22 +6,10 @@ class RemoteControlNooliteDevice extends NooliteDevice {
 
         super(adapter,channel,mode);
     }
-    onTurnOn(command) {
+    onSensTempHumi(command) {
 
     }
-    onTurnOff(command) {
-
-    }
-    onSwitch(command) {
-
-    }
-    onRoll_Colour(command) {
-
-    }
-    onSwitch_Colour(command) {
-
-    }
-    onSend_State(command) {
+    onSendState(command) {
 
     }
 }

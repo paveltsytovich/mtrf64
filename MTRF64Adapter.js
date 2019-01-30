@@ -17,13 +17,7 @@ class MTRF64Adapter {
         });
 
     }
-    clear(channel) {
-        throw Error('Not implemented');
-    }
-    clearAll() {
-        throw Error('Not implemented');
-    }
-    
+        
     register(device) {
         if(!device || !(device instanceof RemoteControlNooliteDevice))
          throw Error("Bad type for interface")
