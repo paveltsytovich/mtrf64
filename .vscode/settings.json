@@ -3,6 +3,10 @@
         {
             "name": "feature/Mediator",
             "base": "develop"
+        },
+        {
+            "name": "feature/BindUnBindCommands",
+            "base": "develop"
         }
     ]
 }
