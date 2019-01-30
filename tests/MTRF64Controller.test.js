@@ -24,6 +24,7 @@ describe("MTRF64 Elementary test suite",() => {
         controller.should.have.property("_adapter");
         controller.should.have.property("_sendingQueue");
         controller.should.have.property("_receivingQueue");
+        controller.should.have.property("_registry");
     })
 });
 
