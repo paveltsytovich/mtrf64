@@ -4,7 +4,7 @@ class RelayNooliteDevice extends NooliteDevice {
     constructor(adapter,channel,mode = NooliteDevice.Mode.Noolite) {
 
         super(adapter,channel,mode)
-        }
+    }
     turnOn() {
         throw Error('Not implemented');
     }
@@ -38,7 +38,7 @@ class RelayNooliteDevice extends NooliteDevice {
     brightReq(direction,speed) {
 
     }
-    RollColour() {
+    rollColour() {
 
     }
     switchColour() {
@@ -54,6 +54,8 @@ class RelayNooliteDevice extends NooliteDevice {
 
     }
     readState() {
-        
+
     }
 }
+
+module.exports = RelayNooliteDevice
