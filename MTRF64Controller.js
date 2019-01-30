@@ -40,6 +40,8 @@ class MTRF64Controller {
        throw Error("Bad parameter type");
       MTRF64Controller._sendingRegistry[command.ch] = device;
       this._adapter.send(command);
+      if(this._onSend)
+       this._onSend(command);
   }
   register(device) {
       if(!device || !(device instanceof RemoteControllerNooliteDevice))

@@ -1,10 +1,10 @@
 const NooliteDevice = require('./NooliteDevice');
 class RemoteControlNooliteDevice extends NooliteDevice {
     bind() {
-
+        throw Error('Not implemented');
     }
     unBind() {
-        
+        throw Error('Not implemented');
     }
     _onAnswer(command) {
         
