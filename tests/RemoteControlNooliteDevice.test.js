@@ -41,15 +41,32 @@ describe("RemoteControlNooliteDevice bind command", () => {
     it("Bind command should be ok", async () => {
         var device = new RemoteControlNooliteDevice(controller,5,
                                     RemoteControlNooliteDevice.Mode.NooliteF);
+        var actualStatus;
+        var actualCommand = 
         await(() => {
             return new Promise((resolve) => {
-                controller._onSend = () => {
+                controller._onSend = (command) => {
                     port.binding.emitData(Buffer.from([173,1,0,2,5,15,0,0,0,0,0,0,0,0,0,196,174]));
-                    resolve();
+                    resolve(command);
                 }
+                actualStatus = device.bind();
             })
         })();
-        var actual = device.bind();
-        actual.should.true;
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 1,
+            _ctr: 3,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 0,
+            _fmt: 0,
+            _d: [0,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 180,
+            _stopBit: 174
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;
     })
 });
