@@ -20,18 +20,13 @@ class NooliteDevice {
     clearMemory() {
         throw Error('Not implemented');
     }
-    constructor(adapter,channel,mode = NooliteDevice.Mode.Noolite) {
+    constructor(controller,channel,mode = NooliteDevice.Mode.Noolite) {
         this._channel = channel;
-        this._adapter = adapter;
+        this._controller = controller;
     }
     get channel () {
         return this._channel;
     }
-    get deviceType() {
-        return this._deviceType;
-    }
-
-    
 }
 
 NooliteDevice.Mode = {"Noolite": 0, "NooliteF": 2};

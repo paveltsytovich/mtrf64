@@ -18,7 +18,7 @@ describe("RelayNooliteDevice elementary test suite",() => {
     it("RelayNooliteDevice has all properties",() => {
         const device = new RelayNooliteDevice(null,5);
         device.should.have.property("_channel");
-        device.should.have.property("_adapter");
+        device.should.have.property("_controller");
         device.should.have.property("onCommand");
 
         device.should.have.property("turnOn");

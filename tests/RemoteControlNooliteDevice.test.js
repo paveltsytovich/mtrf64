@@ -19,7 +19,7 @@ describe("RemoteControlNooliteDevice elementary test suite",() => {
     it("RemoteNooliteDevice has all properties",() => {
         const device = new RemoteControlNooliteDevice(null,5);
         device.should.have.property("_channel");
-        device.should.have.property("_adapter");
+        device.should.have.property("_controller");
         device.should.have.property("onCommand");
         device.should.have.property("onSendState");
         device.should.have.property("onSensTempHumi");

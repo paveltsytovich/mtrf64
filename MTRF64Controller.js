@@ -23,7 +23,7 @@ class MTRF64Controller {
   _onReceive(command) {
 
     if(_fireReceive(MTRF64Controller._sendingRegistry,command)) {
-        delete MTRF64Controller._sendingRegistry[d.channel];
+        delete MTRF64Controller._sendingRegistry[command.ch];
     }
     _fireReceive(MTRF64Controller._registry,command);
   }
