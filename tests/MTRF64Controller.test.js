@@ -25,8 +25,6 @@ describe("MTRF64 Elementary test suite",() => {
     });
     it("controller have all properties", () => {
         controller.should.have.property("_adapter");
-        controller.should.have.property("_sendingRegistry");
-        controller.should.have.property("_registry");
     })
 });
 
