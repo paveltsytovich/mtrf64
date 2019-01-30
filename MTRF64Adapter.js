@@ -18,21 +18,21 @@ class MTRF64Adapter {
 
     }
         
-    register(device) {
-        if(!device || !(device instanceof RemoteControlNooliteDevice))
-         throw Error("Bad type for interface")
-        this._registry[device.channel] = device;
-        return true;
-    }
+    // register(device) {
+    //     if(!device || !(device instanceof RemoteControlNooliteDevice))
+    //      throw Error("Bad type for interface")
+    //     this._registry[device.channel] = device;
+    //     return true;
+    // }
     listen() {
        var self = this;
         this.port.on('data',(data) => {
             const command = new MTRF64Command(data);
-            const device = self._registry[command.ch];
+            // const device = self._registry[command.ch];
             if(self.onReceive)
               self.onReceive(command);
-            if(device)
-              device.onCommand(command);
+            // if(device)
+            //   device.onCommand(command);
         });
     }
 }
