@@ -22,7 +22,9 @@ describe("RemoteControlNooliteDevice elementary test suite",() => {
         device.should.have.property("_adapter");
         device.should.have.property("onCommand");
         device.should.have.property("onSendState");
-        device.should.have.property("onSensTempHumi")
+        device.should.have.property("onSensTempHumi");
+        device.should.have.property("bind");
+        device.should.have.property("unbind");
     });
 });
 
