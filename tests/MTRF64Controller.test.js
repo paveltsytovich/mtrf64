@@ -88,6 +88,12 @@ describe("MTRF64Controller receive answer for RelayNooliteDevice test suite",() 
                         };
         expect(actualCommand).deep.equal(expectedCommand);    
     });
+    it("Send method should be correct parameter",() => {
+        expect(()=> {controller.send("bug")}).to.throw(Error);
+    })
+    it("Send method should be not undefined parameter",() => {
+        expect(()=> {controller.send()}).to.throw(Error);
+    })
 });
 
 describe("MTRF64 receive event from RemoteControlNooliteDevice test suite",() => {

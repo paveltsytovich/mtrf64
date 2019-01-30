@@ -12,6 +12,7 @@ class MTRF64Controller {
     this._sendingRegistry = [ ];
     this._registry = [ ];
   }
+ 
 }
 
 module.exports = MTRF64Controller;
