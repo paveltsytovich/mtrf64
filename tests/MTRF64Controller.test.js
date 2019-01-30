@@ -116,7 +116,7 @@ describe("MTRF64Controller receive answer for RelayNooliteDevice test suite",() 
         await(() => {
             return new Promise((resolve) => {
                controller._onSend  = (command) => {
-                resolver(command);   
+                resolve(command);   
                };
             controller.send(device,cmd);
             })
