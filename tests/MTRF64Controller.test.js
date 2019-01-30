@@ -103,6 +103,40 @@ describe("MTRF64Controller receive answer for RelayNooliteDevice test suite",() 
                         };
         expect(actualCommand).deep.equal(expectedCommand);    
     });
+    it("send method with no answer paramater should be only send correct command",() => {
+        var device  = new NooliteDevice(controller,5,
+            NooliteDevice.Mode.NooliteF);
+        var cmd = new Command();
+        cmd.ch = 5;
+        cmd.mode = 1;
+        cmd.ctr  = 3;
+        var actualCommand = 
+        await(() => { 
+            return new Promise((resolve) => {
+                device._onSend = (command) => {
+                    resolve(command);
+                };                
+                port.on('open',()=> {
+                    controller.send(device,cmd,false);  
+                });
+            });
+        })();
+     
+        const expectedCommand = {
+                        _startBit: 173,
+                        _mode: 1,
+                        _ctr: 0,
+                        _togl: 2,
+                        _ch: 5,
+                        _cmd: 15,
+                        _fmt: 0,
+                        _d: [0,0,0,0],
+                        _id: [0,0,0,0],
+                        _crc: 196,
+                        _stopBit: 174
+                        };
+        expect(actualCommand).deep.equal(expectedCommand);    
+    })
     it("Send method should be correct parameter",() => {
         expect(()=> {controller.send("bug")}).to.throw(Error);
     })

@@ -7,6 +7,9 @@ class NooliteDevice {
             this._unlock = null;
         }        
     }
+    _onSend(command) {
+        
+    }
     onCommand(command) {
 
     }

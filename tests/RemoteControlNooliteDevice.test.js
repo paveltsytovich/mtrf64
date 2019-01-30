@@ -102,8 +102,9 @@ describe("Unbind command",() => {
         port = new SerialPort(devPath);  
         controller = new MTRF64Controller(port);
     });
-    it("unbind command for Noolite mode should be ok",() => {
+    it("unbind command for Noolite mode should be ok", async () => {
         var actualCommand;
+        const device = new RemoteControlNooliteDevice(controller,5,RemoteControlNooliteDevice.Mode.Noolite);
         await(()=> {
             return new Promise((resolve) => {
                 controller._onSend = (command) => {
@@ -131,7 +132,8 @@ describe("Unbind command",() => {
         expect(actualCommand).deep.equal(expectedCommand);
     });
 
-    it("unbind command for NooliteF mode should be ok",() => {
+    it("unbind command for NooliteF mode should be ok", async () => {
+        const device = new RemoteControlNooliteDevice(controller,5,RemoteControlNooliteDevice.Mode.NooliteF);
         var actualCommand;
         await(()=> {
             return new Promise((resolve) => {
