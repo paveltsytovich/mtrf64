@@ -45,6 +45,7 @@ describe("NooliteDevice command handler tests suite", () => {
         port.close();
         mockBinding.reset();
     });
+    
     it("Receive packet should be call OnCommand method in NooliteDevice",async() => {
         var device;
         var actualCommand;

@@ -38,7 +38,7 @@ describe("Adapter register event test suite",() => {
         adapter = new MTRF64Adapter(port);
     });
     it("Register interface should be ok",() => {
-        var device = new NooliteDevice(5,NooliteDevice.Mode.NooliteF);
+        var device = new NooliteDevice(adapter,5,NooliteDevice.Mode.NooliteF);
         const actual = adapter.register(device);
         actual.should.true;
         
@@ -52,7 +52,13 @@ describe("Adapter register event test suite",() => {
         expect(()=> {
             adapter.register("BUG") 
         }).to.throw(Error);
-    })
+    });
+    it("Outgoing device is not permit register in adapter",async() => { 
+        var device = new NooliteDevice(adapter,5,NooliteDevice.Mode.NooliteF,NooliteDevice.DeviceType.Outgoing);
+        expect(()=> {
+            adapter.register(device); 
+        }).to.throw(Error);
+    });
 })
 
 describe("Send command in adapter test suite",() => {

@@ -26,7 +26,7 @@ class NooliteDevice {
     }
 
     constructor(adapter,channel,mode = NooliteDevice.Mode.Noolite,
-                                devType = NooliteDevice.DeviceType.Console) {
+                                devType = NooliteDevice.DeviceType.Incoming) {
         this._channel = channel;
         this._adapter = adapter;
         this._deviceType = devType;
@@ -41,5 +41,5 @@ class NooliteDevice {
 }
 
 NooliteDevice.Mode = {"Noolite": 0, "NooliteF": 2};
-NooliteDevice.DeviceType = {"Relay": 0 ,"Console": 2}
+NooliteDevice.DeviceType = {"Outgoing": 0 ,"Incoming": 2}
 module.exports  = NooliteDevice;

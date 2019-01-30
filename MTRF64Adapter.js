@@ -25,7 +25,8 @@ class MTRF64Adapter {
     }
     
     register(device) {
-        if(!device || !(device instanceof NooliteDevice))
+        if(!device || !(device instanceof NooliteDevice) || 
+                        device.deviceType != NooliteDevice.DeviceType.Incoming)
          throw Error("Bad type for interface")
         this._registry[device.channel] = device;
         return true;
