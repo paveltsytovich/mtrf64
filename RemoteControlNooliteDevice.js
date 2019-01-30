@@ -15,7 +15,7 @@ class RemoteControlNooliteDevice extends NooliteDevice {
             this._controller.send(this,cmd);
         })
      })();
-     return true; //temporary
+     return answer.mode == 1 && answer.ctr == 0 && answer.togl == 2 && answer.cmd == 15;
     }
     unBind() {
         throw Error('Not implemented');
