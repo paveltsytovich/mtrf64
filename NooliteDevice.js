@@ -1,5 +1,9 @@
 
 class NooliteDevice {
+
+    _onAnswer(command) {
+        
+    }
     onCommand(command) {
 
     }

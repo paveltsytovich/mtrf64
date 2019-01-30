@@ -9,7 +9,7 @@ const SerialPort = require('serialport/test');
 const devPath = "/dev/ttyUSB112";
 
 const MTRF64Controller = require('../MTRF64Controller');
-const RemoteControlNooliteDevice = require('../RemoteControlNooliteDevice');
+const NooliteDevice = require('../NooliteDevice');
 const Command = require('../MTRF64Command');
 const MTRF64Adapter = require('../MTRF64Adapter');
 
@@ -53,8 +53,8 @@ describe("MTRF64Controller receive answer for RelayNooliteDevice test suite",() 
         controller = new MTRF64Controller(port);
     });
     it("Send command shold be receive answer", async () => {
-        var device  = new RemoteControlNooliteDevice(controller,5,
-            RemoteControlNooliteDevice.Mode.NooliteF);
+        var device  = new NooliteDevice(controller,5,
+            NooliteDevice.Mode.NooliteF);
         var cmd = new Command();
         cmd.ch = 5;
         cmd.mode = 1;
