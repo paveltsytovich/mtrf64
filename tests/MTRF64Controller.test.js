@@ -109,6 +109,35 @@ describe("MTRF64Controller receive answer for RelayNooliteDevice test suite",() 
     it("Send method should be not undefined parameter",() => {
         expect(()=> {controller.send()}).to.throw(Error);
     })
+    it("Send command should be callback _onSend",async () => {
+        var device  = new NooliteDevice(controller,5,NooliteDevice.Mode.NooliteF);
+        var cmd = new Command();
+               var actualCommand = 
+        await(() => {
+            return new Promise((resolve) => {
+               controller._onSend  = (command) => {
+                resolver(command);   
+               };
+            controller.send(device,cmd);
+            })
+        } )();
+        var expectedCommand = {
+            _startBit:171,
+            _mode: 4,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 0,
+            _cmd: 0,
+            _fmt: 0,
+            _d: [0,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 175,
+            _stopBit:172
+        }
+        expect(actualCommand).deep.equal(expectedCommand);
+
+        
+    })
 });
 
 describe("MTRF64 receive event from RemoteControlNooliteDevice test suite",() => {
