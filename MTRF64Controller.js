@@ -1,6 +1,6 @@
 const MTRF64Adapter = require('./MTRF64Adapter');
 const MTRF64Command = require('./MTRF64Command');
-const RemoteControllerNooliteDevice = require('./RemoteControl');
+const RemoteControllerNooliteDevice = require('./AbstractRemoteControl');
 
 function _fireReceive(registry, command) {
     for(let d of registry) {

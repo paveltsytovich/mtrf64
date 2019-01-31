@@ -8,7 +8,7 @@ const expect = require('chai').expect;
 const MTRF64Command = require('../MTRF64Command');
 const MTRF64Adapter = require('../MTRF64Adapter');
 const NooliteDevice= require('../NooliteDevice');
-const RemoteControlNooliteDevice = require('../RemoteControl');
+const AbstractRemoteControl = require('../AbstractRemoteControl');
 const SerialPort = require('serialport/test');
 
 const devPath = "/dev/ttyUSB112";

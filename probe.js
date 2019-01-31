@@ -4,7 +4,7 @@ const parser = port.pipe(new SerialPort.parsers.ByteLength({length: 17}));
 
 
 const MTRF64Controller = require('./MTRF64Controller');
-const RemoteControl = require('./RemoteControl');
+const RemoteControl = require('./AbstractRemoteControl');
 
 let controller = new MTRF64Controller(port,parser);
 

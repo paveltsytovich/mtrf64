@@ -10,7 +10,7 @@ const devPath = "/dev/ttyUSB112";
 
 const MTRF64Controller = require('../MTRF64Controller');
 const NooliteDevice = require('../NooliteDevice');
-const RemoteControl = require("../RemoteControl");
+const AbstractRemoteControl = require("../AbstractRemoteControl");
 const RelayNooliteDevice = require('../RelayNooliteDevice');
 
 const Command = require('../MTRF64Command');
@@ -42,7 +42,7 @@ describe("MTRF64Controller register for RemoteControlNooliteDevice",() => {
         controller = new MTRF64Controller(port);
     });
     it("Register for RemoteControlNooliteDevice should be ok",() => {
-        const device = new RemoteControl(controller,5);
+        const device = new AbstractRemoteControl(controller,5);
         const actual  = controller.register(device);
         actual.should.true;
     });
@@ -186,7 +186,7 @@ describe("MTRF64 receive event from RemoteControlNooliteDevice test suite",() =>
     });
 
     it("Receive event for RemoteControlNooliteDevice",async () => {
-        var device  = new RemoteControl(controller,5,
+        var device  = new AbstractRemoteControl(controller,5,
             NooliteDevice.Mode.NooliteF);
         
         var actualCommand = 

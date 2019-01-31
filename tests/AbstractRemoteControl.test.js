@@ -9,36 +9,20 @@ const SerialPort = require('serialport/test');
 const devPath = "/dev/ttyUSB112";
 
 
-const RemoteControl = require('../RemoteControl');
+const AbstractRemoteControl = require('../AbstractRemoteControl');
 
 const MTRF64Controller = require('../MTRF64Controller');
 
 
 describe("RemoteControl elementary test suite",() => {
     it("RemoteNooliteDevice has all properties",() => {
-        const device = new RemoteControl(null,5);
+        const device = new AbstractRemoteControl(null,5);
         device.should.have.property("_channel");
         device.should.have.property("_controller");
         device.should.have.property("onCommand");
         
         device.should.have.property("bind");
         device.should.have.property("unbind");
-        // device.should.have.property("onLowBattery");
-        // device.should.have.property("onTurnOn");
-        // device.should.have.property("onTurnOff");
-        // device.should.have.property("onBrightUp");
-        // device.should.have.property("onBrightDown");
-        // device.should.have.property("onStopReq");
-        // device.should.have.property("onExecuteScenario");
-        // device.should.have.property("onSaveScenario");
-        // device.should.have.property("onSwitch");
-        // device.should.have.property("onBrightBack");
-        // device.should.have.property("onSwitchMode");
-        // device.should.have.property("onSwitchColour");
-        // device.should.have.property("onSpeenBackMode");
-        // device.should.have.property("onRollColour");
-        //device.should.have.property("onSendState");
-        //device.should.have.property("onSensTempHumi");
     });
 });
 
@@ -53,8 +37,8 @@ describe("RemoteControl bind command", () => {
         controller = new MTRF64Controller(port);
     });
     it("Bind command for NooliteF mode should be ok", async () => {
-        var device = new RemoteControl(controller,5,
-                                    RemoteControl.Mode.NooliteF);
+        var device = new AbstractRemoteControl(controller,5,
+                                    AbstractRemoteControl.Mode.NooliteF);
         var actualCommand;
         var actualStatus = 
         await(() => {
@@ -87,8 +71,8 @@ describe("RemoteControl bind command", () => {
         actualStatus.should.true;
     });
     it("Bind command for Noolite mode should be ok", async () => {
-        var device = new RemoteControl(controller,5,
-                                    RemoteControl.Mode.Noolite);
+        var device = new AbstractRemoteControl(controller,5,
+                                    AbstractRemoteControl.Mode.Noolite);
         var actualCommand;
         var actualStatus = 
         await(() => {
@@ -121,8 +105,8 @@ describe("RemoteControl bind command", () => {
         actualStatus.should.true;
     })
     it("Bind command should be false if wrong answer", async () => {
-        var device = new RemoteControl(controller,5,
-                                    RemoteControl.Mode.NooliteF);
+        var device = new AbstractRemoteControl(controller,5,
+                                    AbstractRemoteControl.Mode.NooliteF);
         var actualStatus = 
         await(() => {
             return new Promise((resolve) => {
@@ -152,7 +136,7 @@ describe("Unbind command",() => {
     });
     it("unbind command for Noolite mode should be ok", async () => {
         var actualCommand;
-        const device = new RemoteControl(controller,5,RemoteControl.Mode.Noolite);
+        const device = new AbstractRemoteControl(controller,5,AbstractRemoteControl.Mode.Noolite);
         await(()=> {
             return new Promise((resolve) => {
                 controller._onSend = (command) => {
@@ -181,7 +165,7 @@ describe("Unbind command",() => {
     });
 
     it("unbind command for NooliteF mode should be ok", async () => {
-        const device = new RemoteControl(controller,5,RemoteControl.Mode.NooliteF);
+        const device = new AbstractRemoteControl(controller,5,AbstractRemoteControl.Mode.NooliteF);
         var actualCommand;
         await(()=> {
             return new Promise((resolve) => {

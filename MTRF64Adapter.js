@@ -1,6 +1,6 @@
 "use strict"
 const MTRF64Command = require('./MTRF64Command');
-const RemoteControlNooliteDevice = require('./RemoteControl');
+const RemoteControlNooliteDevice = require('./AbstractRemoteControl');
 class MTRF64Adapter {
     constructor(port,onSend, onReceive,parser) {
         this.port = port;
