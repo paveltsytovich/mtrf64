@@ -7,7 +7,7 @@ function _fireReceive(registry, command) {
         if(!d)
          continue;
         if(d.channel == command.ch) {
-            d._onAnswer(command);
+            d.onCommand(command);
             return true;
         }
     }

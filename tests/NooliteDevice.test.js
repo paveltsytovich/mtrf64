@@ -19,7 +19,7 @@ describe("NooliteDevice elementary test suite",() => {
         const device = new NooliteDevice(null,5);
         device.should.have.property("_channel");
         device.should.have.property("_controller");
-        device.should.have.property("_onAnswer");
+        device.should.have.property("onCommand");
     });
 });
 

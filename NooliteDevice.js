@@ -1,16 +1,13 @@
 
 class NooliteDevice {
 
-    _onAnswer(command) {
+    onCommand(command) {
         if(this._unlock) {
             this._unlock(command);
             this._unlock = null;
         }        
     }
     _onSend(command) {
-
-    }
-    onCommand(command) {
 
     }
    

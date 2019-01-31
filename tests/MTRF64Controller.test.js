@@ -78,7 +78,7 @@ describe("MTRF64Controller receive answer for RelayNooliteDevice test suite",() 
         var actualCommand = 
         await(() => { 
             return new Promise((resolve) => {
-                device._onAnswer = (command) => {
+                device.onCommand = (command) => {
                     resolve(command);
                 };
                 controller.send(device,cmd);
@@ -192,7 +192,7 @@ describe("MTRF64 receive event from RemoteControlNooliteDevice test suite",() =>
         var actualCommand = 
         await(() => { 
             return new Promise((resolve) => {
-                device._onAnswer = (command) => {
+                device.onCommand = (command) => {
                     resolve(command);
                 };
                 controller.register(device);
