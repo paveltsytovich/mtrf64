@@ -5,7 +5,7 @@
             "base": "develop"
         },
         {
-            "name": "feature/probe",
+            "name": "feature/RemoteControlDeviceCommands",
             "base": "develop"
         }
     ]

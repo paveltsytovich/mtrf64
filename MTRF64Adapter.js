@@ -6,7 +6,7 @@ class MTRF64Adapter {
         this.port = port;
         this.onSend = onSend;
         this.onReceive = onReceive;
-        this._parser = parser;
+        this._parser = parser ? parser : port;
        // this._registry = [];
     }
     send(command) {
