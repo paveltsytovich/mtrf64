@@ -7,7 +7,7 @@ class RemoteControlNooliteDevice extends NooliteDevice {
      var cmd = new Command();
      cmd.ch = this.channel;
      cmd.ctr = 3;
-     cmd.mode = 1;
+     cmd.mode = this.mode == NooliteDevice.Mode.Noolite? 1 : 3;
      var answer = 
      await(()=> {
         return new Promise((resolve) => {
@@ -18,7 +18,12 @@ class RemoteControlNooliteDevice extends NooliteDevice {
      return answer.mode == 1 && answer.ctr == 0 && answer.togl == 2 && answer.cmd == 15;
     }
     unbind() {
-        //throw Error('Not implemented');
+       var cmd = new Command();
+       cmd.mode = this.mode == NooliteDevice.Mode.Noolite? 1 : 3;
+       cmd.cmd = 0;
+       cmd.ch = this.channel;
+       cmd.ctr = 5;
+       this._controller.send(this,cmd,false);
     }
    
     onLowBattery(command) {

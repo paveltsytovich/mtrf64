@@ -30,6 +30,10 @@ class NooliteDevice {
         this._channel = channel;
         this._controller = controller;
         this._unlock = null;
+        this._mode = mode
+    }
+    get mode() {
+        return this._mode;
     }
     get channel () {
         return this._channel;

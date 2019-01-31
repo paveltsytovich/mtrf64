@@ -38,9 +38,43 @@ describe("RemoteControlNooliteDevice bind command", () => {
         port = new SerialPort(devPath);  
         controller = new MTRF64Controller(port);
     });
-    it("Bind command should be ok", async () => {
+    it("Bind command for NooliteF mode should be ok", async () => {
         var device = new RemoteControlNooliteDevice(controller,5,
                                     RemoteControlNooliteDevice.Mode.NooliteF);
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,1,0,2,5,15,0,0,0,0,0,0,0,0,0,196,174]));
+                }
+                port.on('open',() => {
+                    var status = device.bind();
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 3,
+            _ctr: 3,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 0,
+            _fmt: 0,
+            _d: [0,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 182,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;
+    });
+    it("Bind command for Noolite mode should be ok", async () => {
+        var device = new RemoteControlNooliteDevice(controller,5,
+                                    RemoteControlNooliteDevice.Mode.Noolite);
         var actualCommand;
         var actualStatus = 
         await(() => {
