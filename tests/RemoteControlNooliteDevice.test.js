@@ -25,6 +25,21 @@ describe("RemoteControlNooliteDevice elementary test suite",() => {
         device.should.have.property("bind");
         device.should.have.property("unbind");
         device.should.have.property("_onAnswer");
+
+        device.should.have.property("onLowBattery");
+        device.should.have.property("onTurnOn");
+        device.should.have.property("onTurnOff");
+        device.should.have.property("onBrightUp");
+        device.should.have.property("onBrightDown");
+        device.should.have.property("onStopReq");
+        device.should.have.property("onExecuteScenario");
+        device.should.have.property("onSaveScenario");
+        device.should.have.property("onSwitch");
+        device.should.have.property("onBrightBack");
+        device.should.have.property("onSwitchMode");
+        device.should.have.property("onSwitchColour");
+        device.should.have.property("onSpeenBackMode");
+        device.should.have.property("onRollColour");
     });
 });
 

@@ -28,17 +28,18 @@ class RemoteControlNooliteDevice extends NooliteDevice {
    
     onLowBattery(command) {
     }
-    constructor(controller,channel,mode = NooliteDevice.Mode.Noolite) {
-
-        super(controller,channel,mode);
-        this._unlock = null;
-    }
     onSensTempHumi(command) {
 
     }
     onSendState(command) {
 
     }
+    constructor(controller,channel,mode = NooliteDevice.Mode.Noolite) {
+
+        super(controller,channel,mode);
+        this._unlock = null;
+    }
+    
 }
 
 module.exports  = RemoteControlNooliteDevice;
