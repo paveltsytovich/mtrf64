@@ -32,9 +32,9 @@ class RemoteControl extends NooliteDevice {
        cmd.ctr = 5;
        this._controller.send(this,cmd,false);
     }
-   onCommand(command) {       
-      super.onCommand(command); 
-   }
+   // onCommand(command) {       
+   //    super.onCommand(command); 
+   //}
 }
 
 module.exports  = RemoteControl;
