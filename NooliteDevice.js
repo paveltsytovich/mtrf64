@@ -2,7 +2,13 @@
 class NooliteDevice {
 
     _onAnswer(command) {
-        
+        if(this._unlock) {
+            this._unlock(command);
+            this._unlock = null;
+        }        
+    }
+    _onSend(command) {
+
     }
     onCommand(command) {
 
@@ -23,6 +29,11 @@ class NooliteDevice {
     constructor(controller,channel,mode = NooliteDevice.Mode.Noolite) {
         this._channel = channel;
         this._controller = controller;
+        this._unlock = null;
+        this._mode = mode
+    }
+    get mode() {
+        return this._mode;
     }
     get channel () {
         return this._channel;
