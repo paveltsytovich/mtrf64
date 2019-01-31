@@ -8,7 +8,7 @@ class NooliteDevice {
         }        
     }
     _onSend(command) {
-        
+
     }
     onCommand(command) {
 

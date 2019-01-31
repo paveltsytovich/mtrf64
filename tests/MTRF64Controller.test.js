@@ -103,7 +103,7 @@ describe("MTRF64Controller receive answer for RelayNooliteDevice test suite",() 
                         };
         expect(actualCommand).deep.equal(expectedCommand);    
     });
-    it("send method with no answer paramater should be only send correct command",() => {
+    it("send method with no answer paramater should be only send correct command",async () => {
         var device  = new NooliteDevice(controller,5,
             NooliteDevice.Mode.NooliteF);
         var cmd = new Command();

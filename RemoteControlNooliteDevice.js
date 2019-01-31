@@ -17,8 +17,8 @@ class RemoteControlNooliteDevice extends NooliteDevice {
      })();
      return answer.mode == 1 && answer.ctr == 0 && answer.togl == 2 && answer.cmd == 15;
     }
-    unBind() {
-        throw Error('Not implemented');
+    unbind() {
+        //throw Error('Not implemented');
     }
    
     onLowBattery(command) {
