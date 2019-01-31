@@ -1,7 +1,7 @@
 const NooliteDevice = require('./NooliteDevice');
 const Command = require('./MTRF64Command');
 
-class RemoteControlNooliteDevice extends NooliteDevice {
+class RemoteControl extends NooliteDevice {
     
     async bind() {
      var cmd = new Command();
@@ -42,4 +42,4 @@ class RemoteControlNooliteDevice extends NooliteDevice {
     
 }
 
-module.exports  = RemoteControlNooliteDevice;
+module.exports  = RemoteControl;
