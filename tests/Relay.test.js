@@ -9,14 +9,14 @@ const SerialPort = require('serialport/test');
 const devPath = "/dev/ttyUSB112";
 
 
-const RelayNooliteDevice = require('../RelayNooliteDevice');
+const Relay = require('../Relay');
 
 const MTRF64Command = require('../MTRF64Command');
 const MTRF64Adapter = require('../MTRF64Adapter');
 
 describe("RelayNooliteDevice elementary test suite",() => {
     it("RelayNooliteDevice has all properties",() => {
-        const device = new RelayNooliteDevice(null,5);
+        const device = new Relay(null,5);
         device.should.have.property("_channel");
         device.should.have.property("_controller");
         device.should.have.property("onCommand");

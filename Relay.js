@@ -1,6 +1,6 @@
 const NooliteDevice = require('./NooliteDevice')
 
-class RelayNooliteDevice extends NooliteDevice {
+class Relay extends NooliteDevice {
     constructor(adapter,channel,mode = NooliteDevice.Mode.Noolite) {
 
         super(adapter,channel,mode)
@@ -64,4 +64,4 @@ class RelayNooliteDevice extends NooliteDevice {
     }
 }
 
-module.exports = RelayNooliteDevice
+module.exports = Relay
