@@ -1,10 +1,13 @@
-const RemoteControl = require('./AbstractRemoteControl');
-class RemoteControl extends RemoteControl {
+const AbstractRemoteControl = require('./AbstractRemoteControl');
+
+class RemoteControl extends AbstractRemoteControl {
     constructor(controller, channel, mode) {
         super(controller, channel, mode);
     }
     onCommand(command) {
-        super(command);
+        
+        super.onCommand(command);
+
         switch (command.cmd) {
             case 0:
                 this.onTurnOff();
@@ -90,4 +93,4 @@ class RemoteControl extends RemoteControl {
     onSensTempHumi(data) {
     }
 }
-exports.RemoteControlHandler = RemoteControl;
+module.exports  = RemoteControl;
