@@ -2,10 +2,11 @@
 const MTRF64Command = require('./MTRF64Command');
 const RemoteControlNooliteDevice = require('./RemoteControlNooliteDevice');
 class MTRF64Adapter {
-    constructor(port,onSend, onReceive) {
+    constructor(port,onSend, onReceive,parser) {
         this.port = port;
         this.onSend = onSend;
         this.onReceive = onReceive;
+        this._parser = parser;
        // this._registry = [];
     }
     send(command) {
@@ -26,7 +27,7 @@ class MTRF64Adapter {
     // }
     listen() {
        var self = this;
-        this.port.on('data',(data) => {
+        this._parser.on('data',(data) => {
             const command = new MTRF64Command(data);
             // const device = self._registry[command.ch];
             if(self.onReceive)

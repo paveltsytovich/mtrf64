@@ -27,8 +27,8 @@ class MTRF64Controller {
     }
     _fireReceive(MTRF64Controller._registry,command);
   }
-  constructor(port) {
-    this._adapter = new MTRF64Adapter(port,this._onSend,this._onReceive);
+  constructor(port,parser) {
+    this._adapter = new MTRF64Adapter(port,this._onSend,this._onReceive,parser);
     this._sendingRegistry = [ ];
     MTRF64Controller._sendingRegistry = [ ];
     MTRF64Controller._registry = [ ];
