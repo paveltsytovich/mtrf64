@@ -3,6 +3,12 @@ const Command = require('./MTRF64Command');
 
 class RemoteControl extends NooliteDevice {
     
+    constructor(controller,channel,mode = NooliteDevice.Mode.Noolite) {
+
+        super(controller,channel,mode);
+        this._unlock = null;
+    }
+
     async bind() {
      var cmd = new Command();
      cmd.ch = this.channel;
@@ -17,6 +23,7 @@ class RemoteControl extends NooliteDevice {
      })();
      return answer.mode == 1 && answer.ctr == 0 && answer.togl == 2 && answer.cmd == 15;
     }
+
     unbind() {
        var cmd = new Command();
        cmd.mode = this.mode == NooliteDevice.Mode.Noolite? 1 : 3;
@@ -25,21 +32,9 @@ class RemoteControl extends NooliteDevice {
        cmd.ctr = 5;
        this._controller.send(this,cmd,false);
     }
-   
-    onLowBattery(command) {
-    }
-    onSensTempHumi(command) {
-
-    }
-    onSendState(command) {
-
-    }
-    constructor(controller,channel,mode = NooliteDevice.Mode.Noolite) {
-
-        super(controller,channel,mode);
-        this._unlock = null;
-    }
-    
+   onCommand(command) {
+       
+   }
 }
 
 module.exports  = RemoteControl;
