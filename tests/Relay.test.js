@@ -14,8 +14,8 @@ const Relay = require('../Relay');
 const MTRF64Command = require('../MTRF64Command');
 const MTRF64Adapter = require('../MTRF64Adapter');
 
-describe("RelayNooliteDevice elementary test suite",() => {
-    it("RelayNooliteDevice has all properties",() => {
+describe("Relay elementary test suite",() => {
+    it("Relay has all properties",() => {
         const device = new Relay(null,5);
         device.should.have.property("_channel");
         device.should.have.property("_controller");
@@ -41,3 +41,31 @@ describe("RelayNooliteDevice elementary test suite",() => {
         
     });
 });
+
+describe("Relay bind command", () => {
+
+});
+
+describe("Relay unbind command", () => {
+
+});
+
+describe("Relay turnOn, turnOff and Switch commands", () => {
+
+});
+
+describe("Relay brightness commands", () => {
+
+});
+
+describe("Relay Scenario commands", () => {
+
+});
+
+describe("Relay RGB commands", () => {
+
+});
+
+describe("Relay states commands", () => {
+
+})
