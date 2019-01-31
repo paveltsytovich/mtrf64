@@ -123,17 +123,17 @@ describe("MTRF64Controller receive answer for RelayNooliteDevice test suite",() 
         })();
      
         const expectedCommand = {
-                        _startBit: 173,
+                        _startBit: 171,
                         _mode: 1,
-                        _ctr: 0,
-                        _togl: 2,
+                        _ctr: 3,
+                        _togl: 0,
                         _ch: 5,
-                        _cmd: 15,
+                        _cmd: 0,
                         _fmt: 0,
                         _d: [0,0,0,0],
                         _id: [0,0,0,0],
-                        _crc: 196,
-                        _stopBit: 174
+                        _crc: 180,
+                        _stopBit: 172
                         };
         expect(actualCommand).deep.equal(expectedCommand);    
     })
