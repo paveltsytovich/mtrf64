@@ -5,7 +5,8 @@ const Command = require('./MTRF64Command');
 class Relay extends NooliteDevice {
     constructor(adapter,channel,mode = NooliteDevice.Mode.Noolite) {
 
-        super(adapter,channel,mode)
+        super(adapter,channel,mode);
+        this._id = null;
     }
     async bind() {
         const command  = new Command();
