@@ -11,8 +11,8 @@ const devPath = "/dev/ttyUSB112";
 
 const Relay = require('../Relay');
 
-const MTRF64Command = require('../MTRF64Command');
 const MTRF64Adapter = require('../MTRF64Adapter');
+const MTRF64Controller = require('../MTRF64Controller');
 
 describe("Relay elementary test suite",() => {
     it("Relay has all properties",() => {
@@ -43,6 +43,81 @@ describe("Relay elementary test suite",() => {
 });
 
 describe("Relay bind command", () => {
+    var mockBinding;
+    var port;
+    var controller;
+    beforeEach(() => {
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);  
+        controller = new MTRF64Controller(port);
+    });
+    it("Relay Bind command for NooliteF mode should be ok", async () => {
+        var device = new Relay(controller,5,Relay.Mode.NooliteF);
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,2,3,0,5,130,0,0,0,0,0,0,0,0,0,39,174]));
+                }
+                port.on('open',() => {
+                    var status = device.bind();
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 2,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 15,
+            _fmt: 0,
+            _d: [0,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 193,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;
+    });
+    it("Relay Bind command for Noolite mode should be ok", async () => {
+        var device = new Relay(controller,5,Relay.Mode.Noolite);
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,2,3,0,5,130,0,0,0,0,0,0,0,0,0,39,174]));
+                }
+                port.on('open',() => {
+                    var status = device.bind();
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 0,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 15,
+            _fmt: 0,
+            _d: [0,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 191,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;
+    });
 
 });
 
