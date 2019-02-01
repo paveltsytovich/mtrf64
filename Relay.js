@@ -1,12 +1,24 @@
-const NooliteDevice = require('./NooliteDevice')
+const NooliteDevice = require('./NooliteDevice');
+const Command = require('./MTRF64Command');
+
 
 class Relay extends NooliteDevice {
     constructor(adapter,channel,mode = NooliteDevice.Mode.Noolite) {
 
         super(adapter,channel,mode)
     }
-    bind() {
-        throw Error('Not implemented');
+    async bind() {
+        const command  = new Command();
+        command.mode = this.mode == NooliteDevice.Mode.NooliteF ? 2 : 0;
+        command.cmd = 15;
+        command.ch = this.channel;
+        var answer = await ( () => {
+            return new Promise((resolve) => {
+                this._unlock = resolve;
+            this._controller.send(this,command);
+            });
+        })();
+        return (answer.cmd = 130 && answer.ctr == 3);
     }
     unbind() {
         throw Error('Not implemented');
