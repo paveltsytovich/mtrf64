@@ -28,13 +28,17 @@ function DoorSensorProbe() {
     controller.register(device);
 }
 
-function RelayBindProbe() {
+async function RelayBindProbe() {
     let device = new Relay(controller,1,Relay.Mode.Noolite);
-    device.bind();
-   // port.close();
+    console.log(await device.bind());
+    device = new Relay(controller,2,Relay.Mode.Noolite);
+    console.log(await device.bind());
+    //port.close();
 }
 
 port.on('open', () => {
+    //DoorSensorProbe();
     RelayBindProbe();
+    
 })
 
