@@ -85,6 +85,24 @@ describe("Relay bind command", () => {
         
         actualStatus.should.true;
     });
+    it("Relay Bind command for NooliteF mode should set id device", async () => {
+        var device = new Relay(controller,5,Relay.Mode.NooliteF);
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,0,3,0,5,130,0,0,0,0,0,1,2,3,4,39,174]));
+                }
+                port.on('open',() => {
+                    var status = device.bind();
+                    resolve(status);
+                })                
+            })
+        })();        
+       expect(device._id).deep.equal([1,2,3,4]);
+    });
     it("Relay Bind command for Noolite mode should be ok", async () => {
         var device = new Relay(controller,5,Relay.Mode.Noolite);
         var actualCommand;
