@@ -93,7 +93,7 @@ describe("Relay bind command", () => {
             return new Promise((resolve) => {
                 controller._onSend = (command) => {
                     actualCommand = command;
-                    port.binding.emitData(Buffer.from([173,0,3,0,5,130,0,0,0,0,0,1,2,3,4,39,174]));
+                    port.binding.emitData(Buffer.from([173,2,3,0,5,130,0,0,0,0,0,1,2,3,4,39,174]));
                 }
                 port.on('open',() => {
                     var status = device.bind();
