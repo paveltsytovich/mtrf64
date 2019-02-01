@@ -28,55 +28,55 @@ class Relay extends NooliteDevice {
     unbind() {
         throw Error('Not implemented');
     }
-    turnOn() {
+    turnOn(broadcast = false) {
         throw Error('Not implemented');
     }
-    turnOff() {
+    turnOff(broadcast = false) {
         throw Error('Not implemented');
     }
-    brightDown() {
+    brightDown(broadcast = false) {
         throw Error('Not implemented');
     }
-    brightUp() {
+    brightUp(broadcast = false) {
         throw Error('Not implemented');
     }
-    setBrightness(brightness) {
+    setBrightness(brightness,broadcast = false) {
         throw Error('Not implemented');
     }
-    loadPreset() {
+    loadPreset(broadcast = false) {
         throw Error('Not implemented');
     }
-    savePreset() {
+    savePreset(broadcast = false) {
         throw Error('Not implemented');
     }
-    stopReq() {
+    stopReq(broadcast = false) {
         throw Error('Not implemented');
     }
-    brightStepDown(step) {
+    brightStepDown(step,broadcast = false) {
         throw Error('Not implemented');
     }
-    brightStepUp(step) {
+    brightStepUp(step,broadcast = false) {
         throw Error('Not implemented');
     }
-    brightReq(direction,speed) {
+    brightReq(direction,speed,broadcast = false) {
         throw Error('Not implemented');
     }
-    rollColour() {
+    rollColour(broadcast = false) {
         throw Error('Not implemented');
     }
-    switchColour() {
+    switchColour(broadcast = false) {
         throw Error('Not implemented');
     }
-    switchMode() {
+    switchMode(broadcast = false) {
         throw Error('Not implemented');
     }
-    speedModeBack() {
+    speedModeBack(broadcast = false) {
         throw Error('Not implemented');
     }
-    temporaryOn(time) {
+    temporaryOn(time,broadcast = false) {
         throw Error('Not implemented');
     }
-    readState() {
+    readState(broadcast = false) {
         throw Error('Not implemented');
     }
 }
