@@ -19,7 +19,7 @@ class Relay extends NooliteDevice {
             this._controller.send(this,command);
             });
         })();
-        if(answer.cmd = 130 && answer.ctr == 3) {
+        if(answer.cmd == 130 && answer.ctr == 3) {
             if(answer.mode == 2) {
                 this._id = answer.id.slice();
             }
