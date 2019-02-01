@@ -19,6 +19,7 @@ describe("Relay elementary test suite",() => {
         const device = new Relay(null,5);
         device.should.have.property("_channel");
         device.should.have.property("_controller");
+        device.should.have.property("_id");
         device.should.have.property("onCommand");
 
         device.should.have.property("turnOn");
