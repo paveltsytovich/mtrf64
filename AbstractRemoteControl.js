@@ -15,12 +15,7 @@ class AbstractRemoteControl extends NooliteDevice {
      command.ctr = 3;
      command.mode = this.mode == NooliteDevice.Mode.Noolite? 1 : 3;
      var answer = await this._processTransaction(command);
-    //  await(()=> {
-    //     return new Promise((resolve) => {
-    //         this._unlock = resolve;
-    //         this._controller.send(this,cmd);
-    //     })
-    //  })();
+    
      return answer.mode == 1 && answer.ctr == 0 && answer.togl == 2 && answer.cmd == 15;
     }
 
