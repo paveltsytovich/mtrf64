@@ -194,7 +194,7 @@ describe("Relay unbind command", () => {
                     port.binding.emitData(Buffer.from([173,0,0,0,5,9,0,0,0,0,0,0,0,0,0,0xBB,174]));
                 }
                 port.on('open',() => {
-                    var status = device.bind();
+                    var status = device.unbind();
                     resolve(status);
                 })                
             })

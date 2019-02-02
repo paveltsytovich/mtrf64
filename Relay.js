@@ -25,8 +25,18 @@ class Relay extends NooliteDevice {
         }
         else return (answer.mode == 0 && answer.cmd == 15 && answer.ctr == 0);
     }
-    unbind() {
-        throw Error('Not implemented');
+    async unbind() {
+        const command = new Command();
+        command.mode = this.mode == NooliteDevice.Mode.NooliteF ? 2 : 0;
+        command.cmd = 9;
+        command.ch = this.channel;
+        var answer = await ( () => {
+            return new Promise((resolve) => {
+                this._unlock = resolve;
+            this._controller.send(this,command);
+            });
+        })();
+        return (answer.mode == 2 && answer.ctr == 0) || (answer.mode == 0 && answer.cmd == 9);
     }
     turnOn(broadcast = false) {
         throw Error('Not implemented');
