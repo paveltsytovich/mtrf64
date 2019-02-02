@@ -10,17 +10,17 @@ class AbstractRemoteControl extends NooliteDevice {
     }
 
     async bind() {
-     var cmd = new Command();
-     cmd.ch = this.channel;
-     cmd.ctr = 3;
-     cmd.mode = this.mode == NooliteDevice.Mode.Noolite? 1 : 3;
-     var answer = 
-     await(()=> {
-        return new Promise((resolve) => {
-            this._unlock = resolve;
-            this._controller.send(this,cmd);
-        })
-     })();
+     var command = new Command();
+     command.ch = this.channel;
+     command.ctr = 3;
+     command.mode = this.mode == NooliteDevice.Mode.Noolite? 1 : 3;
+     var answer = await this._processTransaction(command);
+    //  await(()=> {
+    //     return new Promise((resolve) => {
+    //         this._unlock = resolve;
+    //         this._controller.send(this,cmd);
+    //     })
+    //  })();
      return answer.mode == 1 && answer.ctr == 0 && answer.togl == 2 && answer.cmd == 15;
     }
 

@@ -13,12 +13,13 @@ class Relay extends NooliteDevice {
         command.mode = this.mode == NooliteDevice.Mode.NooliteF ? 2 : 0;
         command.cmd = 15;
         command.ch = this.channel;
-        var answer = await ( () => {
-            return new Promise((resolve) => {
-                this._unlock = resolve;
-            this._controller.send(this,command);
-            });
-        })();
+        var answer = await this._processTransaction(command);
+        // await ( () => {
+        //     return new Promise((resolve) => {
+        //         this._unlock = resolve;
+        //     this._controller.send(this,command);
+        //     });
+        // })();
         if(answer.mode == 2 && answer.cmd == 130 && answer.ctr == 3) {
             this._id = answer.id.slice();
             return true;
@@ -30,12 +31,13 @@ class Relay extends NooliteDevice {
         command.mode = this.mode == NooliteDevice.Mode.NooliteF ? 2 : 0;
         command.cmd = 9;
         command.ch = this.channel;
-        var answer = await ( () => {
-            return new Promise((resolve) => {
-                this._unlock = resolve;
-            this._controller.send(this,command);
-            });
-        })();
+        var answer = await this._processTransaction(command);
+        // await ( () => {
+        //     return new Promise((resolve) => {
+        //         this._unlock = resolve;
+        //     this._controller.send(this,command);
+        //     });
+        // })();
         return (answer.mode == 2 && answer.ctr == 0) || (answer.mode == 0 && answer.cmd == 9);
     }
     turnOn(broadcast = false) {

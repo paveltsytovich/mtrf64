@@ -10,13 +10,14 @@ class NooliteDevice {
     _onSend(command) {
 
     }
-   
-    bind() {
-        throw Error('Not implemented');
+    
+    _processTransaction(command) {
+        return new Promise((resolve) => {
+                this._unlock = resolve;
+                this._controller.send(this,command);
+            });         
     }
-    unbind() {
-        throw Error('Not implemented');
-    }
+    
     service() {
         throw Error('Not implemented');
     }
