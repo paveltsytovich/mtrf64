@@ -218,7 +218,7 @@ describe("Relay unbind command", () => {
     });
 });
 
-describe("Relay turnOn, turnOff and Switch commands", () => {
+describe("Relay turnOn ommands", () => {
     var mockBinding;
     var port;
     var controller;
@@ -228,17 +228,117 @@ describe("Relay turnOn, turnOff and Switch commands", () => {
         port = new SerialPort(devPath);  
         controller = new MTRF64Controller(port);
     });
-    it("Relay turnOn for NooliteF mode should be ok",() => {
+    it("Relay turnOn for NooliteF mode should be ok",async () => {
+        var device = new Relay(controller,5,Relay.Mode.NooliteF);
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,2,0,0,5,130,0,0,0,0,0,0,0,0,0,0x40,174]));
+                }
+                port.on('open',() => {
+                    var status = device.turnOn();
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 2,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 2,
+            _fmt: 0,
+            _d: [0,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0xb4,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
         
+        actualStatus.should.true;  
     })
     it("Relay broadcast turnOn for NooliteF mode  should be ok",() => {
-
+        var device = new Relay(controller,5,Relay.Mode.NooliteF);
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,2,0,0,5,130,0,0,0,0,0,0,0,0,0,0x40,174]));
+                }
+                port.on('open',() => {
+                    var status = device.turnOn();
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 2,
+            _ctr: 1,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 2,
+            _fmt: 0,
+            _d: [0,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0xb5,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;  
+    });
+    it("Relay turnOn by id for NooliteF mode  should be ok",() => {
+        var device = new Relay(controller,5,Relay.Mode.NooliteF);
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,2,0,0,5,130,0,0,0,0,0,0,0,0,0,0x40,174]));
+                }
+                port.on('open',() => {
+                    var status = device.turnOn();
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 2,
+            _ctr: 8,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 2,
+            _fmt: 0,
+            _d: [0,0,0,0],
+            _id: [1,1,1,1],
+            _crc: 0xbe,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;  
     });
     it("Relay turnOn for Noolite mode should be ok",() => {
 
     })
 });
 
+describe("Relay turnOff commands", () => {
+
+});
+
+describe("Relay switch commands", () => {
+
+});
 describe("Relay brightness commands", () => {
 
 });

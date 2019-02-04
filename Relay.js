@@ -30,57 +30,59 @@ class Relay extends NooliteDevice {
         
         return (answer.mode == 2 && answer.ctr == 0) || (answer.mode == 0 && answer.cmd == 9);
     }
-    turnOn(broadcast = false) {
+    turnOn(crt = 0) {
         throw Error('Not implemented');
     }
-    turnOff(broadcast = false) {
+    turnOff(crt = 0) {
         throw Error('Not implemented');
     }
-    brightDown(broadcast = false) {
+    brightDown(crt = 0) {
         throw Error('Not implemented');
     }
-    brightUp(broadcast = false) {
+    brightUp(crt = 0) {
         throw Error('Not implemented');
     }
-    setBrightness(brightness,broadcast = false) {
+    setBrightness(brightness,crt = 0) {
         throw Error('Not implemented');
     }
-    loadPreset(broadcast = false) {
+    loadPreset(crt = 0) {
         throw Error('Not implemented');
     }
-    savePreset(broadcast = false) {
+    savePreset(crt = 0) {
         throw Error('Not implemented');
     }
-    stopReq(broadcast = false) {
+    stopReq(crt = 0) {
         throw Error('Not implemented');
     }
-    brightStepDown(step,broadcast = false) {
+    brightStepDown(step,crt = 0) {
         throw Error('Not implemented');
     }
-    brightStepUp(step,broadcast = false) {
+    brightStepUp(step,crt = 0) {
         throw Error('Not implemented');
     }
-    brightReq(direction,speed,broadcast = false) {
+    brightReq(direction,speed,crt = 0) {
         throw Error('Not implemented');
     }
-    rollColour(broadcast = false) {
+    rollColour(crt = 0) {
         throw Error('Not implemented');
     }
-    switchColour(broadcast = false) {
+    switchColour(crt = 0) {
         throw Error('Not implemented');
     }
-    switchMode(broadcast = false) {
+    switchMode(crt = 0) {
         throw Error('Not implemented');
     }
-    speedModeBack(broadcast = false) {
+    speedModeBack(crt = 0) {
         throw Error('Not implemented');
     }
-    temporaryOn(time,broadcast = false) {
+    temporaryOn(time,crt = 0) {
         throw Error('Not implemented');
     }
-    readState(broadcast = false) {
+    readState(crt = 0) {
         throw Error('Not implemented');
     }
 }
+
+Relay.Command = {"Normal" :0 , "Broadcast" : 1, "ByID" : 2};
 
 module.exports = Relay
