@@ -219,7 +219,24 @@ describe("Relay unbind command", () => {
 });
 
 describe("Relay turnOn, turnOff and Switch commands", () => {
+    var mockBinding;
+    var port;
+    var controller;
+    beforeEach(() => {
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);  
+        controller = new MTRF64Controller(port);
+    });
+    it("Relay turnOn for NooliteF mode should be ok",() => {
+        
+    })
+    it("Relay broadcast turnOn for NooliteF mode  should be ok",() => {
 
+    });
+    it("Relay turnOn for Noolite mode should be ok",() => {
+
+    })
 });
 
 describe("Relay brightness commands", () => {
