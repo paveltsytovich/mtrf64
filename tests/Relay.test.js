@@ -328,8 +328,38 @@ describe("Relay turnOn ommands", () => {
         
         actualStatus.should.true;  
     });
-    it("Relay turnOn for Noolite mode should be ok",() => {
-
+    it("Relay turnOn for Noolite mode should be ok", async () => {
+        var device = new Relay(controller,5,Relay.Mode.Noolite);
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,0,0,0,5,2,0,0,0,0,0,0,0,0,0,0x40,174]));
+                }
+                port.on('open',() => {
+                    var status = device.turnOn();
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 0,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 2,
+            _fmt: 0,
+            _d: [0,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 178,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;  
     })
 });
 
