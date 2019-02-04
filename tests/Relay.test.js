@@ -261,7 +261,7 @@ describe("Relay turnOn ommands", () => {
         
         actualStatus.should.true;  
     })
-    it("Relay broadcast turnOn for NooliteF mode  should be ok",() => {
+    it("Relay broadcast turnOn for NooliteF mode  should be ok",async () => {
         var device = new Relay(controller,5,Relay.Mode.NooliteF);
         var actualCommand;
         var actualStatus = 
@@ -272,7 +272,7 @@ describe("Relay turnOn ommands", () => {
                     port.binding.emitData(Buffer.from([173,2,0,0,5,130,0,0,0,0,0,0,0,0,0,0x40,174]));
                 }
                 port.on('open',() => {
-                    var status = device.turnOn();
+                    var status = device.turnOn(Relay.Command.Broadcast);
                     resolve(status);
                 })                
             })
@@ -294,8 +294,9 @@ describe("Relay turnOn ommands", () => {
         
         actualStatus.should.true;  
     });
-    it("Relay turnOn by id for NooliteF mode  should be ok",() => {
+    it("Relay turnOn by id for NooliteF mode  should be ok",async () => {
         var device = new Relay(controller,5,Relay.Mode.NooliteF);
+        device._id = [1,1,1,1];
         var actualCommand;
         var actualStatus = 
         await(() => {
@@ -305,7 +306,7 @@ describe("Relay turnOn ommands", () => {
                     port.binding.emitData(Buffer.from([173,2,0,0,5,130,0,0,0,0,0,0,0,0,0,0x40,174]));
                 }
                 port.on('open',() => {
-                    var status = device.turnOn();
+                    var status = device.turnOn(Relay.Command.ByID);
                     resolve(status);
                 })                
             })
@@ -320,7 +321,7 @@ describe("Relay turnOn ommands", () => {
             _fmt: 0,
             _d: [0,0,0,0],
             _id: [1,1,1,1],
-            _crc: 0xbe,
+            _crc: 0xc0,
             _stopBit: 172
             };
         expect(actualCommand).deep.equal(expectedCommand);
