@@ -46,10 +46,11 @@ async function ElementaryCommandProbe() {
   
    port.close();
 }
-async function BrightnessProbe() {
+async function ParamsProbe() {
     let device = new Relay(controller,3,Relay.Mode.Noolite);
     //console.log(await device.setBrightness(0.1));
     await device.brightReq(Relay.Direction.Down,0.1);
+    
     port.close();
     
 }
@@ -58,7 +59,7 @@ port.on('open', () => {
     //RelayBindProbe();
     //RelayUnbindProbe();
     //ElementaryCommandProbe();
-    BrightnessProbe();
+    ParamsProbe();
     
 })
 
