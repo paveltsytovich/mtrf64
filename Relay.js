@@ -53,49 +53,49 @@ class Relay extends NooliteDevice {
     async switch(ctr = 0) {
         return await this._processCommand(4,ctr); 
     }
-    brightDown(crt = 0) {
-        throw Error('Not implemented');
+    async brightDown(ctr = 0) {
+        return await this._processCommand(1,ctr);
     }
-    brightUp(crt = 0) {
-        throw Error('Not implemented');
+    async brightUp(ctr = 0) {
+        return await this._processCommand(3,ctr);
     }
     setBrightness(brightness,crt = 0) {
         throw Error('Not implemented');
     }
-    loadPreset(crt = 0) {
-        throw Error('Not implemented');
+    async loadPreset(ctr = 0) {
+        return await this._processCommand(7,ctr);
     }
-    savePreset(crt = 0) {
-        throw Error('Not implemented');
+    async savePreset(ctr = 0) {
+        return await this._processCommand(8,ctr);
     }
-    stopReq(crt = 0) {
-        throw Error('Not implemented');
+    async stopReq(ctr = 0) {
+        return await this._processCommand(10,ctr);
     }
     brightStepDown(step,crt = 0) {
         throw Error('Not implemented');
     }
-    brightStepUp(step,crt = 0) {
+    brightStepUp(step,ctr = 0) {
         throw Error('Not implemented');
     }
-    brightReq(direction,speed,crt = 0) {
+    brightReq(direction,speed,ctr = 0) {
         throw Error('Not implemented');
     }
-    rollColour(crt = 0) {
+    async rollColour(ctr = 0) {
+        return await this._processCommand(16,ctr);
+    }
+    async switchColour(crt = 0) {
+        return await this._processCommand(17,ctr);
+    }
+    async switchMode(ctr = 0) {
+        return await this._processCommand(18,ctr);
+    }
+    async speedModeBack(ctr = 0) {
+        return await this._processCommand(19,ctr);
+    }
+    temporaryOn(time,ctr = 0) {
         throw Error('Not implemented');
     }
-    switchColour(crt = 0) {
-        throw Error('Not implemented');
-    }
-    switchMode(crt = 0) {
-        throw Error('Not implemented');
-    }
-    speedModeBack(crt = 0) {
-        throw Error('Not implemented');
-    }
-    temporaryOn(time,crt = 0) {
-        throw Error('Not implemented');
-    }
-    readState(crt = 0) {
+    readState(ctr = 0) {
         throw Error('Not implemented');
     }
 }
