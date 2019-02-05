@@ -101,7 +101,7 @@ class Relay extends NooliteDevice {
                   value = Math.trunc(speed * 127 + 0.5);
         if(direction == Relay.Direction.Down) 
           value = -value - 1;
-        return await this._processCommand(13,ctr,value);  
+        return await this._processCommand(13,ctr,value & 0xFF);  
     }
     async rollColour(ctr = 0) {
         return await this._processCommand(16,ctr);
