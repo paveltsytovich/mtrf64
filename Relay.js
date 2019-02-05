@@ -50,6 +50,9 @@ class Relay extends NooliteDevice {
     async turnOff(ctr = 0) {
         return await this._processCommand(0,ctr);  
     }
+    async switch(ctr = 0) {
+        return await this._processCommand(4,ctr); 
+    }
     brightDown(crt = 0) {
         throw Error('Not implemented');
     }
