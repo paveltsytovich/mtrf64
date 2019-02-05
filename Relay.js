@@ -8,6 +8,20 @@ class Relay extends NooliteDevice {
         super(adapter,channel,mode);
         this._id = null;
     }
+    async _processCommand(cmd,ctr) {
+        const command = new Command();
+        command.mode = this.mode == NooliteDevice.Mode.NooliteF ? 2 : 0;
+        command.ch = this.channel;
+        command.cmd = cmd;
+        if (ctr == Relay.Command.Broadcast)
+            command.ctr = 1;
+        else if (ctr == Relay.Command.ByID) {
+            command.ctr = 8;
+            command.id = this._id;
+        }
+        var answer = await this._processTransaction(command);
+        return (answer.mode == 2 && answer.ctr == 0) || (answer.mode == 0 && answer.cmd == 2);
+    }
     async bind() {
         const command  = new Command();
         command.mode = this.mode == NooliteDevice.Mode.NooliteF ? 2 : 0;
@@ -31,32 +45,10 @@ class Relay extends NooliteDevice {
         return (answer.mode == 2 && answer.ctr == 0) || (answer.mode == 0 && answer.cmd == 9);
     }
     async turnOn(ctr = 0) {
-        const command = new Command();
-        command.mode = this.mode == NooliteDevice.Mode.NooliteF ? 2 : 0;
-        command.ch = this.channel;
-        command.cmd = 2;
-        if(ctr == Relay.Command.Broadcast)
-         command.ctr = 1;
-        else if(ctr == Relay.Command.ByID) {
-            command.ctr = 8;
-            command.id = this._id;
-        }
-        var answer = await this._processTransaction(command);
-        return (answer.mode == 2 && answer.ctr == 0) || (answer.mode == 0 && answer.cmd == 2);  
+        return await this._processCommand(2,ctr);  
     }
     async turnOff(ctr = 0) {
-        const command = new Command();
-        command.mode = this.mode == NooliteDevice.Mode.NooliteF ? 2 : 0;
-        command.ch = this.channel;
-        command.cmd = 0;
-        if(ctr == Relay.Command.Broadcast)
-         command.ctr = 1;
-        else if(ctr == Relay.Command.ByID) {
-            command.ctr = 8;
-            command.id = this._id;
-        }
-        var answer = await this._processTransaction(command);
-        return (answer.mode == 2 && answer.ctr == 0) || (answer.mode == 0 && answer.cmd == 2);  
+        return await this._processCommand(0,ctr);  
     }
     brightDown(crt = 0) {
         throw Error('Not implemented');
