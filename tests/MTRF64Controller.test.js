@@ -11,7 +11,7 @@ const devPath = "/dev/ttyUSB112";
 const MTRF64Controller = require('../MTRF64Controller');
 const NooliteDevice = require('../NooliteDevice');
 const AbstractRemoteControl = require("../AbstractRemoteControl");
-const RelayNooliteDevice = require('../RelayNooliteDevice');
+const RelayNooliteDevice = require('../Relay');
 
 const Command = require('../MTRF64Command');
 const MTRF64Adapter = require('../MTRF64Adapter');

@@ -5,7 +5,7 @@
             "base": "develop"
         },
         {
-            "name": "feature/RemoteControlDeviceCommands",
+            "name": "feature/RelayDeviceSupport",
             "base": "develop"
         }
     ]

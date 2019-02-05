@@ -69,6 +69,10 @@ class MTRF64Command {
     get id() {
         return this._id.slice();
     }
+    set id(value) {
+        this._id = value.slice();
+        this._crc = this._evaluteCrc();
+    }
     get ctr() {
         return this._ctr;
     }
