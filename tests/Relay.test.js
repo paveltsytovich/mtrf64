@@ -730,6 +730,7 @@ describe("Relay states commands", () => {
         device = new Relay(controller,5,Relay.Mode.NooliteF);
     });
     it("Read State should be ok", async () => {
+        var actualCommand;
         var actualData = 
         await(() => {
             return new Promise((resolve) => {
@@ -745,7 +746,7 @@ describe("Relay states commands", () => {
         })();
         const expectedCommand = {
             _startBit: 171,
-            _mode: 0,
+            _mode: 2,
             _ctr: 0,
             _togl: 0,
             _ch: 5,
@@ -753,7 +754,7 @@ describe("Relay states commands", () => {
             _fmt: 1 ,
             _d: [0,0,0,0],
             _id: [0,0,0,0],
-            _crc: 0x31,
+            _crc: 0x33,
             _stopBit: 172
             };
         expect(actualCommand).deep.equal(expectedCommand);

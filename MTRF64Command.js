@@ -83,6 +83,9 @@ class MTRF64Command {
     get togl() {
         return this._togl;
     }
+    get fmt() {
+        return this._fmt;
+    }
     setData(n,value) {
         if(n < 0 || n > 3 )
           throw Error('Bad parameter');

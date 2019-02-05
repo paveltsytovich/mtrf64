@@ -132,8 +132,20 @@ class Relay extends NooliteDevice {
     temporaryOn(time,ctr = 0) {
         throw Error('Not implemented');
     }
-    readState(info = 0,ctr = 0) {
-        throw Error('Not implemented');
+    async readState(info = 0,ctr = 0) {
+        if(this.mode == Relay.Mode.Noolite)
+         return false;
+
+        const command = new Command();
+        command.mode = this.mode == NooliteDevice.Mode.NooliteF ? 2 : 0;
+        command.cmd = 128;
+        command.ch = this.channel;
+        command.setData(0,0);
+        var answer = await this._processTransaction(command);
+        if(answer.cmd == 130) 
+         return {fmt : answer.fmt, data : answer.d };
+        else
+            return false;        
     }
 }
 
