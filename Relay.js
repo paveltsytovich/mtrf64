@@ -70,6 +70,9 @@ class Relay extends NooliteDevice {
         value = 0;
         return await this._processCommand(6,ctr,35 + Math.trunc(120 * value + 0.5));
     }
+    setColor(r,g,b,ctr = 0) {
+        throw Error('Not implemented');//base on 6 command
+    }
     async loadPreset(ctr = 0) {
         return await this._processCommand(7,ctr);
     }
