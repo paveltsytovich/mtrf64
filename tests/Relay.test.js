@@ -552,6 +552,70 @@ describe("Relay parametrized commands test suite",() => {
         
         actualStatus.should.true;      
     });
+    it("Relay brightStepDown should be ok", async () => {
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,0,0,0,5,11,0,0,0,0,0,0,0,0,0,189,174]));
+                }
+                port.on('open',() => {
+                    var status = device.brightStepDown(3);
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 0,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 11,
+            _fmt: 1,
+            _d: [3,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0xbf,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;      
+    });
+    it("Relay brightStepUp should be ok", async () => {
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,0,0,0,5,12,0,0,0,0,0,0,0,0,0,190,174]));
+                }
+                port.on('open',() => {
+                    var status = device.brightStepUp(3);
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 0,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 12,
+            _fmt: 1,
+            _d: [3,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0xc0,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;      
+    });
 });
 
 describe("Relay states commands", () => {

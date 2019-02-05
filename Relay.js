@@ -79,11 +79,17 @@ class Relay extends NooliteDevice {
     async stopReq(ctr = 0) {
         return await this._processCommand(10,ctr);
     }
-    brightStepDown(step,crt = 0) {
-        throw Error('Not implemented');
+    async brightStepDown(step,ctr = 0) {
+        if (step < 0 )
+         return;
+
+         return await this._processCommand(11,ctr,step);
     }
-    brightStepUp(step,ctr = 0) {
-        throw Error('Not implemented');
+    async brightStepUp(step,ctr = 0) {
+        if (step < 0 )
+        return;
+
+        return await this._processCommand(12,ctr,step);
     }
     brightReq(direction,speed,ctr = 0) {
         throw Error('Not implemented');
