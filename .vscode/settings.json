@@ -5,7 +5,7 @@
             "base": "develop"
         },
         {
-            "name": "feature/RelayDeviceSupport",
+            "name": "feature/ParametrizedComand",
             "base": "develop"
         }
     ]

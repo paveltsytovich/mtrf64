@@ -83,6 +83,20 @@ class MTRF64Command {
     get togl() {
         return this._togl;
     }
+    set fmt(value) {
+        this._fmt = value;
+        this._crc = this._evaluteCrc();
+    }
+    get fmt() {
+        return this._fmt;
+    }
+    setData(n,value) {
+        if(n < 0 || n > 3 )
+          throw Error('Bad parameter');
+        this._d[n] = value;
+        this._fmt++;
+        this._crc = this._evaluteCrc();
+    }
     buildPacket() {
         return [this._startBit,this._mode,this._ctr,this._togl,this._ch,this._cmd,this._fmt,
         this._d[0],this._d[1],this._d[2],this._d[3],this._id[0],this._id[1],this._id[2],this._id[3],

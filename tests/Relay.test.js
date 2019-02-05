@@ -481,7 +481,7 @@ describe("Relay turnOff commands", () => {
             return new Promise((resolve) => {
                 controller._onSend = (command) => {
                     actualCommand = command;
-                    port.binding.emitData(Buffer.from([173,0,0,0,5,2,0,0,0,0,0,0,0,0,0,0x40,174]));
+                    port.binding.emitData(Buffer.from([173,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0x40,174]));
                 }
                 port.on('open',() => {
                     var status = device.turnOff();
@@ -508,21 +508,340 @@ describe("Relay turnOff commands", () => {
     })
 });
 
-describe("Relay switch commands", () => {
+describe("Relay parametrized commands test suite",() => {
+    var mockBinding;
+    var port;
+    var controller;
+    var device;
+    beforeEach(() => {
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);  
+        controller = new MTRF64Controller(port);
+        device = new Relay(controller,5,Relay.Mode.Noolite);
+    });
+    it("Relay setBrigthness", async () => {
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,0,0,0,5,6,0,0,0,0,0,0,0,0,0,0x40,174]));
+                }
+                port.on('open',() => {
+                    var status = device.setBrightness(0.5);
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 0,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 6,
+            _fmt: 1,
+            _d: [95,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0x16,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;      
+    });
+    it("Relay brightStepDown should be ok", async () => {
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,0,0,0,5,11,0,0,0,0,0,0,0,0,0,189,174]));
+                }
+                port.on('open',() => {
+                    var status = device.brightStepDown(3);
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 0,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 11,
+            _fmt: 1,
+            _d: [3,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0xbf,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;      
+    });
+    it("Relay brightStepUp should be ok", async () => {
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,0,0,0,5,12,0,0,0,0,0,0,0,0,0,190,174]));
+                }
+                port.on('open',() => {
+                    var status = device.brightStepUp(3);
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 0,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 12,
+            _fmt: 1,
+            _d: [3,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0xc0,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;      
+    });
 
-});
-describe("Relay brightness commands", () => {
+    it("Relay brightReq with up should be ok", async () => {
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,0,0,0,5,13,0,0,0,0,0,0,0,0,0,191,174]));
+                }
+                port.on('open',() => {
+                    var status = device.brightReq(Relay.Direction.Up,0.5);
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 0,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 13,
+            _fmt: 1,
+            _d: [64,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0xfe,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;      
+    });
 
-});
+    it("Relay brightReq with down should be ok", async () => {
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,0,0,0,5,13,0,0,0,0,0,0,0,0,0,191,174]));
+                }
+                port.on('open',() => {
+                    var status = device.brightReq(Relay.Direction.Down,0.5);
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 0,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 13,
+            _fmt: 1,
+            _d: [191,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0x7d,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;      
+    });
 
-describe("Relay Scenario commands", () => {
-
-});
-
-describe("Relay RGB commands", () => {
-
+    it("Relay setColor with rgb parameters should be ok", async () => {
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,0,0,0,5,6,0,0,0,0,0,0,0,0,0,191,174]));
+                }
+                port.on('open',() => {
+                    var status = device.setColor(0.5,0.2,0.4);
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 0,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 6,
+            _fmt: 3 ,
+            _d: [128,51,102,0],
+            _id: [0,0,0,0],
+            _crc: 0xd2,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;      
+    });
 });
 
 describe("Relay states commands", () => {
+    var mockBinding;
+    var port;
+    var controller;
+    var device;
+    beforeEach(() => {
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);  
+        controller = new MTRF64Controller(port);
+        device = new Relay(controller,5,Relay.Mode.NooliteF);
+    });
+    it("Read State should be ok", async () => {
+        var actualCommand;
+        var actualData = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,0,0,0,5,130,2,1,2,3,4,0,0,0,0,191,174]));
+                }
+                port.on('open',() => {
+                    var data = device.readState(1);
+                    resolve(data);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 2,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 128,
+            _fmt: 1 ,
+            _d: [0,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0x33,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        const expectedData = {
+            fmt : 2,
+            data : [1,2,3,4]
+        };
+        expect(actualData).deep.equal(expectedData);
+    })
+});
 
-})
+describe("Relay temporary_on test suite", () => {
+
+    var mockBinding;
+    var port;
+    var controller;
+    var device;
+    beforeEach(() => {
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);  
+        controller = new MTRF64Controller(port);
+        device = new Relay(controller,5,Relay.Mode.NooliteF);
+    });
+    it("temporaryOn for one byte command",async () => {
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,2,0,0,5,130,0,0,0,0,0,0,0,0,0,191,174]));
+                }
+                port.on('open',() => {
+                    var status = device.temporaryOn(255);
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 2,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 25,
+            _fmt: 5,
+            _d: [255,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0xcf,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;      
+    });
+    it("temporaryOn for two byte command", async() => {
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,2,0,0,5,130,0,0,0,0,0,0,0,0,0,191,174]));
+                }
+                port.on('open',() => {
+                    var status = device.temporaryOn(300);
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 2,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 25,
+            _fmt: 6,
+            _d: [255,45,0,0],
+            _id: [0,0,0,0],
+            _crc: 0xfd,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;   
+    });
+
+});

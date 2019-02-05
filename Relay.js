@@ -1,6 +1,16 @@
 const NooliteDevice = require('./NooliteDevice');
 const Command = require('./MTRF64Command');
 
+function _convertColor(bright) {
+    let value;
+    if (bright >= 1)
+     value = 255;
+    else if (bright <= 0)
+          value = 0;
+          else  
+            value = Math.trunc(255* bright + 0.5);
+    return value;
+}
 
 class Relay extends NooliteDevice {
     constructor(adapter,channel,mode = NooliteDevice.Mode.Noolite) {
@@ -18,6 +28,9 @@ class Relay extends NooliteDevice {
         else if (ctr == Relay.Command.ByID) {
             command.ctr = 8;
             command.id = this._id;
+        }
+        for(let i = 2; i < arguments.length; i++) {
+            command.setData(i-2,arguments[i]);
         }
         var answer = await this._processTransaction(command);
         return (answer.mode == 2 && answer.ctr == 0) || (answer.mode == 0 && answer.cmd == cmd);
@@ -59,8 +72,17 @@ class Relay extends NooliteDevice {
     async brightUp(ctr = 0) {
         return await this._processCommand(3,ctr);
     }
-    setBrightness(brightness,crt = 0) {
-        throw Error('Not implemented');
+    async setBrightness(brightness,ctr = 0) {
+        let value = brightness;
+        if (brightness >= 1)
+          value = 155;
+        else if(brightness <= 0) 
+        value = 0;
+        return await this._processCommand(6,ctr,35 + Math.trunc(120 * value + 0.5));
+    }
+    async setColor(r,g,b,ctr = 0) {
+        return await this._processCommand(6,ctr,_convertColor(r),_convertColor(g),
+                                                                    _convertColor(b));
     }
     async loadPreset(ctr = 0) {
         return await this._processCommand(7,ctr);
@@ -71,14 +93,29 @@ class Relay extends NooliteDevice {
     async stopReq(ctr = 0) {
         return await this._processCommand(10,ctr);
     }
-    brightStepDown(step,crt = 0) {
-        throw Error('Not implemented');
+    async brightStepDown(step,ctr = 0) {
+        if (step < 0 )
+         return;
+
+         return await this._processCommand(11,ctr,step);
     }
-    brightStepUp(step,ctr = 0) {
-        throw Error('Not implemented');
+    async brightStepUp(step,ctr = 0) {
+        if (step < 0 )
+        return;
+
+        return await this._processCommand(12,ctr,step);
     }
-    brightReq(direction,speed,ctr = 0) {
-        throw Error('Not implemented');
+    async brightReq(direction,speed,ctr = 0) {
+        let value;
+        if (speed >= 1)
+         value = 127;
+        else if(speed <= 0)
+               value = 0;
+              else 
+                  value = Math.trunc(speed * 127 + 0.5);
+        if(direction == Relay.Direction.Down) 
+          value = -value - 1;
+        return await this._processCommand(13,ctr,value & 0xFF);  
     }
     async rollColour(ctr = 0) {
         return await this._processCommand(16,ctr);
@@ -92,14 +129,44 @@ class Relay extends NooliteDevice {
     async speedModeBack(ctr = 0) {
         return await this._processCommand(19,ctr);
     }
-    temporaryOn(time,ctr = 0) {
-        throw Error('Not implemented');
+    async temporaryOn(time,ctr = 0) {
+        if(this.Mode != Relay.Mode.NooliteF && time <= 0)
+         return false;
+         const command = new Command();
+         command.mode =  2;
+         command.cmd = 25;
+         command.ch = this.channel;
+         if(time <= 255) {
+          command.setData(0,time)
+          command.fmt = 5;
+         }
+         else {
+             command.setData(0,255);
+             command.setData(1,time - 255);
+             command.fmt = 6;
+         }
+         var answer = await this._processTransaction(command);
+        
+        return (answer.mode == 2 && answer.ctr == 0);
     }
-    readState(ctr = 0) {
-        throw Error('Not implemented');
+    async readState(info = 0,ctr = 0) {
+        if(this.mode == Relay.Mode.Noolite)
+         return false;
+
+        const command = new Command();
+        command.mode =  2;
+        command.cmd = 128;
+        command.ch = this.channel;
+        command.fmt = info;
+        var answer = await this._processTransaction(command);
+        if(answer.cmd == 130) 
+         return {fmt : answer.fmt, data : answer.d };
+        else
+            return false;        
     }
 }
 
-Relay.Command = {"Normal" :0 , "Broadcast" : 1, "ByID" : 2};
+Relay.Command = {"Normal" : 0 , "Broadcast" : 1, "ByID" : 2};
+Relay.Direction  = {"Up": 1, "Down" : 2};
 
 module.exports = Relay
