@@ -764,4 +764,84 @@ describe("Relay states commands", () => {
         };
         expect(actualData).deep.equal(expectedData);
     })
-})
+});
+
+describe("Relay temporary_on test suite", () => {
+
+    var mockBinding;
+    var port;
+    var controller;
+    var device;
+    beforeEach(() => {
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);  
+        controller = new MTRF64Controller(port);
+        device = new Relay(controller,5,Relay.Mode.NooliteF);
+    });
+    it("temporaryOn for one byte command",async () => {
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,2,0,0,5,130,0,0,0,0,0,0,0,0,0,191,174]));
+                }
+                port.on('open',() => {
+                    var status = device.temporaryOn(255);
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 2,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 25,
+            _fmt: 5,
+            _d: [255,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0xcf,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;      
+    });
+    it("temporaryOn for two byte command", () => {
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,2,0,0,5,130,0,0,0,0,0,0,0,0,0,191,174]));
+                }
+                port.on('open',() => {
+                    var status = device.temporaryOn(300);
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 2,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 25,
+            _fmt: 6,
+            _d: [255,45,0,0],
+            _id: [0,0,0,0],
+            _crc: 0xfd,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;   
+    });
+
+});
