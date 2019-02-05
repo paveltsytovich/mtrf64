@@ -508,19 +508,49 @@ describe("Relay turnOff commands", () => {
     })
 });
 
-describe("Relay switch commands", () => {
-
-});
-describe("Relay brightness commands", () => {
-
-});
-
-describe("Relay Scenario commands", () => {
-
-});
-
-describe("Relay RGB commands", () => {
-
+describe("Relay parametrized commands test suite",() => {
+    var mockBinding;
+    var port;
+    var controller;
+    var device;
+    beforeEach(() => {
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);  
+        controller = new MTRF64Controller(port);
+        device = new Relay(controller,5,Relay.Mode.Noolite);
+    });
+    it("Relay setBrigthness", async () => {
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,0,0,0,5,2,0,0,0,0,0,0,0,0,0,0x40,174]));
+                }
+                port.on('open',() => {
+                    var status = device.setBrightness(0.5);
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 0,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 6,
+            _fmt: 0,
+            _d: [95,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 15,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;      
+    });
 });
 
 describe("Relay states commands", () => {
