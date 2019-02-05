@@ -8,6 +8,7 @@ const RemoteControl = require('./RemoteControl');
 const Relay = require('./Relay');
 
 let controller = new MTRF64Controller(port,parser);
+let relay = new Relay(controller,3,Relay.Mode.Noolite);
 
 class DoorSensor extends RemoteControl {
     constructor(controller,channel) {
@@ -15,9 +16,11 @@ class DoorSensor extends RemoteControl {
     }
     onTurnOn() {
         console.log("door is open");
+        relay.brightReq(Relay.Direction.Up,0.1);
     }
     onTurnOff() {
         console.log("door is closed");
+        relay.brightReq(Relay.Direction.Down,0.1);
     }
 }
 function DoorSensorProbe() {
@@ -55,11 +58,11 @@ async function ParamsProbe() {
     
 }
 port.on('open', () => {
-    //DoorSensorProbe();
+    DoorSensorProbe();
     //RelayBindProbe();
     //RelayUnbindProbe();
     //ElementaryCommandProbe();
-    ParamsProbe();
+    // ParamsProbe();
     
 })
 
