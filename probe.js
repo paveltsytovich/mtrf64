@@ -29,10 +29,10 @@ function DoorSensorProbe() {
 }
 
 async function RelayBindProbe() {
-    let device = new Relay(controller,1,Relay.Mode.Noolite);
+    let device = new Relay(controller,3,Relay.Mode.Noolite);
     console.log(await device.bind());
-    device = new Relay(controller,2,Relay.Mode.Noolite);
-    console.log(await device.bind());
+    //device = new Relay(controller,2,Relay.Mode.Noolite);
+    //console.log(await device.bind());
     //port.close();
 }
 async function RelayUnbindProbe() {
@@ -40,10 +40,10 @@ async function RelayUnbindProbe() {
     console.log(await device.unbind());
 }
 async function TurnOffProbe() {
-    let device = new Relay(controller,2,Relay.Mode.Noolite);
-    console.log(await device.turnOn());
+    let device = new Relay(controller,3,Relay.Mode.Noolite);
+    console.log(await device.turnOff());
   
-    port.close();
+   // port.close();
 }
 port.on('open', () => {
     //DoorSensorProbe();
