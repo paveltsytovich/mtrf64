@@ -48,7 +48,8 @@ async function ElementaryCommandProbe() {
 }
 async function BrightnessProbe() {
     let device = new Relay(controller,3,Relay.Mode.Noolite);
-    console.log(await device.setBrightness(0.1));
+    //console.log(await device.setBrightness(0.1));
+    await device.brightStepDown(1000);
     port.close();
     
 }
