@@ -91,8 +91,17 @@ class Relay extends NooliteDevice {
 
         return await this._processCommand(12,ctr,step);
     }
-    brightReq(direction,speed,ctr = 0) {
-        throw Error('Not implemented');
+    async brightReq(direction,speed,ctr = 0) {
+        let value;
+        if (speed >= 1)
+         value = 127;
+        else if(speed <= 0)
+               value = 0;
+              else 
+                  value = Math.trunc(speed * 127 + 0.5);
+        if(direction == Relay.Direction.Down) 
+          value = -value - 1;
+        return await this._processCommand(13,ctr,value);  
     }
     async rollColour(ctr = 0) {
         return await this._processCommand(16,ctr);
