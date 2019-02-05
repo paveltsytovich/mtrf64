@@ -811,7 +811,7 @@ describe("Relay temporary_on test suite", () => {
         
         actualStatus.should.true;      
     });
-    it("temporaryOn for two byte command", () => {
+    it("temporaryOn for two byte command", async() => {
         var actualCommand;
         var actualStatus = 
         await(() => {

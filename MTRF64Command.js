@@ -83,6 +83,10 @@ class MTRF64Command {
     get togl() {
         return this._togl;
     }
+    set fmt(value) {
+        this._fmt = value;
+        this._crc = this._evaluteCrc();
+    }
     get fmt() {
         return this._fmt;
     }
