@@ -1,6 +1,16 @@
 const NooliteDevice = require('./NooliteDevice');
 const Command = require('./MTRF64Command');
 
+function _convertColor(bright) {
+    let value;
+    if (bright >= 1)
+     value = 255;
+    else if (bright <= 0)
+          value = 0;
+          else  
+            value = Math.trunc(255* bright + 0.5);
+    return value;
+}
 
 class Relay extends NooliteDevice {
     constructor(adapter,channel,mode = NooliteDevice.Mode.Noolite) {
@@ -8,7 +18,7 @@ class Relay extends NooliteDevice {
         super(adapter,channel,mode);
         this._id = null;
     }
-    async _processCommand(cmd,ctr,d0) {
+    async _processCommand(cmd,ctr) {
         const command = new Command();
         command.mode = this.mode == NooliteDevice.Mode.NooliteF ? 2 : 0;
         command.ch = this.channel;
@@ -19,8 +29,8 @@ class Relay extends NooliteDevice {
             command.ctr = 8;
             command.id = this._id;
         }
-        if (d0) {
-            command.setData(0,d0);
+        for(let i = 2; i < arguments.length; i++) {
+            command.setData(i-2,arguments[i]);
         }
         var answer = await this._processTransaction(command);
         return (answer.mode == 2 && answer.ctr == 0) || (answer.mode == 0 && answer.cmd == cmd);
@@ -70,8 +80,9 @@ class Relay extends NooliteDevice {
         value = 0;
         return await this._processCommand(6,ctr,35 + Math.trunc(120 * value + 0.5));
     }
-    setColor(r,g,b,ctr = 0) {
-        throw Error('Not implemented');//base on 6 command
+    async setColor(r,g,b,ctr = 0) {
+        return await this._processCommand(6,ctr,_convertColor(r),_convertColor(g),
+                                                                    _convertColor(b));
     }
     async loadPreset(ctr = 0) {
         return await this._processCommand(7,ctr);
