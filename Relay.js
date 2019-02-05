@@ -8,7 +8,7 @@ class Relay extends NooliteDevice {
         super(adapter,channel,mode);
         this._id = null;
     }
-    async _processCommand(cmd,ctr) {
+    async _processCommand(cmd,ctr,d0) {
         const command = new Command();
         command.mode = this.mode == NooliteDevice.Mode.NooliteF ? 2 : 0;
         command.ch = this.channel;
@@ -18,6 +18,9 @@ class Relay extends NooliteDevice {
         else if (ctr == Relay.Command.ByID) {
             command.ctr = 8;
             command.id = this._id;
+        }
+        if (d0) {
+            command._d[0] = d0;
         }
         var answer = await this._processTransaction(command);
         return (answer.mode == 2 && answer.ctr == 0) || (answer.mode == 0 && answer.cmd == cmd);
@@ -59,8 +62,13 @@ class Relay extends NooliteDevice {
     async brightUp(ctr = 0) {
         return await this._processCommand(3,ctr);
     }
-    setBrightness(brightness,crt = 0) {
-        throw Error('Not implemented');
+    async setBrightness(brightness,ctr = 0) {
+        let value = brightness;
+        if (brightness >= 1)
+          value = 155;
+        else if(brightness <= 0) 
+        value = 0;
+        return await this._processCommand(6,ctr,35 + Math.trunc(120 * value + 0.5));
     }
     async loadPreset(ctr = 0) {
         return await this._processCommand(7,ctr);
@@ -100,6 +108,7 @@ class Relay extends NooliteDevice {
     }
 }
 
-Relay.Command = {"Normal" :0 , "Broadcast" : 1, "ByID" : 2};
+Relay.Command = {"Normal" : 0 , "Broadcast" : 1, "ByID" : 2};
+Relay.Direction  = {"Up": 1, "Down" : 2};
 
 module.exports = Relay

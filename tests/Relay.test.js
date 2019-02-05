@@ -481,7 +481,7 @@ describe("Relay turnOff commands", () => {
             return new Promise((resolve) => {
                 controller._onSend = (command) => {
                     actualCommand = command;
-                    port.binding.emitData(Buffer.from([173,0,0,0,5,2,0,0,0,0,0,0,0,0,0,0x40,174]));
+                    port.binding.emitData(Buffer.from([173,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0x40,174]));
                 }
                 port.on('open',() => {
                     var status = device.turnOff();
@@ -521,6 +521,7 @@ describe("Relay parametrized commands test suite",() => {
         device = new Relay(controller,5,Relay.Mode.Noolite);
     });
     it("Relay setBrigthness", async () => {
+        var actualCommand;
         var actualStatus = 
         await(() => {
             return new Promise((resolve) => {
