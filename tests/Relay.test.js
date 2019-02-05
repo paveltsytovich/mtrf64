@@ -542,10 +542,10 @@ describe("Relay parametrized commands test suite",() => {
             _togl: 0,
             _ch: 5,
             _cmd: 6,
-            _fmt: 0,
+            _fmt: 1,
             _d: [95,0,0,0],
             _id: [0,0,0,0],
-            _crc: 0x15,
+            _crc: 0x16,
             _stopBit: 172
             };
         expect(actualCommand).deep.equal(expectedCommand);

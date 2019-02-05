@@ -87,6 +87,7 @@ class MTRF64Command {
         if(n < 0 || n > 3 )
           throw Error('Bad parameter');
         this._d[n] = value;
+        this._fmt++;
         this._crc = this._evaluteCrc();
     }
     buildPacket() {

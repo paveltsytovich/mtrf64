@@ -41,16 +41,23 @@ async function RelayUnbindProbe() {
 }
 async function ElementaryCommandProbe() {
     let device = new Relay(controller,3,Relay.Mode.Noolite);
-    //console.log(await device.switch());
-    console.log(await device.brightDown());
+    console.log(await device.switch());
+    //console.log(await device.brightDown());
   
    port.close();
+}
+async function BrightnessProbe() {
+    let device = new Relay(controller,3,Relay.Mode.Noolite);
+    console.log(await device.setBrightness(0.2));
+    port.close();
+    
 }
 port.on('open', () => {
     //DoorSensorProbe();
     //RelayBindProbe();
     //RelayUnbindProbe();
-    ElementaryCommandProbe();
+    //ElementaryCommandProbe();
+    BrightnessProbe();
     
 })
 
