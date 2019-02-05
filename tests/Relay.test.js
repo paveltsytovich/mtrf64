@@ -718,5 +718,49 @@ describe("Relay parametrized commands test suite",() => {
 });
 
 describe("Relay states commands", () => {
-
+    var mockBinding;
+    var port;
+    var controller;
+    var device;
+    beforeEach(() => {
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);  
+        controller = new MTRF64Controller(port);
+        device = new Relay(controller,5,Relay.Mode.NooliteF);
+    });
+    it("Read State should be ok", async () => {
+        var actualData = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,0,0,0,5,130,2,1,2,3,4,0,0,0,0,191,174]));
+                }
+                port.on('open',() => {
+                    var data = device.readState(1);
+                    resolve(data);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 0,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 128,
+            _fmt: 1 ,
+            _d: [0,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0x31,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        const expectedData = {
+            fmt : 2,
+            data : [1,2,3,4]
+        };
+        expect(actualData).deep.equal(expectedData);
+    })
 })

@@ -132,7 +132,7 @@ class Relay extends NooliteDevice {
     temporaryOn(time,ctr = 0) {
         throw Error('Not implemented');
     }
-    readState(ctr = 0) {
+    readState(info = 0,ctr = 0) {
         throw Error('Not implemented');
     }
 }
