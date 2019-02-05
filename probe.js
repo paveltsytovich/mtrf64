@@ -39,10 +39,17 @@ async function RelayUnbindProbe() {
     let device = new Relay(controller,1,Relay.Mode.Noolite);
     console.log(await device.unbind());
 }
+async function TurnOffProbe() {
+    let device = new Relay(controller,2,Relay.Mode.Noolite);
+    console.log(await device.turnOn());
+  
+    port.close();
+}
 port.on('open', () => {
     //DoorSensorProbe();
     //RelayBindProbe();
     //RelayUnbindProbe();
+    TurnOffProbe();
     
 })
 
