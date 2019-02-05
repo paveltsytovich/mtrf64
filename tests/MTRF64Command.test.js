@@ -110,4 +110,25 @@ describe("Command elementary tests",() =>{
         }
         expect(actualCommand).deep.equal(expectedCommand);
      });
+     it("Command should be correct crc in data package", () => {
+        var actualCommand = new MTRF64Command();
+        actualCommand.ch = 5;
+        actualCommand.cmd = 6;
+        actualCommand.mode = 0;
+        actualCommand.setData(0,95);
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 0,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 6,
+            _fmt: 0,
+            _d: [95,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0x15,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+     })
 });
