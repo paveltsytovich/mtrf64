@@ -20,7 +20,7 @@ class Relay extends NooliteDevice {
             command.id = this._id;
         }
         if (d0) {
-            command._d[0] = d0;
+            command.setData(0,d0);
         }
         var answer = await this._processTransaction(command);
         return (answer.mode == 2 && answer.ctr == 0) || (answer.mode == 0 && answer.cmd == cmd);

@@ -527,7 +527,7 @@ describe("Relay parametrized commands test suite",() => {
             return new Promise((resolve) => {
                 controller._onSend = (command) => {
                     actualCommand = command;
-                    port.binding.emitData(Buffer.from([173,0,0,0,5,2,0,0,0,0,0,0,0,0,0,0x40,174]));
+                    port.binding.emitData(Buffer.from([173,0,0,0,5,6,0,0,0,0,0,0,0,0,0,0x40,174]));
                 }
                 port.on('open',() => {
                     var status = device.setBrightness(0.5);
@@ -545,7 +545,7 @@ describe("Relay parametrized commands test suite",() => {
             _fmt: 0,
             _d: [95,0,0,0],
             _id: [0,0,0,0],
-            _crc: 15,
+            _crc: 0x15,
             _stopBit: 172
             };
         expect(actualCommand).deep.equal(expectedCommand);
