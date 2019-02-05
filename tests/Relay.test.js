@@ -616,6 +616,39 @@ describe("Relay parametrized commands test suite",() => {
         
         actualStatus.should.true;      
     });
+
+    it("Relay brightReq up should be ok", async () => {
+        var actualCommand;
+        var actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,0,0,0,5,13,0,0,0,0,0,0,0,0,0,191,174]));
+                }
+                port.on('open',() => {
+                    var status = device.brightReq(Relay.Direction.Up,0.5);
+                    resolve(status);
+                })                
+            })
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 0,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 13,
+            _fmt: 1,
+            _d: [64,0,0,0],
+            _id: [0,0,0,0],
+            _crc: 0xfe,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;      
+    });
 });
 
 describe("Relay states commands", () => {
