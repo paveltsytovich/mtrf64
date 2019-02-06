@@ -68,6 +68,8 @@ Please run this code and bind device as follow in Noolite instruction
 
 Please press Ctrl-C for close application after bind
 
+You can remove calls bind() command from DoorSensorProbe function, because this code not need constantly.
+
 ### Create method in DoorSensor class
 
 After that you need  override two method onTurnOn() and onTurnOff() in DoorSensor class
