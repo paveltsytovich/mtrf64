@@ -16,23 +16,92 @@ For implements this scenario you need :
 * Relay class for manage lamp
 * Controller class for manage RemoteControl and Relay instances
 
-### link device
+### Create port and controller
 
-First of all, you need perform bind command for link devices with MTRF64 adapter
+First of all, you need create serial port and controller
 
-### Create you own class for door sensor
+```javascript
+const SerialPort = require('serialport');
+const port = new SerialPort('/dev/ttyUSB0',{autoOpen:true});
+const parser = port.pipe(new SerialPort.parsers.ByteLength({length: 17}));
+let controller = new MTRF64Controller(port,parser);
+```
+### Create DoorSensor class
 
-After that you need create DoorSensors class and override two method onTurnOn() and onTurnOff()
+Second, we need create *DoorSensor* class base on *RemoteControl* class
+
+```javascript
+class DoorSensor extends RemoteControl {
+    constructor(controller,channel) {
+        super(controller,channel,DoorSensor.Mode.Noolite);
+    }
+}
+```
+# Bind devices with adapter
+
+And them, you need perform bind command for Relay and DoorSensor
+
+```javascript
+let relay = new Relay(controller,3,Relay.Mode.Noolite);
+let door = new DoorSensor(controller,1)
+await relay.bind();
+await door.bind();
+```
+
+### Create method in DoorSensor class
+
+After that you need  override two method onTurnOn() and onTurnOff() in DoorSensor class
+
+```javascript
+class DoorSensor extends RemoteControl {
+    constructor(controller,channel) {
+        super(controller,channel,DoorSensor.Mode.Noolite);
+    }
+    onTurnOn() {
+        console.log("door is open");        
+    }
+    onTurnOff() {
+        console.log("door is closed");
+    }
+}
+```
 
 ### Register your DoorSensor in controller
 
 Before run it, we need register door sensor in controller
+```javascript
+controller.register(door);
+```
+### Call turnOn and turnOff command from DoorSensors methods
+
+As final, call command for lamp from DoorSensor method
+
+```javascript
+class DoorSensor extends RemoteControl {
+    constructor(controller,channel) {
+        super(controller,channel,DoorSensor.Mode.Noolite);
+    }
+    onTurnOn() {
+        console.log("door is open");
+        relay.brightReq(Relay.Direction.Up,0.1);
+    }
+    onTurnOff() {
+        console.log("door is closed");
+        relay.brightReq(Relay.Direction.Down,0.1);
+    }
+}
+```
+
 
 ### Simple run it!
 
-You are ready for run very small smarthome system - open the serial port and open the door :-)
+You are ready for run very small smarthome system.
 
+```
+  node probe-noolite.js
+```
 
+ Please open and close your door with sensor :-)
 
 ## Usage RemoteControl class
 
