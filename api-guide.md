@@ -2,17 +2,17 @@
 
 ## Table of contents
 
-* Sample use case(#simple-use-case)
-* Usage RemoteControl class for handle event from Noolite remote control block(#usage-remotecontrol-class)
-* Usage Relay class for manage Noolite electrical switchers
+* [Sample use case](#sample-use-case)
+* [Usage RemoteControl class](#usage-remotecontrol-class)
+* [Usage Relay class](#usage-relay-class) 
 
 
 ## Sample use case
  TO DO
-## Usage RemoteControl class for handle event from Noolite remote control block
+## Usage RemoteControl class
 
 TO DO
 
-## Usage Relay class for manage Noolite electrical switchers
+## Usage Relay class 
 
 TO DO
