@@ -83,11 +83,11 @@ class DoorSensor extends RemoteControl {
     }
     onTurnOn() {
         console.log("door is open");
-        relay.brightReq(Relay.Direction.Up,0.1);
+        relay.turnOn();
     }
     onTurnOff() {
         console.log("door is closed");
-        relay.brightReq(Relay.Direction.Down,0.1);
+        relay.turnOff();
     }
 }
 ```
