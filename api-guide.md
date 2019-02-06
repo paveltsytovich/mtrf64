@@ -53,7 +53,8 @@ await relay.bind();
 await door.bind();
 }
 ```
-You are ready for run very small smarthome system.
+Now you must waiting while port will ready.
+
 ```javascript
 port.on('open', () => {
     DoorSensorProbe();  
