@@ -18,6 +18,8 @@ For implements this scenario you need :
 
 ### Create port and controller
 
+Create probe-noolite.js file 
+
 First of all, you need create serial port and controller
 
 ```javascript
@@ -41,12 +43,29 @@ class DoorSensor extends RemoteControl {
 
 And them, you need perform bind command for Relay and DoorSensor
 
+Create function DoorSensorProbe and put it following code
+
 ```javascript
+function DoorSensorProbe() {
 let relay = new Relay(controller,3,Relay.Mode.Noolite);
 let door = new DoorSensor(controller,1)
 await relay.bind();
 await door.bind();
+}
 ```
+You are ready for run very small smarthome system.
+```javascript
+port.on('open', () => {
+    DoorSensorProbe();  
+})
+```
+Please run this code and bind device as follow in Noolite instruction 
+
+```
+  node probe-noolite.js
+```
+
+Please press Ctrl-C for close application after bind
 
 ### Create method in DoorSensor class
 
@@ -68,7 +87,8 @@ class DoorSensor extends RemoteControl {
 
 ### Register your DoorSensor in controller
 
-Before run it, we need register door sensor in controller
+Before run it, we need register door sensor in controller in DoorSensorProbe function
+
 ```javascript
 controller.register(door);
 ```
@@ -95,7 +115,7 @@ class DoorSensor extends RemoteControl {
 
 ### Simple run it!
 
-You are ready for run very small smarthome system.
+Run you very small smarthome system under nodejs
 
 ```
   node probe-noolite.js
