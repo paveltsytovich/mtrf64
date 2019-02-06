@@ -6,18 +6,18 @@ Javascript driver for Noolite and Noolite-F protocol base MTRF64 USB Adapter
 
 This driver you can use for manage noolite device for receive and send manage command
 
-##Install
+## Install
 
 This project run under nodejs 8.15 or high
 
 ## Usage
 
-You can read [API Guide](#https://github.com/paveltsytovich/mtrf64#api-guide.md) for use this driver
+You can read [API Guide](api-guide.md) for use this driver
 
 
 ## Versioning
 
-This is beta 0.0.1
+0.0.1beta
 
 ## Authors
 
@@ -26,7 +26,7 @@ This is beta 0.0.1
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License
 
 ## Acknowledgments
 
