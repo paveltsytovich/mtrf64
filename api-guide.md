@@ -37,7 +37,7 @@ class DoorSensor extends RemoteControl {
     }
 }
 ```
-# Bind devices with adapter
+### Bind devices with adapter
 
 And them, you need perform bind command for Relay and DoorSensor
 
