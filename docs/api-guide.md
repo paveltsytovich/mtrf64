@@ -2,7 +2,7 @@
 
 ## Table of Contents
 
-* [MTRF64Command class](#mtrf64command-class)
+* [MTRF64Command class](MTRF64Command.md)
 * [MTRF64Adapter class](#mtrf64Command-class)
 * [MTRF64Controller class](#mtrf64Controller-class)
 * [AbstractRemoteControl class](#mtrf64-abstractremotecontrol-class)

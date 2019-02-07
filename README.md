@@ -12,8 +12,8 @@ This project run under nodejs 8.15 or high
 
 ## Usage
 
-* Please read [Sample Use Case](sample-usecase.md) as sample for use this driver
-* You can read [API Guide](api-guide.md) for use this driver
+* Please read [Sample Use Case](docs/sample-usecase.md) as sample for use this driver
+* You can read [API Guide](docs/api-guide.md) for use this driver
 
 
 ## Versioning
