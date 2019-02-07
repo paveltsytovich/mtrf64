@@ -78,15 +78,6 @@ Register device in controller
 | --- | --- |
 | device | <code>AbstractRemoteControl</code> | 
 
-<a name="MTRF64Adapter"></a>
-
-## MTRF64Adapter
-**Kind**: global constant  
-**Copyright**: Pavel Tsytovich, 2019
-
-Implement MTRF64 controller  
-<a name="_fireReceive"></a>
-
 ## \_fireReceive(registry, command)
 Internal function for handle answer from serial port. Do not use directly
 
