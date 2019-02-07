@@ -12,12 +12,16 @@ This project run under nodejs 8.15 or high
 
 ## Usage
 
-You can read [API Guide](api-guide.md) for use this driver
+* Please read [Sample Use Case](sample-usecase.md) as sample for use this driver
+* You can read [API Guide](api-guide.md) for use this driver
 
 
 ## Versioning
 
 0.0.1beta
+
+* This version not be tested with Noolite-F device, because I haven`t it :-(
+* This version dosen`t support configure command for Noolite switchers
 
 ## Authors
 
