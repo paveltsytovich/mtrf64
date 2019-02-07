@@ -152,7 +152,7 @@ Set Brightness command
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | brightness | <code>float</code> |  | Brightness. (from 0 to 1) |
-| ctr | <code>\*</code> | <code>0</code> | Broadcast mode |
+| ctr | <code>Relay.Command</code> | <code>0</code> | Broadcast mode |
 
 <a name="Relay+setColor"></a>
 
