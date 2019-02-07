@@ -1,0 +1,14 @@
+{
+    "gitflow4code.features": [
+        {
+            "name": "feature/Mediator",
+            "base": "develop"
+        }
+    ],
+    "gitflow4code.releases": [
+        {
+            "name": "release/Beta1",
+            "base": "develop"
+        }
+    ]
+}
