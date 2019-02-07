@@ -1,4 +1,4 @@
-# API Guide for Noolite-F javascript driver
+# Sample Use Case
 
 ## Table of contents
 
