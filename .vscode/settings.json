@@ -5,10 +5,5 @@
             "base": "develop"
         }
     ],
-    "gitflow4code.releases": [
-        {
-            "name": "release/Beta1",
-            "base": "develop"
-        }
-    ]
+    "gitflow4code.releases": []
 }
