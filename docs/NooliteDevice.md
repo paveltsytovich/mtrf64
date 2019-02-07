@@ -1,3 +1,5 @@
+
+
 <a name="NooliteDevice"></a>
 
 ## NooliteDevice
@@ -25,7 +27,7 @@ Constructor
 | --- | --- | --- |
 | controller | <code>MTRF64Controller</code> | The controller for manage device |
 | channel | <code>number</code> | The channel of device |
-| mode | <code>\*</code> | Mode of Noolite-F protocol |
+| mode | <code>NooliteDevice.Mode</code> | Mode of Noolite-F protocol |
 
 <a name="NooliteDevice+mode"></a>
 
@@ -79,3 +81,5 @@ Send service command.
 Not implemented in this version
 
 **Kind**: instance method of [<code>NooliteDevice</code>](#NooliteDevice)  
+<a name="NooliteF"></a>
+

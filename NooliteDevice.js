@@ -44,7 +44,7 @@ class NooliteDevice {
      * Constructor
      * @param {MTRF64Controller} controller - The controller for manage device
      * @param {number} channel - The channel of device
-     * @param {*} mode - Mode of Noolite-F protocol
+     * @param {NooliteDevice.Mode} mode - Mode of Noolite-F protocol
      */
     constructor(controller,channel,mode = NooliteDevice.Mode.Noolite) {
         this._channel = channel;
@@ -66,6 +66,11 @@ class NooliteDevice {
         return this._channel;
     }
 }
-
+/**
+ * Device mode:
+ * @constant Noolite
+ * @constant NooliteF
+ */
 NooliteDevice.Mode = {"Noolite": 0, "NooliteF": 2};
+
 module.exports  = NooliteDevice;
