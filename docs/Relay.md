@@ -137,9 +137,9 @@ Bright Up command
 **Kind**: instance method of [<code>Relay</code>](#Relay)  
 **Returns**: <code>boolean</code> - - True if command successful, otherwise false  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| ctr | <code>Relay.Command</code> | <code>0</code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| ctr | <code>Relay.Command</code> | <code>0</code> | Broadcast mode | 
 
 <a name="Relay+setBrightness"></a>
 
