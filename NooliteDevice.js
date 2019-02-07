@@ -18,14 +18,14 @@ class NooliteDevice {
     }
     /**
      * Support for testing after send command. Do not use this method directly
-     * @param {*} command 
+     * @param {MTRF64Command} command 
      */
     _onSend(command) {
 
     }
     /**
      * Support async transaction 'send->receive' for all noolite device. Do not use this method directly
-     * @param {*} command 
+     * @param {MTRF64Command} command 
      */
     _processTransaction(command) {
         return new Promise((resolve) => {

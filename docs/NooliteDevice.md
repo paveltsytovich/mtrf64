@@ -59,7 +59,7 @@ Support for testing after send command. Do not use this method directly
 
 | Param | Type |
 | --- | --- |
-| command | <code>\*</code> | 
+| command | <code>MTRF64Command</code> | 
 
 <a name="NooliteDevice+_processTransaction"></a>
 
@@ -70,7 +70,7 @@ Support async transaction 'send->receive' for all noolite device. Do not use thi
 
 | Param | Type |
 | --- | --- |
-| command | <code>\*</code> | 
+| command | <code>MTRF64Command</code> | 
 
 <a name="NooliteDevice+service"></a>
 
