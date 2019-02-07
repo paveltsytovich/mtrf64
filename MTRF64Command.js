@@ -1,6 +1,17 @@
+/**
+ * @copyright Pavel Tsytovich, 2019
+ * 
+ * Implement MTRF64 packet
+ * @module MTRF64Command
+ */
+
 "use strict"
 
 class MTRF64Command {
+    /**
+     * Constructor class. if `packet` not undefined it use for create object
+     * @param {Array} packet - source packet 
+     */
     constructor(packet = null) {
         if(packet == null)
         {
@@ -42,54 +53,106 @@ class MTRF64Command {
                 throw Error("packet parameter must be array of 17 bytes!")
             }
         }
+    /**
+     * Get mode property
+     */
     get mode () {
         return this._mode;        
-    }         
+    }    
+    /**
+     *  Set mode property
+     * @param value {number} - mode value. Must be 0 or 2
+     *  */     
     set mode(value) {
         this._mode = value;
         this._crc = this._evaluteCrc();
     }
+    /**
+     * Get channel property
+     */
     get ch() {
         return this._ch;
     }
+    /**
+     * Set channel property
+     * @param value {number} - channel of device
+     */
     set ch(value) {
         this._ch = value;
         this._crc = this._evaluteCrc();
     }
+    /**
+     * Get command propery
+     */
     get cmd() {
         return this._cmd;
     }
+    /**
+     * Set command property
+     * @param value {number} - 
+     */
     set cmd(value) {
         this._cmd = value;
         this._crc = this._evaluteCrc();
     }
+    /**
+     * Get data property
+     */
     get d() {
         return this._d.slice();
     }
+    /**
+     * Get id property
+     */
     get id() {
         return this._id.slice();
     }
+    /**
+     * Set id property
+     * @param value must 
+     */
     set id(value) {
         this._id = value.slice();
         this._crc = this._evaluteCrc();
     }
+    /**
+     * Get ctr byte property
+     */
     get ctr() {
         return this._ctr;
     }
+    /**
+     * Set ctr byte property
+     * @param value {number}
+     */
     set ctr(value) {
         this._ctr = value;
         this._crc = this._evaluteCrc();
     }
+    /**
+     * Get togl byte propety
+     */
     get togl() {
         return this._togl;
     }
+    /**
+     * Set fmt byte property
+     */
     set fmt(value) {
         this._fmt = value;
         this._crc = this._evaluteCrc();
     }
+    /**
+     * Get fmt byte property
+     */
     get fmt() {
         return this._fmt;
     }
+    /**
+     * Set block data
+     * @param n {number}  - index in data block
+     * @param value {number} - value of block data block 
+     */
     setData(n,value) {
         if(n < 0 || n > 3 )
           throw Error('Bad parameter');
@@ -97,11 +160,17 @@ class MTRF64Command {
         this._fmt++;
         this._crc = this._evaluteCrc();
     }
+    /**
+     * Build packet. This method is internal, not use it directly
+     */
     buildPacket() {
         return [this._startBit,this._mode,this._ctr,this._togl,this._ch,this._cmd,this._fmt,
         this._d[0],this._d[1],this._d[2],this._d[3],this._id[0],this._id[1],this._id[2],this._id[3],
         this._crc,this._stopBit];  
     }
+    /**
+     * Calculate control check sum. This method is internal, not use it directly 
+     */
     _evaluteCrc() {
         return (this._startBit + this._mode + this._ctr + this._togl + this._ch + this._cmd + this._fmt +
         this._d[0] + this._d[1] + this._d[2] + this._d[3] + this._id[0] + this._id[1] + this._id[2] + 
