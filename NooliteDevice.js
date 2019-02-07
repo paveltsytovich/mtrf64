@@ -8,7 +8,7 @@ class NooliteDevice {
     /**
      * Support async methods in noolite-F command. Do not use this method directly
      * 
-     * @param {*} command 
+     * @param {MTRF64Command} command 
      */
     onCommand(command) {
         if(this._unlock) {
@@ -66,11 +66,7 @@ class NooliteDevice {
         return this._channel;
     }
 }
-/**
- * Device mode:
- * @constant Noolite
- * @constant NooliteF
- */
+
 NooliteDevice.Mode = {"Noolite": 0, "NooliteF": 2};
 
 module.exports  = NooliteDevice;

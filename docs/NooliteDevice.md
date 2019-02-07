@@ -1,5 +1,3 @@
-
-
 <a name="NooliteDevice"></a>
 
 ## NooliteDevice
@@ -50,7 +48,7 @@ Support async methods in noolite-F command. Do not use this method directly
 
 | Param | Type |
 | --- | --- |
-| command | <code>\*</code> | 
+| command | <code>MTRF64Command</code> | 
 
 <a name="NooliteDevice+_onSend"></a>
 
@@ -81,5 +79,3 @@ Send service command.
 Not implemented in this version
 
 **Kind**: instance method of [<code>NooliteDevice</code>](#NooliteDevice)  
-<a name="NooliteF"></a>
-
