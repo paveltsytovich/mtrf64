@@ -28,30 +28,6 @@ Implement MTRF64 packet
 
 <a name="module_MTRF64Command..MTRF64Command"></a>
 
-### MTRF64Command~MTRF64Command
-**Kind**: inner class of [<code>MTRF64Command</code>](#module_MTRF64Command)  
-
-* [~MTRF64Command](#module_MTRF64Command..MTRF64Command)
-    * [new MTRF64Command(packet)](#new_module_MTRF64Command..MTRF64Command_new)
-    * [.mode](#module_MTRF64Command..MTRF64Command+mode)
-    * [.mode](#module_MTRF64Command..MTRF64Command+mode)
-    * [.ch](#module_MTRF64Command..MTRF64Command+ch)
-    * [.ch](#module_MTRF64Command..MTRF64Command+ch)
-    * [.cmd](#module_MTRF64Command..MTRF64Command+cmd)
-    * [.cmd](#module_MTRF64Command..MTRF64Command+cmd)
-    * [.d](#module_MTRF64Command..MTRF64Command+d)
-    * [.id](#module_MTRF64Command..MTRF64Command+id)
-    * [.id](#module_MTRF64Command..MTRF64Command+id)
-    * [.ctr](#module_MTRF64Command..MTRF64Command+ctr)
-    * [.ctr](#module_MTRF64Command..MTRF64Command+ctr)
-    * [.togl](#module_MTRF64Command..MTRF64Command+togl)
-    * [.fmt](#module_MTRF64Command..MTRF64Command+fmt)
-    * [.fmt](#module_MTRF64Command..MTRF64Command+fmt)
-    * [.setData(n, value)](#module_MTRF64Command..MTRF64Command+setData)
-    * [.buildPacket()](#module_MTRF64Command..MTRF64Command+buildPacket)
-    * [._evaluteCrc()](#module_MTRF64Command..MTRF64Command+_evaluteCrc)
-
-<a name="new_module_MTRF64Command..MTRF64Command_new"></a>
 
 #### new MTRF64Command(packet)
 Constructor class. if `packet` not undefined it use for create object
