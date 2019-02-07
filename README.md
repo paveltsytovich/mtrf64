@@ -34,7 +34,7 @@ This project is licensed under the MIT License
 
 ## Acknowledgments
 
-* Telegram channel @Noolite
+* Telegram channel https://t.me/Noolite 
 * Official Noolite site (http://noo.com.by)
 * My wife for creativity support
 
