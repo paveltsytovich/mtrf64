@@ -5,5 +5,15 @@
             "base": "develop"
         }
     ],
-    "gitflow4code.releases": []
+    "gitflow4code.releases": [],
+    "gitflow4code.hotfixes": [
+        {
+            "name": "hotfix/docs",
+            "base": "master"
+        },
+        {
+            "name": "hotfix/fixfolders",
+            "base": "master"
+        }
+    ]
 }
