@@ -12,8 +12,9 @@
             "base": "master"
         },
         {
-            "name": "hotfix/fixfolders",
+            "name": "hotfix/fixfolder2",
             "base": "master"
         }
-    ]
+    ],
+    "git.ignoreLimitWarning": true
 }
