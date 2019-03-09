@@ -8,15 +8,11 @@ const SerialPort = require('serialport/test');
 
 const devPath = "/dev/ttyUSB112";
 
-
-const AbstractRemoteControl = require('../AbstractRemoteControl');
-
-const MTRF64Controller = require('../MTRF64Controller');
-
+const MTRF64Driver = require('../')
 
 describe("RemoteControl elementary test suite",() => {
     it("RemoteNooliteDevice has all properties",() => {
-        const device = new AbstractRemoteControl(null,5);
+        const device = new MTRF64Driver.AbstractRemoteControl(null,5);
         device.should.have.property("_channel");
         device.should.have.property("_controller");
         device.should.have.property("onCommand");
@@ -34,11 +30,11 @@ describe("RemoteControl bind command", () => {
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath);  
-        controller = new MTRF64Controller(port);
+        controller = new MTRF64Driver.Controller(port);
     });
     it("Bind command for NooliteF mode should be ok", async () => {
-        var device = new AbstractRemoteControl(controller,5,
-                                    AbstractRemoteControl.Mode.NooliteF);
+        var device = new MTRF64Driver.AbstractRemoteControl(controller,5,
+                                    MTRF64Driver.AbstractRemoteControl.Mode.NooliteF);
         var actualCommand;
         var actualStatus = 
         await(() => {
@@ -71,8 +67,8 @@ describe("RemoteControl bind command", () => {
         actualStatus.should.true;
     });
     it("Bind command for Noolite mode should be ok", async () => {
-        var device = new AbstractRemoteControl(controller,5,
-                                    AbstractRemoteControl.Mode.Noolite);
+        var device = new MTRF64Driver.AbstractRemoteControl(controller,5,
+                                    MTRF64Driver.AbstractRemoteControl.Mode.Noolite);
         var actualCommand;
         var actualStatus = 
         await(() => {
@@ -105,8 +101,8 @@ describe("RemoteControl bind command", () => {
         actualStatus.should.true;
     })
     it("Bind command should be false if wrong answer", async () => {
-        var device = new AbstractRemoteControl(controller,5,
-                                    AbstractRemoteControl.Mode.NooliteF);
+        var device = new MTRF64Driver.AbstractRemoteControl(controller,5,
+            MTRF64Driver.AbstractRemoteControl.Mode.NooliteF);
         var actualStatus = 
         await(() => {
             return new Promise((resolve) => {
@@ -132,11 +128,11 @@ describe("Unbind command",() => {
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath);  
-        controller = new MTRF64Controller(port);
+        controller = new MTRF64Driver.Controller(port);
     });
     it("unbind command for Noolite mode should be ok", async () => {
         var actualCommand;
-        const device = new AbstractRemoteControl(controller,5,AbstractRemoteControl.Mode.Noolite);
+        const device = new MTRF64Driver.AbstractRemoteControl(controller,5,MTRF64Driver.AbstractRemoteControl.Mode.Noolite);
         await(()=> {
             return new Promise((resolve) => {
                 controller._onSend = (command) => {
@@ -165,7 +161,7 @@ describe("Unbind command",() => {
     });
 
     it("unbind command for NooliteF mode should be ok", async () => {
-        const device = new AbstractRemoteControl(controller,5,AbstractRemoteControl.Mode.NooliteF);
+        const device = new MTRF64Driver.AbstractRemoteControl(controller,5,MTRF64Driver.AbstractRemoteControl.Mode.NooliteF);
         var actualCommand;
         await(()=> {
             return new Promise((resolve) => {
