@@ -10,11 +10,6 @@ const devPath = "/dev/ttyUSB112";
 
 const MTRF64Driver = require('../')
 
-//const AbstractRemoteControl = require('../AbstractRemoteControl');
-
-//const MTRF64Controller = require('../MTRF64Controller');
-
-
 describe("RemoteControl elementary test suite",() => {
     it("RemoteNooliteDevice has all properties",() => {
         const device = new MTRF64Driver.AbstractRemoteControl(null,5);

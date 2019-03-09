@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 
 
 const MTRF64Driver = require('../');
-//const MTRF64Command = require('../MTRF64Command');
+
 const SerialPort = require('serialport/test');
 
 const devPath = "/dev/ttyUSB0";

@@ -10,11 +10,6 @@ const devPath = "/dev/ttyUSB112";
 
 const MTRF64Driver = require('../');
 
-//const Relay = require('../Relay');
-
-//const MTRF64Adapter = require('../MTRF64Adapter');
-//const MTRF64Controller = require('../MTRF64Controller');
-
 describe("Relay elementary test suite",() => {
     it("Relay has all properties",() => {
         const device = new MTRF64Driver.Relay(null,5);
