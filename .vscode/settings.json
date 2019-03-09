@@ -12,7 +12,7 @@
             "base": "master"
         },
         {
-            "name": "hotfix/fixfolder2",
+            "name": "hotfix/ReorganizeToIndexJS",
             "base": "master"
         }
     ],
