@@ -4,11 +4,12 @@ const chai = require('chai');
 chai.should();
 const expect = require('chai').expect;
 
+const MTRF64Driver = require('../');
 
-const MTRF64Command = require('../MTRF64Command');
-const MTRF64Adapter = require('../MTRF64Adapter');
-const NooliteDevice= require('../NooliteDevice');
-const AbstractRemoteControl = require('../AbstractRemoteControl');
+//const MTRF64Command = require('../MTRF64Command');
+//const MTRF64Adapter = require('../MTRF64Adapter');
+//const NooliteDevice= require('../NooliteDevice');
+//const AbstractRemoteControl = require('../AbstractRemoteControl');
 const SerialPort = require('serialport/test');
 
 const devPath = "/dev/ttyUSB112";
@@ -21,7 +22,7 @@ describe("Adapter elementary test suite",() =>{
         var mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         var port = new SerialPort(devPath);  
-        var adapter = new MTRF64Adapter(port);
+        var adapter = new MTRF64Driver.Adapter(port);
 
         adapter.should.have.property("port",port);
         adapter.should.have.property("onSend");
@@ -43,14 +44,14 @@ describe("Send command in adapter test suite",() => {
         var actualCommand;
         await (() => {
                 return new Promise((resolve) => {
-                    adapter = new MTRF64Adapter(port,(command) => {
+                    adapter = new MTRF64Driver.Adapter(port,(command) => {
                         actualCommand = command;
                         resolve();
                     });
-                    var command = new MTRF64Command();
+                    var command = new MTRF64Driver.Command();
                     command.ch = 5;
                     command.mode = 2;
-                    command.cmd = MTRF64Adapter.Command.Bind;
+                    command.cmd = MTRF64Driver.Adapter.Command.Bind;
                     adapter.send(command);
                 });   
         })();
@@ -70,11 +71,11 @@ describe("Send command in adapter test suite",() => {
             expect(actualCommand).deep.equal(expectedCommand);
     });
     it("send parameter must be not null or undefined",() => {
-        var adapter = new MTRF64Adapter(port);
+        var adapter = new MTRF64Driver.Adapter(port);
         expect(() => {adapter.send();}).to.throw(Error);
     });
     it("Send parameter must be type of MTRF64Command",() => {
-        var adapter = new MTRF64Adapter(port);
+        var adapter = new MTRF64Driver.Adapter(port);
         expect(() => {adapter.send("BUG");}).to.throw(Error);
     })
 
@@ -88,7 +89,7 @@ describe("Event handlers from adapter test suite", () => {
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath);  
-        adapter = new MTRF64Adapter(port);
+        adapter = new MTRF64Driver.Adapter(port);
     });
     afterEach(() => {
         port.close();
@@ -100,7 +101,7 @@ describe("Event handlers from adapter test suite", () => {
         var adapter;
         await(() => {
                 return new Promise((resolve) => {
-                    adapter = new MTRF64Adapter(port,null,(command) => {
+                    adapter = new MTRF64Driver.Adapter(port,null,(command) => {
                       actualCommand = command;
                       resolve();
                 });
