@@ -8,13 +8,7 @@ const SerialPort = require('serialport/test');
 
 const devPath = "/dev/ttyUSB112";
 
-const MTRF64Controller = require('../MTRF64Controller');
-const NooliteDevice = require('../NooliteDevice');
-const AbstractRemoteControl = require("../AbstractRemoteControl");
-const RelayNooliteDevice = require('../Relay');
-
-const Command = require('../MTRF64Command');
-const MTRF64Adapter = require('../MTRF64Adapter');
+const MTRF64Driver = require('../')
 
 describe("MTRF64 Elementary test suite",() => {
     var mockBinding;
@@ -24,7 +18,7 @@ describe("MTRF64 Elementary test suite",() => {
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath);  
-        controller = new MTRF64Controller(port);
+        controller = new MTRF64Driver.Controller(port);
     });
     it("controller have all properties", () => {
         controller.should.have.property("_adapter");
@@ -39,15 +33,15 @@ describe("MTRF64Controller register for RemoteControlNooliteDevice",() => {
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath);  
-        controller = new MTRF64Controller(port);
+        controller = new MTRF64Driver.Controller(port);
     });
     it("Register for RemoteControlNooliteDevice should be ok",() => {
-        const device = new AbstractRemoteControl(controller,5);
+        const device = new MTRF64Driver.AbstractRemoteControl(controller,5);
         const actual  = controller.register(device);
         actual.should.true;
     });
     it("Register for RelayNooliteDevice not allow",() => {
-        const device = new RelayNooliteDevice(controller,5);
+        const device = new MTRF64Driver.Relay(controller,5);
         expect(() => { controller.register(device)}).to.throw(Error);
     });
     it("Register method should be have allow type",() => {
@@ -66,12 +60,12 @@ describe("MTRF64Controller receive answer for RelayNooliteDevice test suite",() 
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath);  
-        controller = new MTRF64Controller(port);
+        controller = new MTRF64Driver.Controller(port);
     });
     it("Send command shold be receive answer", async () => {
-        var device  = new NooliteDevice(controller,5,
-            NooliteDevice.Mode.NooliteF);
-        var cmd = new Command();
+        var device  = new MTRF64Driver.NooliteDevice(controller,5,
+            MTRF64Driver.NooliteDevice.Mode.NooliteF);
+        var cmd = new MTRF64Driver.Command();
         cmd.ch = 5;
         cmd.mode = 1;
         cmd.ctr  = 3;
@@ -104,9 +98,9 @@ describe("MTRF64Controller receive answer for RelayNooliteDevice test suite",() 
         expect(actualCommand).deep.equal(expectedCommand);    
     });
     it("send method with no answer paramater should be only send correct command",async () => {
-        var device  = new NooliteDevice(controller,5,
-            NooliteDevice.Mode.NooliteF);
-        var cmd = new Command();
+        var device  = new MTRF64Driver.NooliteDevice(controller,5,
+            MTRF64Driver.NooliteDevice.Mode.NooliteF);
+        var cmd = new MTRF64Driver.Command();
         cmd.ch = 5;
         cmd.mode = 1;
         cmd.ctr  = 3;
@@ -144,8 +138,8 @@ describe("MTRF64Controller receive answer for RelayNooliteDevice test suite",() 
         expect(()=> {controller.send()}).to.throw(Error);
     })
     it("Send command should be callback _onSend",async () => {
-        var device  = new NooliteDevice(controller,5,NooliteDevice.Mode.NooliteF);
-        var cmd = new Command();
+        var device  = new MTRF64Driver.NooliteDevice(controller,5,MTRF64Driver.NooliteDevice.Mode.NooliteF);
+        var cmd = new MTRF64Driver.Command();
                var actualCommand = 
         await(() => {
             return new Promise((resolve) => {
@@ -182,12 +176,12 @@ describe("MTRF64 receive event from RemoteControlNooliteDevice test suite",() =>
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath);  
-        controller = new MTRF64Controller(port);
+        controller = new MTRF64Driver.Controller(port);
     });
 
     it("Receive event for RemoteControlNooliteDevice",async () => {
-        var device  = new AbstractRemoteControl(controller,5,
-            NooliteDevice.Mode.NooliteF);
+        var device  = new MTRF64Driver.AbstractRemoteControl(controller,5,
+            MTRF64Driver.NooliteDevice.Mode.NooliteF);
         
         var actualCommand = 
         await(() => { 

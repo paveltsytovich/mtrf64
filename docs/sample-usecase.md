@@ -30,14 +30,15 @@ First of all, you need create serial port and controller
 const SerialPort = require('serialport');
 const port = new SerialPort('/dev/ttyUSB0',{autoOpen:true});
 const parser = port.pipe(new SerialPort.parsers.ByteLength({length: 17}));
-let controller = new MTRF64Controller(port,parser);
+const MTRF64Driver = require('mtrf64');
+let controller = new MTRF64Driver.Controller(port,parser);
 ```
 ### Create DoorSensor class
 
 Second, we need create *DoorSensor* class base on *RemoteControl* class
 
 ```javascript
-class DoorSensor extends RemoteControl {
+class DoorSensor extends MTRF64Driver.RemoteControl {
     constructor(controller,channel) {
         super(controller,channel,DoorSensor.Mode.Noolite);
     }
@@ -51,7 +52,7 @@ Create function DoorSensorProbe and put it following code
 
 ```javascript
 function DoorSensorProbe() {
-let relay = new Relay(controller,3,Relay.Mode.Noolite);
+let relay = new MTRF64Driver.Relay(controller,3,MTRF64Driver.Relay.Mode.Noolite);
 let door = new DoorSensor(controller,1)
 await relay.bind();
 await door.bind();
@@ -79,7 +80,7 @@ You can remove calls bind() command from DoorSensorProbe function, because this 
 After that you need  override two method onTurnOn() and onTurnOff() in DoorSensor class
 
 ```javascript
-class DoorSensor extends RemoteControl {
+class DoorSensor extends MTRF64Driver.RemoteControl {
     constructor(controller,channel) {
         super(controller,channel,DoorSensor.Mode.Noolite);
     }
@@ -104,7 +105,7 @@ controller.register(door);
 As final, call command for lamp from DoorSensor method
 
 ```javascript
-class DoorSensor extends RemoteControl {
+class DoorSensor extends MTRF64Driver.RemoteControl {
     constructor(controller,channel) {
         super(controller,channel,DoorSensor.Mode.Noolite);
     }

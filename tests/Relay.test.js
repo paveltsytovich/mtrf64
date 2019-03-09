@@ -8,15 +8,11 @@ const SerialPort = require('serialport/test');
 
 const devPath = "/dev/ttyUSB112";
 
-
-const Relay = require('../Relay');
-
-const MTRF64Adapter = require('../MTRF64Adapter');
-const MTRF64Controller = require('../MTRF64Controller');
+const MTRF64Driver = require('../');
 
 describe("Relay elementary test suite",() => {
     it("Relay has all properties",() => {
-        const device = new Relay(null,5);
+        const device = new MTRF64Driver.Relay(null,5);
         device.should.have.property("_channel");
         device.should.have.property("_controller");
         device.should.have.property("_id");
@@ -51,10 +47,10 @@ describe("Relay bind command", () => {
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath);  
-        controller = new MTRF64Controller(port);
+        controller = new MTRF64Driver.Controller(port);
     });
     it("Relay Bind command for NooliteF mode should be ok", async () => {
-        var device = new Relay(controller,5,Relay.Mode.NooliteF);
+        var device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.NooliteF);
         var actualCommand;
         var actualStatus = 
         await(() => {
@@ -87,7 +83,7 @@ describe("Relay bind command", () => {
         actualStatus.should.true;
     });
     it("Relay Bind command for NooliteF mode should set id device", async () => {
-        var device = new Relay(controller,5,Relay.Mode.NooliteF);
+        var device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.NooliteF);
         var actualCommand;
         var actualStatus = 
         await(() => {
@@ -105,7 +101,7 @@ describe("Relay bind command", () => {
        expect(device._id).deep.equal([1,2,3,4]);
     });
     it("Relay Bind command for Noolite mode should be ok", async () => {
-        var device = new Relay(controller,5,Relay.Mode.Noolite);
+        var device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.Noolite);
         var actualCommand;
         var actualStatus = 
         await(() => {
@@ -148,10 +144,10 @@ describe("Relay unbind command", () => {
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath);  
-        controller = new MTRF64Controller(port);
+        controller = new MTRF64Driver.Controller(port);
     });
     it("Relay Unbind command for NooliteF mode should be ok", async () => {
-        var device = new Relay(controller,5,Relay.Mode.NooliteF);
+        var device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.NooliteF);
         var actualCommand;
         var actualStatus = 
         await(() => {
@@ -184,7 +180,7 @@ describe("Relay unbind command", () => {
         actualStatus.should.true;
     });
     it("Relay Unbind command for Noolite mode should be ok", async () => {
-        var device = new Relay(controller,5,Relay.Mode.Noolite);
+        var device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.Noolite);
         var actualCommand;
         var actualStatus = 
         await(() => {
@@ -226,10 +222,10 @@ describe("Relay turnOn ommands", () => {
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath);  
-        controller = new MTRF64Controller(port);
+        controller = new MTRF64Driver.Controller(port);
     });
     it("Relay turnOn for NooliteF mode should be ok",async () => {
-        var device = new Relay(controller,5,Relay.Mode.NooliteF);
+        var device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.NooliteF);
         var actualCommand;
         var actualStatus = 
         await(() => {
@@ -262,7 +258,7 @@ describe("Relay turnOn ommands", () => {
         actualStatus.should.true;  
     })
     it("Relay broadcast turnOn for NooliteF mode  should be ok",async () => {
-        var device = new Relay(controller,5,Relay.Mode.NooliteF);
+        var device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.NooliteF);
         var actualCommand;
         var actualStatus = 
         await(() => {
@@ -272,7 +268,7 @@ describe("Relay turnOn ommands", () => {
                     port.binding.emitData(Buffer.from([173,2,0,0,5,130,0,0,0,0,0,0,0,0,0,0x40,174]));
                 }
                 port.on('open',() => {
-                    var status = device.turnOn(Relay.Command.Broadcast);
+                    var status = device.turnOn(MTRF64Driver.Relay.Command.Broadcast);
                     resolve(status);
                 })                
             })
@@ -295,7 +291,7 @@ describe("Relay turnOn ommands", () => {
         actualStatus.should.true;  
     });
     it("Relay turnOn by id for NooliteF mode  should be ok",async () => {
-        var device = new Relay(controller,5,Relay.Mode.NooliteF);
+        var device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.NooliteF);
         device._id = [1,1,1,1];
         var actualCommand;
         var actualStatus = 
@@ -306,7 +302,7 @@ describe("Relay turnOn ommands", () => {
                     port.binding.emitData(Buffer.from([173,2,0,0,5,130,0,0,0,0,0,0,0,0,0,0x40,174]));
                 }
                 port.on('open',() => {
-                    var status = device.turnOn(Relay.Command.ByID);
+                    var status = device.turnOn(MTRF64Driver.Relay.Command.ByID);
                     resolve(status);
                 })                
             })
@@ -329,7 +325,7 @@ describe("Relay turnOn ommands", () => {
         actualStatus.should.true;  
     });
     it("Relay turnOn for Noolite mode should be ok", async () => {
-        var device = new Relay(controller,5,Relay.Mode.Noolite);
+        var device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.Noolite);
         var actualCommand;
         var actualStatus = 
         await(() => {
@@ -371,10 +367,10 @@ describe("Relay turnOff commands", () => {
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath);  
-        controller = new MTRF64Controller(port);
+        controller = new MTRF64Driver.Controller(port);
     });
     it("Relay turnOff for NooliteF mode should be ok",async () => {
-        var device = new Relay(controller,5,Relay.Mode.NooliteF);
+        var device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.NooliteF);
         var actualCommand;
         var actualStatus = 
         await(() => {
@@ -407,7 +403,7 @@ describe("Relay turnOff commands", () => {
         actualStatus.should.true;  
     })
     it("Relay broadcast turnOff for NooliteF mode  should be ok",async () => {
-        var device = new Relay(controller,5,Relay.Mode.NooliteF);
+        var device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.NooliteF);
         var actualCommand;
         var actualStatus = 
         await(() => {
@@ -417,7 +413,7 @@ describe("Relay turnOff commands", () => {
                     port.binding.emitData(Buffer.from([173,2,0,0,5,130,0,0,0,0,0,0,0,0,0,0x40,174]));
                 }
                 port.on('open',() => {
-                    var status = device.turnOff(Relay.Command.Broadcast);
+                    var status = device.turnOff(MTRF64Driver.Relay.Command.Broadcast);
                     resolve(status);
                 })                
             })
@@ -440,7 +436,7 @@ describe("Relay turnOff commands", () => {
         actualStatus.should.true;  
     });
     it("Relay turnOff by id for NooliteF mode  should be ok",async () => {
-        var device = new Relay(controller,5,Relay.Mode.NooliteF);
+        var device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.NooliteF);
         device._id = [1,1,1,1];
         var actualCommand;
         var actualStatus = 
@@ -451,7 +447,7 @@ describe("Relay turnOff commands", () => {
                     port.binding.emitData(Buffer.from([173,2,0,0,5,130,0,0,0,0,0,0,0,0,0,0x40,174]));
                 }
                 port.on('open',() => {
-                    var status = device.turnOff(Relay.Command.ByID);
+                    var status = device.turnOff(MTRF64Driver.Relay.Command.ByID);
                     resolve(status);
                 })                
             })
@@ -474,7 +470,7 @@ describe("Relay turnOff commands", () => {
         actualStatus.should.true;  
     });
     it("Relay turnOff for Noolite mode should be ok", async () => {
-        var device = new Relay(controller,5,Relay.Mode.Noolite);
+        var device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.Noolite);
         var actualCommand;
         var actualStatus = 
         await(() => {
@@ -517,8 +513,8 @@ describe("Relay parametrized commands test suite",() => {
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath);  
-        controller = new MTRF64Controller(port);
-        device = new Relay(controller,5,Relay.Mode.Noolite);
+        controller = new MTRF64Driver.Controller(port);
+        device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.Noolite);
     });
     it("Relay setBrigthness", async () => {
         var actualCommand;
@@ -627,7 +623,7 @@ describe("Relay parametrized commands test suite",() => {
                     port.binding.emitData(Buffer.from([173,0,0,0,5,13,0,0,0,0,0,0,0,0,0,191,174]));
                 }
                 port.on('open',() => {
-                    var status = device.brightReq(Relay.Direction.Up,0.5);
+                    var status = device.brightReq(MTRF64Driver.Relay.Direction.Up,0.5);
                     resolve(status);
                 })                
             })
@@ -660,7 +656,7 @@ describe("Relay parametrized commands test suite",() => {
                     port.binding.emitData(Buffer.from([173,0,0,0,5,13,0,0,0,0,0,0,0,0,0,191,174]));
                 }
                 port.on('open',() => {
-                    var status = device.brightReq(Relay.Direction.Down,0.5);
+                    var status = device.brightReq(MTRF64Driver.Relay.Direction.Down,0.5);
                     resolve(status);
                 })                
             })
@@ -726,8 +722,8 @@ describe("Relay states commands", () => {
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath);  
-        controller = new MTRF64Controller(port);
-        device = new Relay(controller,5,Relay.Mode.NooliteF);
+        controller = new MTRF64Driver.Controller(port);
+        device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.NooliteF);
     });
     it("Read State should be ok", async () => {
         var actualCommand;
@@ -776,8 +772,8 @@ describe("Relay temporary_on test suite", () => {
         mockBinding = SerialPort.Binding;
         mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
         port = new SerialPort(devPath);  
-        controller = new MTRF64Controller(port);
-        device = new Relay(controller,5,Relay.Mode.NooliteF);
+        controller = new MTRF64Driver.Controller(port);
+        device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.NooliteF);
     });
     it("temporaryOn for one byte command",async () => {
         var actualCommand;
