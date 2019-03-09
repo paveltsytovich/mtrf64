@@ -3,8 +3,8 @@ const chai = require('chai');
 const expect = require('chai').expect;
 
 
-
-const MTRF64Command = require('../MTRF64Command');
+const MTRF64Driver = require('../');
+//const MTRF64Command = require('../MTRF64Command');
 const SerialPort = require('serialport/test');
 
 const devPath = "/dev/ttyUSB0";
@@ -17,7 +17,7 @@ describe("Command elementary tests",() =>{
     
 
     it("Command should be have all properties",() => {
-       var actualCommand = new MTRF64Command();
+       var actualCommand = new MTRF64Driver.Command();
        var expectedCommand = {
            _startBit:171,
            _mode: 4,
@@ -35,14 +35,14 @@ describe("Command elementary tests",() =>{
     });
 
     it("Build Packet Should be correact byte array",() => {
-        var command = new MTRF64Command();
+        var command = new MTRF64Driver.Command();
         const packet = command.buildPacket()
         packet.should.to.be.equalTo([171,4,0,0,0,0,0,0,0,0,0,0,0,0,0,175,172]);
 
     });
     it("Create command from byte array should be ok",() => {
         const receivePacket = [171,4,1,2,3,1,2,3,1,2,3,1,2,3,1,200,172];
-        var actualCommand = new MTRF64Command(receivePacket);
+        var actualCommand = new MTRF64Driver.Command(receivePacket);
 
         var expectedCommand = {
             _startBit: 171,
@@ -63,18 +63,18 @@ describe("Command elementary tests",() =>{
     });
     it("Create command from non-array packet should be error",()=> {
         expect(()=>{
-            new MTRF64Command("BUG");
+            new MTRF64Driver.Command("BUG");
         }).to.throw(Error);
     });
     it("Array packet too long should be error",() => {
         expect(()=> {
-            new MTRF64Command(Array(18));
+            new MTRF64Driver.Command(Array(18));
 
         }).to.throw(Error);
     });
     it("Command create from buffer should be ok",()=> {
         const receivePacket = [171,4,1,2,3,1,2,3,1,2,3,1,2,3,1,200,172];
-        var actualCommand = new MTRF64Command(Buffer.from(receivePacket));
+        var actualCommand = new MTRF64Driver.Command(Buffer.from(receivePacket));
 
         var expectedCommand = {
             _startBit: 171,
@@ -92,7 +92,7 @@ describe("Command elementary tests",() =>{
         expect(actualCommand).deep.equal(expectedCommand);
     })
     it("Command should be correct CRC after change it`s properties",() => {
-        var actualCommand = new MTRF64Command();
+        var actualCommand = new MTRF64Driver.Command();
         actualCommand.ch = 5;
         actualCommand.cmd = 15;
         var expectedCommand = {
@@ -111,7 +111,7 @@ describe("Command elementary tests",() =>{
         expect(actualCommand).deep.equal(expectedCommand);
      });
      it("Command should be correct crc in data package", () => {
-        var actualCommand = new MTRF64Command();
+        var actualCommand = new MTRF64Driver.Command();
         actualCommand.ch = 5;
         actualCommand.cmd = 6;
         actualCommand.mode = 0;
