@@ -10,10 +10,6 @@
         {
             "name": "hotfix/docs",
             "base": "master"
-        },
-        {
-            "name": "hotfix/ReorganizeToIndexJS",
-            "base": "master"
         }
     ],
     "git.ignoreLimitWarning": true
