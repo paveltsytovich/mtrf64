@@ -12,7 +12,11 @@
             "base": "master"
         },
         {
-            "name": "hotfix/ReorganizeToIndexJS",
+            "name": "hotfix/BrigthessAndColor",
+            "base": "master"
+        },
+        {
+            "name": "hotfix/colorProblemFix",
             "base": "master"
         }
     ],

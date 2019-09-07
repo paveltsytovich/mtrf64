@@ -689,7 +689,7 @@ describe("Relay parametrized commands test suite",() => {
                     port.binding.emitData(Buffer.from([173,0,0,0,5,6,0,0,0,0,0,0,0,0,0,191,174]));
                 }
                 port.on('open',() => {
-                    var status = device.setColor(0.5,0.2,0.4);
+                    var status = device.setColor(128,51,102);
                     resolve(status);
                 })                
             })

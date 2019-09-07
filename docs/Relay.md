@@ -319,15 +319,3 @@ Read State command
 | info | <code>number</code> | <code>0</code> | set info bit. (See Noolite-F protocol) |
 | ctr | <code>Relay.Command</code> | <code>0</code> | Broadcast mode |
 
-
-<a name="_convertColor"></a>
-
-## \_convertColor(bright)
-Convert from float to rgb color. Do not use this function directly
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| bright | <code>float</code> | 
-

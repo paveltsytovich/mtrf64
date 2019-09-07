@@ -5,20 +5,6 @@
 
 const NooliteDevice = require('./NooliteDevice');
 const Command = require('./MTRF64Command');
-/**
- * Convert from float to rgb color. Do not use this function directly
- * @param {float} bright 
- */
-function _convertColor(bright) {
-    let value;
-    if (bright >= 1)
-     value = 255;
-    else if (bright <= 0)
-          value = 0;
-          else  
-            value = Math.trunc(255* bright + 0.5);
-    return value;
-}
 
 class Relay extends NooliteDevice {
     /**
@@ -155,8 +141,7 @@ class Relay extends NooliteDevice {
      * @returns {boolean} - True if command successful, otherwise false
      */
     async setColor(r,g,b,ctr = 0) {
-        return await this._processCommand(6,ctr,_convertColor(r),_convertColor(g),
-                                                                    _convertColor(b));
+        return await this._processCommand(6,ctr,r,g,b);
     }
     /**
      * Load Preset command

@@ -42,7 +42,8 @@ class MTRF64Controller {
     if(_fireReceive(MTRF64Controller._sendingRegistry,command)) {
         delete MTRF64Controller._sendingRegistry[command.ch];
     }
-    _fireReceive(MTRF64Controller._registry,command);
+    else //fix #1737
+        _fireReceive(MTRF64Controller._registry,command);
   }
   /**
    * Constructor of class
