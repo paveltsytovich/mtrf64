@@ -14,6 +14,10 @@
         {
             "name": "hotfix/BrigthessAndColor",
             "base": "master"
+        },
+        {
+            "name": "hotfix/colorProblemFix",
+            "base": "master"
         }
     ],
     "git.ignoreLimitWarning": true

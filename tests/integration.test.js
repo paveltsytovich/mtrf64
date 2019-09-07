@@ -49,6 +49,50 @@ describe("test for bug #1737 -- mixed input and output address during event hand
         })();
         bugFound.should.false;
     });
+});
 
+describe("test for bug #1745 -- wrong color in RGB", () => {
+    var mockBinding;
+    var port;
+    beforeEach(() => {
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);  
+        
+    });
+    it("Color bytes should be according as specification", async () => {
+        var actualCommand;
+        var controller = controller = new MTRF64Driver.Controller(port);
+        var device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.NooliteF);
+        const actualStatus = 
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    actualCommand = command;
+                    port.binding.emitData(Buffer.from([173,0,0,0,5,6,0,0,0,0,0,0,0,0,0,191,174]));
+                }
+                port.on('open',() => {
+                    var status = device.setColor(1,1,1);
+                    resolve(status);
+                })  
+            });
+        })();
+        const expectedCommand = {
+            _startBit: 171,
+            _mode: 2,
+            _ctr: 0,
+            _togl: 0,
+            _ch: 5,
+            _cmd: 6,
+            _fmt: 3 ,
+            _d: [1,1,1,0],
+            _id: [0,0,0,0],
+            _crc: 190,
+            _stopBit: 172
+            };
+        expect(actualCommand).deep.equal(expectedCommand);
+        
+        actualStatus.should.true;      
 
+    });
 });
