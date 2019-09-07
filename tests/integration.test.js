@@ -63,7 +63,7 @@ describe("test for bug #1745 -- wrong color in RGB", () => {
     it("Color bytes should be according as specification", async () => {
         var actualCommand;
         var controller = controller = new MTRF64Driver.Controller(port);
-        var device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.NooliteF);
+        var device = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.Noolite);
         const actualStatus = 
         await(() => {
             return new Promise((resolve) => {
@@ -79,7 +79,7 @@ describe("test for bug #1745 -- wrong color in RGB", () => {
         })();
         const expectedCommand = {
             _startBit: 171,
-            _mode: 2,
+            _mode: 0,
             _ctr: 0,
             _togl: 0,
             _ch: 5,
@@ -87,7 +87,7 @@ describe("test for bug #1745 -- wrong color in RGB", () => {
             _fmt: 3 ,
             _d: [1,1,1,0],
             _id: [0,0,0,0],
-            _crc: 190,
+            _crc: 188,
             _stopBit: 172
             };
         expect(actualCommand).deep.equal(expectedCommand);
