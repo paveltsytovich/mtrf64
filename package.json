@@ -1,6 +1,6 @@
 {
   "name": "mtrf64",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Implement Noolite-F protocol",
   "main": "index.js",
   "scripts": {
