@@ -2,3 +2,4 @@
 .idea
 node_modules
 nbproject
+.vscode/settings.json
