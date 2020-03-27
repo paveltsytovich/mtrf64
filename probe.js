@@ -1,8 +1,8 @@
 const SerialPort = require('serialport');
 const port = new SerialPort('/dev/ttyUSB0',{autoOpen:true});
 const parser = port.pipe(new SerialPort.parsers.ByteLength({length: 17}));
-const MTRF64Driver = require('mtrf64');
-let controller = new Controller(port,parser);
+const MTRF64Driver = require('./index');
+let controller = new MTRF64Driver.Controller(port,parser);
 
 class DoorSensor extends MTRF64Driver.RemoteControl {
     constructor(controller,channel) {
@@ -20,7 +20,7 @@ class DoorSensor extends MTRF64Driver.RemoteControl {
 
 function DoorSensorProbe() {
 let relay = new MTRF64Driver.Relay(controller,3,MTRF64Driver.Relay.Mode.Noolite);
-let door = new DoorSensor(controller,1)
+let door = new DoorSensor(controller,30)
 controller.register(door);
 //await relay.bind();
 //await door.bind();
