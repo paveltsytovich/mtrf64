@@ -143,11 +143,11 @@ describe("test for #1835 -- implement Temporary_On command for input device",() 
                 controller.register(inputDevice);
                 
                 port.on('open',() => {
-                    port.binding.emitData(Buffer.from([173,1,0,5,30,25,5,0x20,0x44,0xE2,0xF0,0,0,0,0,0x180,174]));
+                    port.binding.emitData(Buffer.from([173,1,0,5,30,25,5,0x20,0x44,0xE2,0x69,0,0,0,0,0xA3,174]));
                     
                 }) 
             });
         })();
-        chai.assert.equal(actualTimeout,0xF0E24420);          
+        chai.assert.equal(actualTimeout,0x69E24420);          
     });    
 });
