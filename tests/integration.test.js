@@ -96,3 +96,63 @@ describe("test for bug #1745 -- wrong color in RGB", () => {
 
     });
 });
+describe("test for #1835 -- implement Temporary_On command for input device",() => {
+    var mockBinding;
+    var port;
+    beforeEach(() => {
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);  
+        
+    });
+    it("TemporaryOn command should be call from input device when this command was received ",async () =>
+    {
+        var callIt = false;
+        class TestRemoteControl extends MTRF64Driver.RemoteControl {
+            onTemporaryOn(timeout) {
+                callIt = true
+            }
+        };
+        var controller = controller = new MTRF64Driver.Controller(port);
+        var outputDevice = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.NooliteF);
+        var inputDevice = new TestRemoteControl(controller,5,MTRF64Driver.NooliteF);
+        controller.register(inputDevice);
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    port.binding.emitData(Buffer.from([173,2,0,0,5,0,0,0,0,0,0,0,0,0,0,0x180,174]));
+                }
+                port.on('open',() => {
+                    var status = outputDevice.turnOn();
+                    resolve(status);
+                }) 
+            });
+        })();
+        callIt.should.be.true;
+    });
+    it("TemporaryOn command should have correct timeout value ",async () =>
+    {
+        var actualTimeOut = timeout;
+        class TestRemoteControl extends MTRF64Driver.RemoteControl {
+            onTemporaryOn(timeout) {
+                actualTimeOut = timeout;
+            }
+        };
+        var controller = controller = new MTRF64Driver.Controller(port);
+        var outputDevice = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.NooliteF);
+        var inputDevice = new TestRemoteControl(controller,5,MTRF64Driver.NooliteF);
+        controller.register(inputDevice);
+        await(() => {
+            return new Promise((resolve) => {
+                controller._onSend = (command) => {
+                    port.binding.emitData(Buffer.from([173,2,0,0,5,0,0,0,0,0,0,0,0,0,0,0x180,174]));
+                }
+                port.on('open',() => {
+                    var status = outputDevice.turnOn();
+                    resolve(status);
+                }) 
+            });
+        })();
+        chai.assert.equal(actualTimeOut,0xF0E24420);
+    });
+});
