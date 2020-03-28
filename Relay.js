@@ -301,6 +301,13 @@ class Relay extends NooliteDevice {
         else
             return false;        
     }
+    /**
+     * Send user defined command
+     * @param {number[]} - array of bytes with Noolite-F command 
+     */
+    async sendUserCommand(command) {
+        
+    }
 }
 
 Relay.Command = {"Normal" : 0 , "Broadcast" : 1, "ByID" : 2};
