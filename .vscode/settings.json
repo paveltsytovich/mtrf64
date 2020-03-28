@@ -9,12 +9,7 @@
             "base": "develop"
         }
     ],
-    "gitflow4code.releases": [
-        {
-            "name": "release/0-0-6",
-            "base": "develop"
-        }
-    ],
+    "gitflow4code.releases": [],
     "gitflow4code.hotfixes": [
         {
             "name": "hotfix/docs",
