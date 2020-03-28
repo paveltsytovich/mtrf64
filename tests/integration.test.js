@@ -107,24 +107,22 @@ describe("test for #1835 -- implement Temporary_On command for input device",() 
     });
     it("TemporaryOn command should be call from input device when this command was received ",async () =>
     {
-        var callIt = false;
-        class TestRemoteControl extends MTRF64Driver.RemoteControl {
-            onTemporaryOn(timeout) {
-                callIt = true
-            }
-        };
-        var controller = controller = new MTRF64Driver.Controller(port);
-        var outputDevice = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.NooliteF);
-        var inputDevice = new TestRemoteControl(controller,5,MTRF64Driver.NooliteF);
-        controller.register(inputDevice);
+        var callIt = false;       
         await(() => {
             return new Promise((resolve) => {
-                controller._onSend = (command) => {
-                    port.binding.emitData(Buffer.from([173,2,0,0,5,0,0,0,0,0,0,0,0,0,0,0x180,174]));
-                }
+                class TestRemoteControl extends MTRF64Driver.RemoteControl {
+                    onTemporaryOn(timeout) {
+                        callIt = true
+                        resolve();
+                    }
+                };
+                var controller = controller = new MTRF64Driver.Controller(port);       
+                var inputDevice = new TestRemoteControl(controller,30,MTRF64Driver.NooliteF);
+                controller.register(inputDevice);
+                
                 port.on('open',() => {
-                    var status = outputDevice.turnOn();
-                    resolve(status);
+                    port.binding.emitData(Buffer.from([173,1,0,5,30,25,5,0x20,0x44,0xE2,0xF0,0,0,0,0,0x180,174]));
+                    
                 }) 
             });
         })();
@@ -132,27 +130,24 @@ describe("test for #1835 -- implement Temporary_On command for input device",() 
     });
     it("TemporaryOn command should have correct timeout value ",async () =>
     {
-        var actualTimeOut = timeout;
-        class TestRemoteControl extends MTRF64Driver.RemoteControl {
-            onTemporaryOn(timeout) {
-                actualTimeOut = timeout;
-            }
-        };
-        var controller = controller = new MTRF64Driver.Controller(port);
-        var outputDevice = new MTRF64Driver.Relay(controller,5,MTRF64Driver.Relay.Mode.NooliteF);
-        var inputDevice = new TestRemoteControl(controller,5,MTRF64Driver.NooliteF);
-        controller.register(inputDevice);
-        await(() => {
+        
+        let actualTimeout = await(() => {
             return new Promise((resolve) => {
-                controller._onSend = (command) => {
-                    port.binding.emitData(Buffer.from([173,2,0,0,5,0,0,0,0,0,0,0,0,0,0,0x180,174]));
-                }
+                class TestRemoteControl extends MTRF64Driver.RemoteControl {
+                    onTemporaryOn(timeout) {                    
+                        resolve(timeout);
+                    }
+                };
+                var controller = controller = new MTRF64Driver.Controller(port);       
+                var inputDevice = new TestRemoteControl(controller,30,MTRF64Driver.NooliteF);
+                controller.register(inputDevice);
+                
                 port.on('open',() => {
-                    var status = outputDevice.turnOn();
-                    resolve(status);
+                    port.binding.emitData(Buffer.from([173,1,0,5,30,25,5,0x20,0x44,0xE2,0xF0,0,0,0,0,0x180,174]));
+                    
                 }) 
             });
         })();
-        chai.assert.equal(actualTimeOut,0xF0E24420);
-    });
+        chai.assert.equal(actualTimeout,0xF0E24420);          
+    });    
 });
