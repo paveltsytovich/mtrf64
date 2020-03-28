@@ -23,6 +23,10 @@ This project run under nodejs 8.15 or high
 * This version not be tested with Noolite-F device, because I haven`t it :-(
 * This version dosen`t support configure command for Noolite switchers
 
+0.0.6
+
+* Add Temporary_On command support
+
 ## Authors
 
 * **Pavel Tsytovich** - [paveltsytovich](https://github.com/paveltsytovich)

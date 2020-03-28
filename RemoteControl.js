@@ -71,6 +71,9 @@ class RemoteControl extends AbstractRemoteControl {
             case 130:
                 this.onSendState(command.d);
                 break;
+            case 25:                
+                this.onTemporaryOn(command.d[3] << 24 | command.d[2] << 16 | command.d[1] << 8 | command.d[0]);
+                break;
         }
     }
     /**
@@ -155,6 +158,13 @@ class RemoteControl extends AbstractRemoteControl {
      * @param {Array} data - Data array with device state
      */
     onSensTempHumi(data) {
+    }
+    /**
+     * Handle `Temporary_On` command
+     * @param {*} timeout as command parameter 
+     */
+    onTemporaryOn(timeout) {
+
     }
 }
 module.exports  = RemoteControl;
