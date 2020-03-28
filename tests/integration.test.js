@@ -96,3 +96,58 @@ describe("test for bug #1745 -- wrong color in RGB", () => {
 
     });
 });
+describe("test for #1835 -- implement Temporary_On command for input device",() => {
+    var mockBinding;
+    var port;
+    beforeEach(() => {
+        mockBinding = SerialPort.Binding;
+        mockBinding.createPort(devPath,{echo: false, record: true,autoOpen: true});
+        port = new SerialPort(devPath);  
+        
+    });
+    it("TemporaryOn command should be call from input device when this command was received ",async () =>
+    {
+        var callIt = false;       
+        await(() => {
+            return new Promise((resolve) => {
+                class TestRemoteControl extends MTRF64Driver.RemoteControl {
+                    onTemporaryOn(timeout) {
+                        callIt = true
+                        resolve();
+                    }
+                };
+                var controller = controller = new MTRF64Driver.Controller(port);       
+                var inputDevice = new TestRemoteControl(controller,30,MTRF64Driver.NooliteF);
+                controller.register(inputDevice);
+                
+                port.on('open',() => {
+                    port.binding.emitData(Buffer.from([173,1,0,5,30,25,5,0x20,0x44,0xE2,0xF0,0,0,0,0,0x180,174]));
+                    
+                }) 
+            });
+        })();
+        callIt.should.be.true;
+    });
+    it("TemporaryOn command should have correct timeout value ",async () =>
+    {
+        
+        let actualTimeout = await(() => {
+            return new Promise((resolve) => {
+                class TestRemoteControl extends MTRF64Driver.RemoteControl {
+                    onTemporaryOn(timeout) {                    
+                        resolve(timeout);
+                    }
+                };
+                var controller = controller = new MTRF64Driver.Controller(port);       
+                var inputDevice = new TestRemoteControl(controller,30,MTRF64Driver.NooliteF);
+                controller.register(inputDevice);
+                
+                port.on('open',() => {
+                    port.binding.emitData(Buffer.from([173,1,0,5,30,25,5,0x20,0x44,0xE2,0x69,0,0,0,0,0xA3,174]));
+                    
+                }) 
+            });
+        })();
+        chai.assert.equal(actualTimeout,0x69E24420);          
+    });    
+});

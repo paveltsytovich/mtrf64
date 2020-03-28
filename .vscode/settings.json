@@ -3,6 +3,14 @@
         {
             "name": "feature/Mediator",
             "base": "develop"
+        },
+        {
+            "name": "feature/return-command-as-result",
+            "base": "develop"
+        },
+        {
+            "name": "feature/Temporary_On_Implement",
+            "base": "develop"
         }
     ],
     "gitflow4code.releases": [],

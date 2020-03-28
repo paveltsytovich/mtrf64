@@ -2,3 +2,5 @@
 .idea
 node_modules
 nbproject
+.vscode/launch.json
+.vscode/settings.json
