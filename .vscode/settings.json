@@ -7,13 +7,14 @@
         {
             "name": "feature/return-command-as-result",
             "base": "develop"
-        },
+        }
+    ],
+    "gitflow4code.releases": [
         {
-            "name": "feature/Temporary_On_Implement",
+            "name": "release/0-0-6",
             "base": "develop"
         }
     ],
-    "gitflow4code.releases": [],
     "gitflow4code.hotfixes": [
         {
             "name": "hotfix/docs",
