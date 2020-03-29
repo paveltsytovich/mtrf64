@@ -49,8 +49,11 @@ class MTRF64Controller {
    * Constructor of class
    * @param {Object} port - The `SerialPort` object for sending data to serial port
    * @param {Object} parser - The `SerialPort` object for receive data from serial port
+   * @param {Object} onSend - The sender event handler (do not use directly, only for unit-test)
    */
-  constructor(port,parser) {
+  constructor(port,parser,onSend = null) {
+    if(onSend !== null)
+     this._onSend = onSend;
     this._adapter = new MTRF64Adapter(port,this._onSend,this._onReceive,parser);
     this._sendingRegistry = [ ];
     MTRF64Controller._sendingRegistry = [ ];
@@ -91,7 +94,10 @@ class MTRF64Controller {
      * @param {number[]} - array of bytes with Noolite-F command 
      */
     async execUserCommand(command) {
-       throw Error('Not implemented'); 
+       if(!command)
+        throw Error('Wrong argument');
+        let cmd = new  MTRF64Command(command);
+        this._adapter.send(cmd);
     }
 }
 
