@@ -91,7 +91,7 @@ class MTRF64Controller {
      * @param {number[]} - array of bytes with Noolite-F command 
      */
     async execUserCommand(command) {
-        
+       throw Error('Not implemented'); 
     }
 }
 
