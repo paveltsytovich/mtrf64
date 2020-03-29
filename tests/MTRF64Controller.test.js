@@ -250,6 +250,35 @@ describe("#1760 -- Implement send user command directly via low leveldriver",() 
             _stopBit: 174
             };
         expect(actualCommand).deep.equal(expectedCommand);    
-    })
+    });
+    it("receive correct answer after user command has been sent", async () =>{
+        let actualCommand =  await (()=>{
+           return new Promise((resolve) => {
+             port.on('open',async ()=> {
+                 
+                 let command = await controller.execUserCommand([[173,1,0,2,5,15,0,0,0,0,0,0,0,0,0,196,174]]);
+                 resolve(command);
+             });
+             port.on('data',(data) => {
+                port.binding.emitData(Buffer.from([173,1,0,2,5,15,0,0,0,0,0,0,0,0,0,196,174]));
+                
+             })   
+           });   
+         })();
+         const expectedCommand = {
+             _startBit: 173,
+             _mode: 1,
+             _ctr: 0,
+             _togl: 2,
+             _ch: 5,
+             _cmd: 15,
+             _fmt: 0,
+             _d: [0,0,0,0],
+             _id: [0,0,0,0],
+             _crc: 196,
+             _stopBit: 174
+             };
+         expect(actualCommand).deep.equal(expectedCommand);    
+     })
 });
 
