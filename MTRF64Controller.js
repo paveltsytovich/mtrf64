@@ -86,6 +86,13 @@ class MTRF64Controller {
     MTRF64Controller._registry[device.channel] = device;
     return true;
   }
+  /**
+     * Send user defined command
+     * @param {number[]} - array of bytes with Noolite-F command 
+     */
+    async execUserCommand(command) {
+        
+    }
 }
 
 module.exports = MTRF64Controller;
