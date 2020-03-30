@@ -7,11 +7,15 @@
         {
             "name": "feature/return-command-as-result",
             "base": "develop"
+        },
+        {
+            "name": "feature/SendUserCommand",
+            "base": "develop"
         }
     ],
     "gitflow4code.releases": [
         {
-            "name": "release/0-0-6",
+            "name": "release/0-0-8",
             "base": "develop"
         }
     ],
