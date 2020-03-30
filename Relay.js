@@ -300,7 +300,7 @@ class Relay extends NooliteDevice {
          return {fmt : answer.fmt, data : answer.d };
         else
             return false;        
-    }
+    }    
 }
 
 Relay.Command = {"Normal" : 0 , "Broadcast" : 1, "ByID" : 2};
