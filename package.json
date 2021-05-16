@@ -1,6 +1,6 @@
 {
   "name": "mtrf64",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Implement Noolite-F protocol",
   "main": "index.js",
   "scripts": {
@@ -25,8 +25,8 @@
     "chai": "^4.2.0",
     "chai-arrays": "^2.0.0",
     "eslint": "^5.16.0",
-    "mocha": "^5.2.0",
-    "np": "^5.0.3",
-    "serialport": "^7.1.5"
+    "mocha": "^8.4.0",
+    "np": "^7.5.0",
+    "serialport": "^9.0.7"
   }
 }
